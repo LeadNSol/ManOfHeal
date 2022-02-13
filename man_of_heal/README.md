@@ -1,4 +1,4 @@
-# man_of_heal
+# Man of Heal
 
 A new Flutter project.
 
