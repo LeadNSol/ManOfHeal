@@ -1,0 +1,151 @@
+name: man_of_heal
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Add the dependency for the Firebase Core Flutter SDK
+  firebase_core: ^1.0.3
+  # firebase_analytics: ^7.1.1 no null safe... skipped this for now
+  cloud_firestore: ^3.1.6
+  #firebase_auth: ^1.0.2
+  firebase_auth: ^3.3.5
+
+  #time-ago lib
+  timeago: ^3.1.0
+
+  # animation loader...
+  lottie: ^1.2.1
+
+  #get-x state, route management and dependency injection
+  get: ^4.3.8
+
+  #count_down_timer_progress_bar
+  countdown_progress_indicator: ^0.1.2
+
+  #Google Sign in
+  google_sign_in: ^5.2.3
+
+
+  percent_indicator: ^3.4.0
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.1
+
+  #table_calendar: ^3.0.3
+  flutter_calendar_carousel: ^2.1.0
+
+  #flutter load svg
+  flutter_svg: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  assets:
+    - assets/images/default.png
+    - assets/images/defaultDark.png
+
+    - assets/icons/questions_icon.svg
+    - assets/icons/lab_icon.svg
+    - assets/icons/quiz_icon.svg
+    - assets/icons/qod_icon.svg
+    - assets/icons/btn_bg_icon.svg
+    - assets/icons/fab_icon.svg
+    - assets/icons/fav_icon.svg
+    - assets/icons/home_icon.svg
+    - assets/icons/address_icon.svg
+    - assets/icons/email_icon.svg
+    - assets/icons/phone_icon.svg
+    - assets/icons/search_icon.svg
+    - assets/icons/search_icon.svg
+    - assets/icons/logo.svg
+    - assets/icons/baground.svg
+
+    - assets/icons/score_leader_board_icon.svg
+    - assets/icons/score_review_icon.svg
+    - assets/icons/score_home_icon.svg
+
+    - assets/icons/winner_icon.svg
+
+    - assets/icons/subscription_1_icon.svg
+    - assets/icons/subscription_2_icon.svg
+    -
+    - assets/icons/google_icon.svg
+    - assets/icons/email_welcome_icon.svg
+
+
+    - assets/icons/premium_member.png
+    - assets/icons/delete_icon.png
+    - assets/icons/edit_icon.png
+    - assets/icons/estimated_time_icon.png
+    - assets/icons/estimated_time_green_icon.png
+    - assets/icons/copy_icon.png
+    - assets/icons/tick_mark_icon.png
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Bold.ttf
+        - asset: assets/fonts/Montserrat-Medium.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf

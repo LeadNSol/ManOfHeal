@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 43.61 43.61">
+    <title>my_score_home_icon</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_16" data-name="Layer 16">
+            <circle cx="21.8" cy="21.8" r="21.8" style="fill:#ef4645" />
+            <polyline points="30.41 21.6 21.71 13.31 13.2 21.45"
+                style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.63810896873474px" />
+            <line x1="26.26" y1="17.65" x2="26.26" y2="13.99"
+                style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.63810896873474px" />
+            <polyline points="27.4 22.01 27.4 28.51 16.02 28.51 16.02 21.89"
+                style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.63810896873474px" />
+        </g>
+    </g>
+</svg>

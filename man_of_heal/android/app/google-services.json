@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "552953459310",
+    "project_id": "manofheal-app",
+    "storage_bucket": "manofheal-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552953459310:android:216cdb4cda6d7c119e6c7f",
+        "android_client_info": {
+          "package_name": "com.leadn.man_of_heal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552953459310-5tkggtpggfor6136s1ilm572jd9q92mm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.leadn.man_of_heal",
+            "certificate_hash": "5e8b0d26ba865ee0b6bd205001029816d15667ec"
+          }
+        },
+        {
+          "client_id": "552953459310-28vbn6ngfsmp18g44l2uo5turklpdh90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfSw6pTsDWgG9KbdcZagrZjf0cgcRpgnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552953459310-28vbn6ngfsmp18g44l2uo5turklpdh90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

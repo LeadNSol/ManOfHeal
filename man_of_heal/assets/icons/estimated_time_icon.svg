@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.9 9.9">
+    <defs>
+        <pattern id="swatch" width="48.45"
+            height="48.45" patternTransform="translate(-16.02 -2.21)" patternUnits="userSpaceOnUse"
+            viewBox="0 0 48.45 48.45">
+            <rect width="48.45" height="48.45" style="fill:none" />
+            <polygon points="0 48.45 0 0 48.45 0 48.45 48.45 0 48.45" style="fill:#ef4645" />
+        </pattern>
+    </defs>
+    <title>estimated_time</title>
+    <g id="Layer_2" >
+        <g id="Layer_8" >
+            <circle cx="4.95" cy="4.95" r="4.32"
+                style="fill:#fff;stroke-miterlimit:10;stroke-width:1.25401127338409px;stroke:url(#swatch)" />
+            <polyline points="4.95 3.07 4.95 5.05 6.44 6.3"
+                style="fill:#fff;stroke-miterlimit:10;stroke-width:1.25401127338409px;fill-rule:evenodd;stroke:url(#swatch)" />
+        </g>
+    </g>
+</svg>

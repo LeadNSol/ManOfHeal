@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812">
+    <defs>
+        <linearGradient id="linear-gradient" x1="187.5" y1="873.88" x2="187.5" y2="4.27"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ef4645" />
+            <stop offset="1" stop-color="#f16c51" />
+        </linearGradient>
+    </defs>
+    <title>back_round</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="login">
+            <rect width="375" height="812" style="fill:url(#linear-gradient)" />
+        </g>
+    </g>
+</svg>
