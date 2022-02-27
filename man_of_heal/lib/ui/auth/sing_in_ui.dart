@@ -122,7 +122,11 @@ class SignInUI extends StatelessWidget {
                             Text("Don't have an Account?",
                                 style: _textTheme.bodyText1!
                                     .copyWith(color: AppThemes.blackPearl)),
-                            Text("Sign up here", style: _textTheme.bodyText1!.copyWith(color: AppThemes.DEEP_ORANGE),),
+                            Text(
+                              "Sign up here",
+                              style: _textTheme.bodyText1!
+                                  .copyWith(color: AppThemes.DEEP_ORANGE),
+                            ),
                           ],
                         ),
                       ),

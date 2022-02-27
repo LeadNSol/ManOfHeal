@@ -4,12 +4,37 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="" />
+    <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/premium_sub.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/standard_sub.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_acitivity_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/premium_subscription.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/standart_subscription.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/instructions_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sing_in_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sing_in_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/subscription_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/subscription_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -27,6 +52,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -39,6 +67,7 @@
     <option name="defaultAccountId" value="84443f9d-27d2-4f6c-b778-4f053bcb5c89" />
   </component>
   <component name="ProjectId" id="20dCQqr0L7CAy8dQjHHHSvf9Qhx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -51,7 +80,7 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/man_of_heal/assets/fonts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/man_of_heal" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>

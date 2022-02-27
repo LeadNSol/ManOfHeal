@@ -80,7 +80,7 @@ class DailyActivityUI extends StatelessWidget {
                             ],
                           ),
                           //FormVerticalSpace(),
-                          Expanded(child: Center()),
+                          const Spacer(),
                         ],
                       ),
                     ),
@@ -149,15 +149,16 @@ class DailyActivityUI extends StatelessWidget {
                           Container(
                             width: constraints.maxWidth * 0.70,
                             padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.only(left: 26, right: 15, top: 0, bottom: 0),
+                            margin: const EdgeInsets.only(
+                                left: 26, right: 15, top: 0, bottom: 0),
                             decoration: BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(12)),
+                                    BorderRadius.all(Radius.circular(12)),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
                                     color:
-                                    AppThemes.DEEP_ORANGE.withOpacity(0.22),
+                                        AppThemes.DEEP_ORANGE.withOpacity(0.22),
                                     blurRadius: 4,
                                     spreadRadius: 2,
                                     offset: Offset(2, 3),
@@ -177,19 +178,21 @@ class DailyActivityUI extends StatelessWidget {
                             margin: const EdgeInsets.only(
                                 left: 26, right: 15, top: 0, bottom: 0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppThemes.DEEP_ORANGE.withOpacity(0.22),
+                                    color:
+                                        AppThemes.DEEP_ORANGE.withOpacity(0.22),
                                     blurRadius: 4,
                                     spreadRadius: 2,
                                     offset: Offset(2, 3),
                                     // Shadow position
                                   ),
                                 ]),
-                            child:
-                            customRichText(textTheme, "Term Of The Day", "DVT"),
+                            child: customRichText(
+                                textTheme, "Term Of The Day", "DVT"),
                           ),
                           FormVerticalSpace(),
                           Container(
@@ -199,11 +202,13 @@ class DailyActivityUI extends StatelessWidget {
                             margin: const EdgeInsets.only(
                                 left: 26, right: 15, top: 0, bottom: 0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppThemes.DEEP_ORANGE.withOpacity(0.22),
+                                    color:
+                                        AppThemes.DEEP_ORANGE.withOpacity(0.22),
                                     blurRadius: 4,
                                     spreadRadius: 2,
                                     offset: Offset(2, 3),
@@ -211,7 +216,9 @@ class DailyActivityUI extends StatelessWidget {
                                   ),
                                 ]),
                             child: customRichText(
-                                textTheme, "Question Of The Day", "lorem ipsum dolor sit amet consectetur adipiscing elit aptent pellentesque tempus lectus eget dictumst in varius nullam feugiat posuere ultricies commodo fusce risus velit turpis ridiculus ultrices dis efficitur ac arcu pretium morbi leo natoque quisque nostra molestie phasellus proin viverra montes nunc nec id neque senectus fringilla fames augue"),
+                                textTheme,
+                                "Question Of The Day",
+                                "lorem ipsum dolor sit amet consectetur adipiscing elit aptent pellentesque tempus lectus eget dictumst in varius nullam feugiat posuere ultricies commodo fusce risus velit turpis ridiculus ultrices dis efficitur ac arcu pretium morbi leo natoque quisque nostra molestie phasellus proin viverra montes nunc nec id neque senectus fringilla fames augue"),
                           ),
                         ],
                       ),
@@ -238,7 +245,9 @@ class DailyActivityUI extends StatelessWidget {
             title,
             style: textTheme.headline6!.copyWith(color: AppThemes.DEEP_ORANGE),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           SingleChildScrollView(
             child: Text(
               subtitle,

@@ -58,6 +58,8 @@ dependencies:
 
   #flutter load svg
   flutter_svg: ^1.0.0
+  google_fonts: ^2.3.1
+  flutter_screenutil: ^5.3.1
 
 dev_dependencies:
   flutter_test:
@@ -76,45 +78,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/images/default.png
-    - assets/images/defaultDark.png
-
-    - assets/icons/questions_icon.svg
-    - assets/icons/lab_icon.svg
-    - assets/icons/quiz_icon.svg
-    - assets/icons/qod_icon.svg
-    - assets/icons/btn_bg_icon.svg
-    - assets/icons/fab_icon.svg
-    - assets/icons/fav_icon.svg
-    - assets/icons/home_icon.svg
-    - assets/icons/address_icon.svg
-    - assets/icons/email_icon.svg
-    - assets/icons/phone_icon.svg
-    - assets/icons/search_icon.svg
-    - assets/icons/search_icon.svg
-    - assets/icons/logo.svg
-    - assets/icons/baground.svg
-
-    - assets/icons/score_leader_board_icon.svg
-    - assets/icons/score_review_icon.svg
-    - assets/icons/score_home_icon.svg
-
-    - assets/icons/winner_icon.svg
-
-    - assets/icons/subscription_1_icon.svg
-    - assets/icons/subscription_2_icon.svg
-    -
-    - assets/icons/google_icon.svg
-    - assets/icons/email_welcome_icon.svg
-
-
-    - assets/icons/premium_member.png
-    - assets/icons/delete_icon.png
-    - assets/icons/edit_icon.png
-    - assets/icons/estimated_time_icon.png
-    - assets/icons/estimated_time_green_icon.png
-    - assets/icons/copy_icon.png
-    - assets/icons/tick_mark_icon.png
+    - assets/images/
+    - assets/icons/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

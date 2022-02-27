@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/ui/daily_acitivity_screen.dart';
 import 'package:man_of_heal/ui/daily_activity/daily_activity_ui.dart';
 import 'package:man_of_heal/ui/labs/labs_ui.dart';
 import 'package:man_of_heal/ui/profile/profile_ui.dart';
 import 'package:man_of_heal/ui/student/pages/vignette_dissection/vignette_dissection_ui.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
+
+import 'vignette_dissection/instructions_page.dart';
 
 class StudentDashboardUI extends StatelessWidget {
   //const StudentDashboardUI({Key? key}) : super(key: key);
@@ -63,7 +66,8 @@ class StudentDashboardUI extends StatelessWidget {
                                     color: AppThemes.white),
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: 'Welcome ${authController.userModel.value!.name}',
+                                      text:
+                                          'Welcome ${authController.userModel.value!.name}',
                                       style: textTheme.caption!.copyWith(
                                           fontWeight: FontWeight.w400,
                                           color: AppThemes.white)),
@@ -93,7 +97,7 @@ class StudentDashboardUI extends StatelessWidget {
                           ],
                         ),
                         //FormVerticalSpace(),
-                        Expanded(child: Center()),
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -122,43 +126,50 @@ class StudentDashboardUI extends StatelessWidget {
                             Positioned(
                               top: -constraints.maxWidth * 0.14,
                               left: constraints.maxWidth * 0.028,
-                              child: Container(
-                                width: constraints.maxWidth * 0.89,
-                                height: constraints.maxWidth * 0.40,
-                                alignment: Alignment.topLeft,
-                                decoration: BoxDecoration(
-                                  color: AppThemes.white,
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: AppThemes.DEEP_ORANGE
-                                            .withOpacity(0.22),
-                                        blurRadius: 13,
-                                        spreadRadius: 2,
-                                        offset: Offset(0, 1),
-                                        blurStyle:
-                                            BlurStyle.inner // Shadow position
-                                        ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      customRichText(
-                                          textTheme,
-                                          "Question of the day",
-                                          "In medicine the MMR vaccination gives "
-                                              "protection against which diseases?"),
-                                      customRichText(
-                                          textTheme,
-                                          "Term of the day",
-                                          "Term of the day will goes here!"),
+                              child: GestureDetector(
+                                onTap: () {
+                                  print('question of the day.');
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => DailyActivityScreen()));
+                                },
+                                child: Container(
+                                  width: constraints.maxWidth * 0.89,
+                                  height: constraints.maxWidth * 0.40,
+                                  alignment: Alignment.topLeft,
+                                  decoration: BoxDecoration(
+                                    color: AppThemes.white,
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: AppThemes.DEEP_ORANGE
+                                              .withOpacity(0.22),
+                                          blurRadius: 13,
+                                          spreadRadius: 2,
+                                          offset: Offset(0, 1),
+                                          blurStyle:
+                                              BlurStyle.inner // Shadow position
+                                          ),
                                     ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        customRichText(
+                                            textTheme,
+                                            "Question of the day",
+                                            "In medicine the MMR vaccination gives "
+                                                "protection against which diseases?"),
+                                        customRichText(
+                                            textTheme,
+                                            "Term of the day",
+                                            "Term of the day will goes here!"),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -196,14 +207,10 @@ class StudentDashboardUI extends StatelessWidget {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        customDashboardItems(
-                                            context,
-                                            () {
-                                              Get.to(DailyActivityUI());
-                                            },
-                                            constraints,
-                                            "assets/icons/qod_icon.svg",
-                                            "QOD"),
+                                        customDashboardItems(context, () {
+                                          Get.to(DailyActivityUI());
+                                        }, constraints,
+                                            "assets/icons/qod_icon.svg", "QOD"),
                                       ],
                                     ),
                                     SizedBox(
@@ -225,7 +232,8 @@ class StudentDashboardUI extends StatelessWidget {
                                           width: 10,
                                         ),
                                         customDashboardItems(context, () {
-                                          Get.to(VignetteDissectionUI());
+                                          //Get.to(VignetteDissectionUI());
+                                          Get.to(QuizInstructionsScreen());
                                         },
                                             constraints,
                                             "assets/icons/quiz_icon.svg",
