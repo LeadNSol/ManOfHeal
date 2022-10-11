@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/lab_controller.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/labs/add_lab/add_lab_ui.dart';
 import 'package:man_of_heal/ui/labs/widgets/single_lab_widget.dart';
+import 'package:man_of_heal/utils/AppConstant.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
 class LabsUI extends StatelessWidget {
@@ -12,9 +14,6 @@ class LabsUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    Get.put(LabController());
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppThemes.BG_COLOR,
@@ -23,7 +22,7 @@ class LabsUI extends StatelessWidget {
         leading: InkWell(
           onTap: () => Get.back(),
           child: Icon(
-            Icons.arrow_back_ios_new,
+            Icons.arrow_back_ios,
             size: 20,
             color: AppThemes.blackPearl,
           ),
@@ -32,17 +31,34 @@ class LabsUI extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: Text(
           "Labs",
-          style: textTheme.headline6!.copyWith(color: AppThemes.blackPearl),
+          style: AppThemes.headerTitleBlackFont,
         ),
       ),
-      body: SafeArea(child: _body(textTheme)),
+      body: SafeArea(child: _body()),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: authController.admin.isTrue
           ? FloatingActionButton(
               onPressed: () {
                 print('Pressed fab');
-                Get.to(AddLabUI());
-              },
+                Get.bottomSheet(
+                    AddLabUI(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                  ),
+                  backgroundColor: Colors.white,
+                );
+                //Get.to(()=>AddLabUI());
+              /*  String weekDay = DateFormat('EEEE').format(DateTime.now());
+                if (weekDay.toLowerCase() == "monday" ||
+                    weekDay.toLowerCase() == "thursday")
+                  Get.defaultDialog(
+                    title: 'Add Lab',
+                    titleStyle: AppThemes.dialogTitleHeader,
+                    content: AddLabUI(),
+                  );
+                else
+                  AppConstant.displaySnackBar("Warning", "You can plug Lab information only on Monday and Thursday!");
+*/              },
               child: Container(
                 width: 60,
                 height: 60,
@@ -68,7 +84,7 @@ class LabsUI extends StatelessWidget {
     );
   }
 
-  Widget _body(TextTheme textTheme) {
+  Widget _body() {
     print('Lab Length: ${labController.labList.length}');
     if (labController.labList.isNotEmpty && labController.labList.length > 0) {
       return Column(
@@ -79,7 +95,10 @@ class LabsUI extends StatelessWidget {
           ),
           Text(
             '   Total Labs',
-            style: textTheme.headline6!,
+            style: GoogleFonts.poppins(
+                fontSize: 16.65,
+                fontWeight: FontWeight.w600,
+                color: Colors.black),
           ),
           FormVerticalSpace(),
           Expanded(
@@ -99,7 +118,7 @@ class LabsUI extends StatelessWidget {
         child: Container(
           child: Text(
             'No Labs Data Found',
-            style: textTheme.headline6,
+            style: AppThemes.header2,
           ),
         ),
       );

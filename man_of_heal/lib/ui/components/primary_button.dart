@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:man_of_heal/utils/app_themes.dart';
 
 /*
 PrimaryButton(
@@ -28,7 +29,11 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      style: buttonStyle,
+      style: buttonStyle ?? ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        backgroundColor: AppThemes.DEEP_ORANGE,
+        shape: StadiumBorder(),
+      ),
       child: hasIcon
           ? Row(
               mainAxisAlignment: MainAxisAlignment.start,

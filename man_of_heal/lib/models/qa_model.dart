@@ -9,6 +9,8 @@ class QuestionModel {
   static const MODIFIED_DATE = "modifiedDate";
   static const Q_IS_DELETED = "isDeleted";
   static const TO_BE_ANSWERED_IN = "toBeAnsweredIn";
+  static const IS_FAVORITE = "isFavorite";
+  static const IS_SOMEONE_ANSWER = "isSomeoneAnswering";
   static const ANSWER_MODEL = "answer";
 
   String? qID;
@@ -19,18 +21,23 @@ class QuestionModel {
   Timestamp? qModifiedDate;
   Timestamp? toBeAnsweredIn;
   AnswerModel? answerMap;
+  bool? isFav;
   bool? isDeleted;
+  bool? isSomeoneAnswering;
 
-  QuestionModel(
-      {this.qID,
-      this.question,
-      this.category,
-      this.studentId,
-      this.qCreatedDate,
-      this.qModifiedDate,
-      this.toBeAnsweredIn,
-      this.isDeleted,
-      this.answerMap});
+  QuestionModel({
+    this.qID,
+    this.question,
+    this.category,
+    this.studentId,
+    this.qCreatedDate,
+    this.qModifiedDate,
+    this.toBeAnsweredIn,
+    this.isDeleted = false,
+    this.isFav = false,
+    this.isSomeoneAnswering = false,
+    this.answerMap,
+  });
 
   factory QuestionModel.fromMap(Map<String, dynamic> data) {
     return QuestionModel(
@@ -42,6 +49,8 @@ class QuestionModel {
         qCreatedDate: data[CREATED_DATE] ?? '',
         qModifiedDate: data[MODIFIED_DATE] ?? '',
         toBeAnsweredIn: data[TO_BE_ANSWERED_IN] ?? '',
+        isFav: data[IS_FAVORITE] ?? false,
+        isSomeoneAnswering: data[IS_SOMEONE_ANSWER] ?? false,
         answerMap: data[ANSWER_MODEL] != null
             ? AnswerModel.fromMap(data[ANSWER_MODEL])
             : null);
@@ -64,7 +73,9 @@ class QuestionModel {
         MODIFIED_DATE: this.qModifiedDate,
         Q_IS_DELETED: this.isDeleted,
         TO_BE_ANSWERED_IN: this.toBeAnsweredIn,
-        ANSWER_MODEL: this.answerMap
+        ANSWER_MODEL: this.answerMap,
+        IS_FAVORITE: this.isFav,
+        IS_SOMEONE_ANSWER: this.isSomeoneAnswering,
       };
 }
 

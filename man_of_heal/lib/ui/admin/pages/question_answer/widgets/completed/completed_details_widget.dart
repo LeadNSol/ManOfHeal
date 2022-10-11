@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/widgets/single_answer.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/widgets/single_answer_details.dart';
+import 'package:man_of_heal/ui/student/pages/question_answer/widgets/answers/single_answer_details.dart';
 
 class CompletedQuestionDetails extends StatelessWidget {
  final QuestionModel questionModel;

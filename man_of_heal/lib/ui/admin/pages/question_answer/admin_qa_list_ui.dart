@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/custom_tabs_controller.dart';
 import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/completed/admin_completed_widget.dart';
 import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/in_progress/admin_inprogress_widget.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/components/custom_tabs.dart';
+import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
 class AdminQuestionAnswerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isVisible = false.obs;
-    TextTheme textTheme = Theme.of(context).textTheme;
+// resetting the tabs while back to this screen...
+    customTabsController.selectedPage.value = 0;
+    customTabsController.setToolbar();
 
     return SafeArea(
       child: Scaffold(
@@ -26,7 +27,7 @@ class AdminQuestionAnswerList extends StatelessWidget {
           title: Obx(
             () => Text(
               customTabsController.pageTitle.value,
-              style: textTheme.headline6!.copyWith(color: AppThemes.blackPearl),
+              style: AppThemes.headerTitleBlackFont,
             ),
           ),
           actions: [
@@ -54,19 +55,79 @@ class AdminQuestionAnswerList extends StatelessWidget {
           children: [
             Obx(
               () => Visibility(
-                visible:
-                    CustomTabsController.instance.searchIconVisibility.value &&
-                        isVisible.value,
-                child: TextField(
-                  //controller: qaController.searchController,
-                  onChanged: (search) => {qaController.handleSearch(search)},
-                  decoration: new InputDecoration(
-                      contentPadding: EdgeInsets.all(12.0),
-                      //prefixIcon: new Icon(Icons.search),
-                      border: InputBorder.none.copyWith(
-                        borderSide: BorderSide(style: BorderStyle.solid),
+                visible: customTabsController.searchIconVisibility.value &&
+                    isVisible.value,
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 10, left: 10),
+                      child: TextField(
+                        controller: qaController.searchController,
+                        cursorColor: AppThemes.DEEP_ORANGE,
+                        textInputAction: TextInputAction.search,
+                        onChanged: (search) =>
+                            {qaController.setAdminSearchQuery(search)},
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(12.0),
+                            prefixIcon: new Icon(
+                              Icons.search,
+                              color: AppThemes.DEEP_ORANGE,
+                            ),
+                            border: InputBorder.none.copyWith(
+                              borderSide: BorderSide(style: BorderStyle.solid),
+                            ),
+                            labelStyle: AppThemes.normalBlackFont,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppThemes.DEEP_ORANGE,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppThemes.DEEP_ORANGE,
+                                width: 1.0,
+                              ),
+                            ),
+                            hintText: 'Search Answers ...'),
                       ),
-                      hintText: 'Search Questions ...'),
+                    ),
+                    Positioned(
+                      top: 1,
+                      right: 10,
+                      bottom: 1,
+                      child: Container(
+                        //width: 50,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.white54,
+                            border: Border.all(
+                                color: AppThemes.DEEP_ORANGE.withOpacity(0.9),
+                                width: 0.5,
+                                style: BorderStyle.solid),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: DropdownButton(
+                          //isExpanded: true,
+                          style: AppThemes.normalBlackFont,
+                          hint: Text('${qaController.selectedCategory.value}'),
+                          onChanged: (newValue) => qaController
+                              .setAdminSelectedCategory(newValue as String),
+                          items: qaController.searchFilterList.map((category) {
+                            // String category = categoryModel.category!;
+                            return DropdownMenuItem(
+                              child: Text(
+                                '$category',
+                              ),
+                              value: category,
+                            );
+                          }).toList(),
+                          value: qaController.selectedCategory.value,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -92,6 +153,4 @@ class AdminQuestionAnswerList extends StatelessWidget {
       ),
     );
   }
-
-
 }

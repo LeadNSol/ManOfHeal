@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/ui/components/black_rounded_container.dart';
 import 'package:man_of_heal/ui/components/custom_container.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart';
+import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/review_ui.dart';
 import 'package:man_of_heal/ui/student/std_home.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
-
 class ScoreBoardUI extends StatelessWidget {
   //const ScoreBoardUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
+    //TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       backgroundColor: AppThemes.BG_COLOR,
@@ -41,11 +43,19 @@ class ScoreBoardUI extends StatelessWidget {
           )
         ],
       ),
-      body: SafeArea(child: body(context, textTheme)),
+      body: SafeArea(child: body(context)),
     );
   }
 
-  Widget body(context, TextTheme textTheme) {
+  Widget body(context) {
+    var noOfQuestions = vdController.quizQuestionsList.length;
+    var wrong =
+        noOfQuestions - vdController.numOfCorrectAns;
+    var yourScore = vdController.numOfCorrectAns * 10;
+
+    var completion = ((wrong + vdController.numOfCorrectAns) * 100)/noOfQuestions;
+
+    print('Completion: $completion');
     return LayoutBuilder(builder: (context, constraints) {
       return Column(
         children: [
@@ -55,15 +65,7 @@ class ScoreBoardUI extends StatelessWidget {
               clipBehavior: Clip.none,
               alignment: Alignment.topCenter,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppThemes.blackPearl,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(25),
-                      bottomRight: Radius.circular(25),
-                    ),
-                  ),
-                ),
+                BlackRoundedContainer(),
                 Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Container(
@@ -85,21 +87,18 @@ class ScoreBoardUI extends StatelessWidget {
                           children: [
                             Text(
                               'Your Score',
-                              style: textTheme.bodyText1!
+                              style: AppThemes.header2
                                   .copyWith(color: AppThemes.DEEP_ORANGE),
                             ),
                             Text.rich(
                               TextSpan(
-                                text: "80",
-                                style: textTheme.headline3!
-                                    .copyWith(color: AppThemes.DEEP_ORANGE),
+                                text: "$yourScore",
+                                style: AppThemes.headerTitleBlackFont
+                                    .copyWith(fontSize: 50.69),
                                 children: [
                                   TextSpan(
-                                    text: "\t\t\t pt",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(color: Colors.black54),
+                                    text: "    pt",
+                                    style: AppThemes.normalBlack45Font,
                                   ),
                                 ],
                               ),
@@ -110,7 +109,6 @@ class ScoreBoardUI extends StatelessWidget {
                     ),
                   ),
                 ),
-                //Expanded(child: Center())
               ],
             ),
           ),
@@ -127,44 +125,58 @@ class ScoreBoardUI extends StatelessWidget {
                   top: -constraints.maxHeight * 0.1,
                   child: CustomContainer(
                     width: constraints.maxWidth * 0.9,
-                    height: constraints.maxWidth * 0.38,
+                    height: 150,
                     alignment: Alignment.center,
                     hasOuterShadow: false,
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        //crossAxisAlignment: CrossAxisAlignment.st,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              cardWidget(
-                                textTheme,
-                                AppThemes.DEEP_ORANGE,
-                                "100%",
-                                "Completion",
+                              Expanded(
+                                flex: 2,
+                                child: cardWidget(
+                                  AppThemes.DEEP_ORANGE,
+                                  "${completion.toInt()}%",
+                                  "Completion",
+                                ),
                               ),
-                              cardWidget(textTheme, AppThemes.blackPearl, "10",
-                                  "Total Questions"),
+                              SizedBox(width: 30,),
+                              Expanded(
+                                flex: 2,
+                                child: cardWidget(
+                                    AppThemes.blackPearl,
+                                    vdController.quizQuestionsList.length < 10
+                                        ? "0${vdController.quizQuestionsList.length}"
+                                        : vdController.quizQuestionsList.length,
+                                    "Total Questions"),
+                              ),
                             ],
                           ),
-                          //FormVerticalSpace(),
+                          //FormVerticalSpace(height: 10,),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            //crossAxisAlignment: CrossAxisAlignment.end,
+                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              cardWidget(
-                                textTheme,
-                                AppThemes.rightAnswerColor,
-                                "08",
-                                "Correct",
+                              Expanded(
+                                flex: 2,
+                                child: cardWidget(
+                                    AppThemes.rightAnswerColor,
+                                    vdController.numOfCorrectAns < 10
+                                        ? "0${vdController.numOfCorrectAns}"
+                                        : vdController.numOfCorrectAns,
+                                    "Correct"),
                               ),
-                              SizedBox(
-                                width: 100,
-                              ),
-                              cardWidget(textTheme, AppThemes.DEEP_ORANGE, "02",
-                                  "Wrong")
+                              SizedBox(width: 30,),
+                              Expanded(
+                                flex: 2,
+                                child: cardWidget(AppThemes.DEEP_ORANGE,
+                                    wrong < 10 ? '0$wrong' : wrong, "Wrong"),
+                              )
                             ],
                           ),
                         ],
@@ -175,26 +187,33 @@ class ScoreBoardUI extends StatelessWidget {
 
                 Container(
                   alignment: Alignment.center,
+                 // margin: const EdgeInsets.only(left: 17,right: 17),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      bottomActionIcon(
-                        textTheme,
-                        () => Get.offAll(StudentHome()),
-                        "score_home_icon.svg",
-                        "Home",
+                      //SizedBox(width: 50,),
+                      Expanded(
+                        child: bottomActionIcon(
+                          () => Get.offAll(StudentHome()),
+                          "score_home_icon.svg",
+                          "Home",
+                        ),
                       ),
-                      bottomActionIcon(
-                        textTheme,
-                        () {},
-                        "score_review_icon.svg",
-                        "Review",
+                     // SizedBox(width: 55,),
+                      Expanded(
+                        child: bottomActionIcon(
+                          () => Get.to(ReviewUI()),
+                          "score_review_icon.svg",
+                          "Review",
+                        ),
                       ),
-                      bottomActionIcon(
-                        textTheme,
-                        () => Get.off(LeaderBoardUI()),
-                        "score_leader_board_icon.svg",
-                        "Leader Board",
+                      //SizedBox(width: 50,),
+                      Expanded(
+                        child: bottomActionIcon(
+                          () => Get.to(LeaderBoardUI()),
+                          "score_leader_board_icon.svg",
+                          "Leader Board",
+                        ),
                       ),
                     ],
                   ),
@@ -207,7 +226,7 @@ class ScoreBoardUI extends StatelessWidget {
     });
   }
 
-  Widget bottomActionIcon(TextTheme textTheme, onTap, icon, title) {
+  Widget bottomActionIcon(onTap, icon, title) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -219,14 +238,14 @@ class ScoreBoardUI extends StatelessWidget {
           ),
           Text(
             '$title',
-            style: textTheme.bodyText2,
+            style: AppThemes.normalBlackFont,
           )
         ],
       ),
     );
   }
 
-  Widget cardWidget(TextTheme textTheme, colorDot, title, subTitle) {
+  Widget cardWidget(colorDot, title, subTitle) {
     return RichText(
       text: TextSpan(
         children: [
@@ -239,15 +258,11 @@ class ScoreBoardUI extends StatelessWidget {
           ),
           TextSpan(
             text: '  $title\n',
-            style: textTheme.headline6!
-                .copyWith(color: AppThemes.DEEP_ORANGE, fontSize: 14),
+            style: AppThemes.normalORANGEFont.copyWith(fontSize: 13.5),
           ),
           TextSpan(
             text: '      $subTitle',
-            style: textTheme.bodyText1!.copyWith(
-              color: Colors.black54,
-              fontSize: 13,
-            ),
+            style: AppThemes.normalBlack45Font,
           ),
         ],
       ),

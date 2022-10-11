@@ -1,91 +1,179 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
+import 'package:man_of_heal/ui/admin/pages/vignette_dissection/widgets/quiz_questions_ui.dart';
+import 'package:man_of_heal/ui/components/black_rounded_container.dart';
+import 'package:man_of_heal/ui/components/custom_container.dart';
+import 'package:man_of_heal/ui/components/custom_header_row.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/utils/AppConstant.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
-class VDQuizBody extends StatelessWidget {
-  VDQuizBody({Key? key}) : super(key: key);
+class VDQuizReview extends StatelessWidget {
+  VDQuizReview({Key? key}) : super(key: key);
 
   //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: adminVdController.quizList.length,
-      itemBuilder: (context, index) {
-        QuizModel quizModel = adminVdController.quizList[index];
-        return SingleQuizItem(quizModel);
-      },
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        /// black background
+        Positioned(
+          top: 0,
+          height: 225,
+          left: 0,
+          right: 0,
+          child: BlackRoundedContainer(),
+        ),
+
+        Positioned(
+          // top: 50,
+          // left: 10,
+          // right: 10,
+          child: Column(
+            /*shrinkWrap: true,
+            padding: EdgeInsets.symmetric(vertical: 50),
+            physics: const AlwaysScrollableScrollPhysics(),*/
+            children: [
+              FormVerticalSpace(
+                height: 40,
+              ),
+              CustomHeaderRow(
+                title: "Quiz Review",
+                hasProfileIcon: true,
+              ),
+
+              /// Quiz Review
+              Container(
+                height: 90,
+                margin: EdgeInsets.only(
+                  left: 17.0,
+                  right: 17.0,
+                  top: 90,
+                ),
+                padding: EdgeInsets.all(17.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(11.86),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppThemes.DEEP_ORANGE.withOpacity(0.22),
+                      offset: Offset(0, 0),
+                      blurRadius: 10.78,
+                    ),
+                  ],
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Quiz review',
+                    style: AppThemes.headerTitleBlackFont
+                        .copyWith(color: Colors.black45),
+                  ),
+                ),
+              ),
+
+              /// Quiz List
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: 0,
+                    top: 5,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 1.0),
+                  child: Obx(
+                    () => ListView.builder(
+                      shrinkWrap: true,
+                      //primary: false,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      //padding: EdgeInsets.zero,
+                      itemCount: adminVdController.quizList.length,
+                      itemBuilder: (context, index) {
+                        QuizModel quizModel = adminVdController.quizList[index];
+
+                        return SingleQuizItem(quizModel);
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
 
 class SingleQuizItem extends StatelessWidget {
   //const SingleQuizItem({Key? key}) : super(key: key);
-  final QuizModel quizModel;
+  final QuizModel? quizModel;
 
   SingleQuizItem(this.quizModel);
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
-
-    return GestureDetector(
-      onTap: () {
-        // Get.to(InProgressQuestionDetails(questionModel));
-      },
-      child: Container(
-        margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: AppThemes.DEEP_ORANGE.withOpacity(0.26),
-              blurRadius: 4,
-              spreadRadius: 2,
-              offset: Offset(2, 3),
-              // Shadow position
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: ListTile(
-            title: Text(
-              '${quizModel.quizTitle!}',
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              style: _textTheme.headline6!
-                  .copyWith(color: Colors.black, fontSize: 15),
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Created at: ${AppConstant.convertToFormattedDataTime("dd MMM yy, hh:mm", quizModel.createdDate!)}',
-                  textAlign: TextAlign.start,
-                  style: _textTheme.bodyText1!
-                      .copyWith(color: Colors.black45, fontSize: 13),
-                ),
-                Text(
-                  'Total Questions: ${quizModel.questionList == null ? 0 : quizModel.questionList!.length}',
-                  textAlign: TextAlign.start,
-                  style: _textTheme.bodyText1!
-                      .copyWith(color: Colors.black45, fontSize: 13),
-                ),
-
-              ],
-
-            ),
-            trailing: InkWell(child: Icon(Icons.note_add,color: AppThemes.DEEP_ORANGE)),
+    /* var totalQuestions = 0.obs;
+     adminVdController
+        .getQuizQuestionsSizeById(quizModel!.qmID!).toList().then((value) => print('total $value'));*/
+    //print('total $totalQuestions');
+    return CustomContainer(
+      margin: const EdgeInsets.only(left: 17, right: 17, top: 0, bottom: 10),
+      child: ListTile(
+          onTap: () {
+            Get.lazyPut(() => quizModel!);
+            Get.to(() => QuizQuestionsUI(quizModel!));
+          },
+          title: Text(
+            '${quizModel!.quizTitle!}',
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.ellipsis,
+            style: AppThemes.headerItemTitle
+                .copyWith(color: AppThemes.DEEP_ORANGE),
           ),
-        ),
-      ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FormVerticalSpace(
+                height: 5,
+              ),
+              Text(
+                '${quizModel!.quizDescription!.isEmpty ? AppConstant.loremIpsum : quizModel!.quizDescription!}',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: AppThemes.normalBlack45Font,
+              ),
+              FormVerticalSpace(
+                height: 10,
+              ),
+              /* Obx(
+                () => Text('Total Questions: ${totalQuestions.value}',
+                    textAlign: TextAlign.start,
+                    style: AppThemes.normalBlack45Font),
+              ),
+              FormVerticalSpace(
+                height: 10,
+              )*/
+            ],
+          ),
+          trailing: Column(
+            children: [
+              Text(
+                quizModel!.isActive! ? "active" : "",
+                style: AppThemes.captionFont
+                    .copyWith(color: AppThemes.rightAnswerColor),
+              ),
+              Text(
+                '${AppConstant.formattedDataTime("dd/MM/yyyy", quizModel!.createdDate!)}',
+                textAlign: TextAlign.end,
+                style: AppThemes.normalBlack45Font,
+              ),
+            ],
+          ),),
     );
   }
 }

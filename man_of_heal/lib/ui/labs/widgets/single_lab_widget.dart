@@ -20,11 +20,10 @@ class SingleLabWidget extends StatelessWidget {
       userName.value = model.name!;
     });
 
-    TextTheme _textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
         labModel.adminName = userName.value;
-        Get.to(LabDetails(labModel));
+        Get.to(() => LabDetails(labModel));
       },
       child: Container(
         margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -34,9 +33,8 @@ class SingleLabWidget extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: AppThemes.DEEP_ORANGE.withOpacity(0.26),
-              blurRadius: 4,
-              spreadRadius: 2,
-              offset: Offset(2, 3),
+              blurRadius: 10.78,
+              offset: Offset(0, 0),
               // Shadow position
             ),
           ],
@@ -44,70 +42,90 @@ class SingleLabWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: ListTile(
-            dense: true,
+            dense: false,
             contentPadding: EdgeInsets.only(left: 10.0, right: 20.0),
             leading: Container(
-                //width: 60,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: AppThemes.DEEP_ORANGE.withOpacity(0.3),
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+              //width: 60,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: AppThemes.DEEP_ORANGE.withOpacity(0.3),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: labModel.imageIconUrl!.isNotEmpty
-                      ? Image.network(labModel.imageIconUrl!,height: 70, fit: BoxFit.cover,)
-                      : Image.network("https://cdn-icons-png.flaticon.com/128/3011/3011270.png"),
-                )),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: Image.network(
+                  labModel.imageIconUrl!.isNotEmpty
+                      ? labModel.imageIconUrl!
+                      : "https://cdn-icons-png.flaticon.com/128/3011/3011270.png",
+                  height: 70,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             title: Text(
               '${labModel.title}',
-              style: _textTheme.headline6,
+              maxLines: 1,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              style: AppThemes.headerItemTitle,
             ),
             subtitle: Column(
               children: [
-                FormVerticalSpace(height: 10,),
-                Text(
-                  '${labModel.shortDescription}',
-                  style: _textTheme.bodyText1,
+                FormVerticalSpace(
+                  height: 10,
                 ),
-                FormVerticalSpace(height: 10,),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '${labModel.shortDescription}',
+                    maxLines: 2,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppThemes.normalBlack45Font,
+                  ),
+                ),
+                FormVerticalSpace(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Obx(
-                        ()=> RichText(
+                      () => RichText(
                         text: TextSpan(
                           children: [
                             TextSpan(
-                                text: 'By: ',
-                                style: _textTheme.bodyText1!
-                                    .copyWith(fontWeight: FontWeight.w500)),
+                                text: 'By:  ',
+                                style: AppThemes.normalBlackFont),
                             TextSpan(
-                                text: userName.value, style: _textTheme.subtitle2!.copyWith(fontSize: 13)),
+                                text: userName.value,
+                                style: AppThemes.normalBlackFont),
                           ],
                         ),
                       ),
                     ),
 
                     //Date and time
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          WidgetSpan(
-                            child: Image.asset(
-                              "assets/icons/estimated_time_green_icon.png",
-                              width: 12,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            WidgetSpan(
+                              child: Image.asset(
+                                "assets/icons/estimated_time_green_icon.png",
+                                width: 12,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text:
-                                " ${AppConstant.convertToFormattedDataTime("MM.dd.yyyy", labModel.createdDate!)}",
-                            style: _textTheme.subtitle1!.copyWith(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                        ],
+                            TextSpan(
+                              text:
+                                  " ${AppConstant.formattedDataTime("MM.dd.yyyy", labModel.createdDate!)}",
+                              style: AppThemes.normalBlack45Font,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

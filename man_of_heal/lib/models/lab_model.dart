@@ -10,6 +10,7 @@ class LabModel {
   static const ADMIN_NAME = "adminName";
   static const IMAGE_URL = "imageUrl";
 
+  var defaultImageURl = "https://www.umassmed.edu/globalassets/biochemistry-and-molecular-pharmacology/pexels-photo-2.jpg";
   String? lUID;
   String? title;
   String? shortDescription;
@@ -49,6 +50,6 @@ class LabModel {
         CREATED_DATE: this.createdDate,
         ADMIN_ID: this.adminId,
         ADMIN_NAME: this.adminName,
-        IMAGE_URL: this.imageIconUrl
+        IMAGE_URL: imageIconUrl == "" ? defaultImageURl: imageIconUrl
       };
 }

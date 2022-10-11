@@ -1,19 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/qa_controller.dart';
+import 'package:man_of_heal/controllers/subscription_controller.dart';
+import 'package:man_of_heal/models/profile_avatars.dart';
 import 'package:man_of_heal/models/user_model.dart';
 import 'package:man_of_heal/ui/admin/admin_home.dart';
 import 'package:man_of_heal/ui/auth/welcome_back_ui.dart';
+import 'package:man_of_heal/ui/notifications/enum_notification.dart';
 import 'package:man_of_heal/ui/student/std_home.dart';
+import 'package:man_of_heal/utils/AppConstant.dart';
+import 'package:man_of_heal/utils/app_themes.dart';
 import 'package:man_of_heal/utils/firebase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthController extends GetxController {
-  static const String USERS = "users";
+class AuthController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  static const USERS = "users";
   static const String ADMIN = "admins";
+  static const String PROFILE_AVATARS = "profile_avatars";
+  static const userNotification = "notifications";
+  static const String DEFAULT_IMAGE_URL =
+      "https://cdn-icons-png.flaticon.com/128/3011/3011270.png";
+
+  static const TRIAL_DIALOG = "TrialDialog";
 
   //this will get the initialized obj of AuthController and will shared app wise.
   static AuthController instance = Get.find();
+
+  var editTextFieldController = TextEditingController();
 
   //this is edittext controllers
   TextEditingController emailController = TextEditingController();
@@ -29,15 +49,28 @@ class AuthController extends GetxController {
   // final RxBool isLoggedIn = false.obs;
 
   Rxn<User> firebaseUser = Rxn<User>();
-  Rxn<UserModel> userModel = Rxn<UserModel>();
+
+  var _userModel = UserModel().obs;
+
+  UserModel? get userModel => _userModel.value;
+
   final RxBool admin = false.obs;
+  var isSignedInWithGoogle = false.obs;
 
-  // Firebase user one-time fetch
-  // Future<User> get getUser async => firebaseAuth.currentUser!;
+  /// checking if google signed in user is registered with DB
+  var isUserSignedUp = false.obs;
 
-  // Firebase user a realtime stream
-  //Stream<User?> get user => _fireAuth.authStateChanges();
-  //Stream<User?> get user => _fireAuth.userChanges();
+  /// btn state for progressive bar indicator
+  ///  0 for default
+  ///  1 for progressing
+  ///  2. for done state.
+  var _btnState = 0.obs;
+
+  int? get btnState => _btnState.value;
+
+  setBtnState(int value) {
+    _btnState.value = value;
+  }
 
   // Firebase user one-time fetch
   Future<User> get getUser async => firebaseAuth.currentUser!;
@@ -45,57 +78,179 @@ class AuthController extends GetxController {
   // Firebase user a realtime stream
   Stream<User?> get user => firebaseAuth.authStateChanges();
 
+  final GoogleSignIn? _googleSignIn = GoogleSignIn();
+
+  ///Profile Avatars.
+  var profileAvatarsList = <ProfileAvatars>[].obs;
+  var usersList = <UserModel>[].obs;
+
+  late AnimationController animationController;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    animationController = AnimationController(
+      vsync: this,
+    );
+    animationController.addListener(() {
+      //  if the full duration of the animation is 8 secs then 0.5 is 4 secs
+      /* if (animationController.value > 0.5) {
+        // When it gets there hold it there.
+        animationController.value = 0.5;
+      }*/
+    });
+  }
+
+  late SharedPreferences? sharedPref;
+
   @override
   void onReady() async {
+    sharedPref = await SharedPreferences.getInstance();
     //run every time auth state changes
     firebaseUser.bindStream(firebaseAuth.userChanges());
-    // userById.bindStream(getUserById());
+
     ever(firebaseUser, handleAuthChanged);
+
+    profileAvatarsList.bindStream(getProfileAvatars());
+    usersList.bindStream(getAllUsers());
+
+    ever(usersList, pickAdmins);
 
     super.onReady();
   }
 
+  setIsTrialDialogFirstTimeOpen(bool? value) {
+    sharedPref!.setBool(TRIAL_DIALOG, value!);
+  }
+
+  isTrailDialogFirstTimeOpen() => sharedPref!.getBool(TRIAL_DIALOG);
+
   @override
   void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _clearControllers();
+    _disposeControllers();
+
     super.onClose();
+  }
+
+  setupToken() async {
+    // Get the token each time the application loads
+    String? token = await FirebaseMessaging.instance.getToken();
+
+    // Save the initial token to the database
+    await saveTokenToDatabase(token!);
+
+    // Any time the token refreshes, store this in the database too.
+    FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
+  }
+
+  Future<void> saveTokenToDatabase(String token) async {
+    // Assume user is logged in for this example
+    String userId = firebaseAuth.currentUser!.uid;
+
+    await FirebaseFirestore.instance.collection(USERS).doc(userId).set({
+      UserModel.USER_TOKEN: token
+    }, SetOptions(merge: true)).whenComplete(
+        () => print("Notifications: token created! $token"));
+  }
+
+  var adminUsersList = [].obs;
+
+  void pickAdmins(List<UserModel>? usersList) {
+    adminUsersList.clear();
+    if (usersList!.isNotEmpty) {
+      usersList.forEach((element) {
+        if (element.isAdmin! /*&& element.isDeleted!*/) {
+          adminUsersList.add(element);
+        }
+      });
+    }
   }
 
   handleAuthChanged(_firebaseUser) async {
     //get user data from firestore
     if (_firebaseUser?.uid != null) {
-      userModel.bindStream(streamFirestoreUser());
+      /// Notification token setup
+      setupToken();
+      _userModel.bindStream(streamFirestoreUser());
       await isAdmin();
     }
 
     if (_firebaseUser == null) {
       print('Send to sign in');
-      Get.offAll(WelcomeBackUI());
+      Get.offAll(() => WelcomeBackUI());
     } else {
-      if (admin.value)
-        Get.offAll(AdminHome());
-      else
-        Get.offAll(StudentHome());
+      //TODO: re-init required data when auth changed
+      reInit();
+
+      if (admin.value) {
+        if (!kIsWeb) {
+          FirebaseMessaging.instance
+              .subscribeToTopic(NotificationEnum.qa_admin.name);
+        }
+        Get.offAll(() => AdminHome());
+      } else {
+        if (!kIsWeb) {
+          FirebaseMessaging.instance
+              .subscribeToTopic(NotificationEnum.labs.name);
+          FirebaseMessaging.instance
+              .subscribeToTopic(NotificationEnum.quiz.name);
+          FirebaseMessaging.instance
+              .subscribeToTopic(NotificationEnum.daily_activity.name);
+        }
+        Get.offAll(() => StudentHome());
+      }
     }
+  }
+
+  void reInit() {
+    subscriptionController.initSubscription();
+    qaController.initQA();
+    notificationController.initData();
+    feedBackController.fetchCurrentAdminFeedBack();
   }
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
-    print('streamFirestoreUser()');
+    var uid = firebaseUser.value != null ? firebaseUser.value?.uid : null;
+    print('streamFirestoreUser() UID: $uid');
 
     return firebaseFirestore
         .collection(USERS)
-        .doc(firebaseUser.value?.uid)
+        .doc(uid)
         .snapshots()
         .map((snapshot) => UserModel.fromMap(snapshot.data()!));
   }
 
-  Future<UserModel> getUserById(String id) {
-    print('getByUserID()');
-
+  Stream<List<UserModel>> getAllUsers() {
     return firebaseFirestore
+        .collection(USERS)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((e) {
+              if (e.exists) {
+                if (!e.data().containsKey(UserModel.USER_TOKEN)) {
+                  return UserModel.fromMap(e.data());
+                }
+              }
+              return UserModel.fromMap(e.data());
+            }).toList());
+  }
+
+  UserModel? getAdminFromListById(String id) {
+    return adminUsersList.isNotEmpty
+        ? adminUsersList.firstWhere((element) => element.uid == id)
+        : UserModel();
+  }
+
+  UserModel? getUserFromListById(String id) {
+    return usersList.isNotEmpty
+        ? usersList.firstWhere((element) => element.uid == id)
+        : UserModel();
+  }
+
+  Future<UserModel> getUserById(String id) async {
+    return await firebaseFirestore
         .collection(USERS)
         .doc(id)
         .get()
@@ -104,56 +259,131 @@ class AuthController extends GetxController {
 
   //Method to handle user sign in using email and password
   signIn() async {
-    //showLoadingIndicator();
+    //showLoadingIndicator(isModal: true);
+    setBtnState(1);
     try {
       await firebaseAuth
           .signInWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim())
           .then((value) {
-        _clearControllers();
-      });
+        //retrying to reload all controllers
+        Get.reload(force: true);
 
-      //hideLoadingIndicator();
+        setBtnState(2);
+        _clearControllers();
+
+        //hideLoadingIndicator();
+        AppConstant.displaySuccessSnackBar(
+            "Sign In Alert!", "Logged in Successfully!");
+        //setBtnState(0);
+        //_initControllers();
+      });
     } catch (error) {
-      // hideLoadingIndicator();
+      setBtnState(0);
+      //hideLoadingIndicator();
 
       Get.snackbar(
-          'Sign In Error', 'Login failed: email or password incorrect.',
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+        'Sign In Error',
+        'Login failed: email or password incorrect.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppThemes.DEEP_ORANGE,
+        colorText: AppThemes.white,
+        duration: Duration(seconds: 5),
+      );
     }
+  }
+
+  singInWithGoogle() async {
+    isSignedInWithGoogle.value = true;
+
+    final GoogleSignInAccount? googleUser = await _googleSignIn!.signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((UserCredential user) async {
+      print("Gmail CAlled");
+      //_initControllers();
+      //retrying to reload all controllers
+      if (user.additionalUserInfo!.isNewUser) {
+        Timestamp trailExpiry =
+            Timestamp.fromDate(DateTime.now().add(new Duration(days: 7)));
+        UserModel newGoogleUser = UserModel(
+          uid: user.user!.uid,
+          name: user.user!.displayName,
+          phone: user.user!.phoneNumber ?? "not not found!",
+          address: "No Address found!",
+          email: user.user!.email,
+          userType: UserGroup.student.name,
+          photoUrl: user.user!.photoURL ?? DEFAULT_IMAGE_URL,
+          isAdmin: false,
+          isTrailFinished: false,
+          trialExpiryDate: trailExpiry,
+          createdDate: Timestamp.now(),
+          degreeProgram: null,
+        );
+        _createUserFirestore(newGoogleUser, user.user!);
+      }
+    });
   }
 
   _clearControllers() {
     nameController.clear();
     emailController.clear();
     passwordController.clear();
+    phoneController.clear();
     degreeProgramController.clear();
     addressController.clear();
+
+    firebaseUser.value = null;
+  }
+
+  _disposeControllers() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    phoneController.dispose();
+    animationController.dispose();
+    degreeProgramController.dispose();
+    addressController.dispose();
   }
 
   // User registration using email and password
   signUp() async {
-    //showLoadingIndicator();
+    // showLoadingIndicator();
+
+    setBtnState(1);
     try {
+      Timestamp trailExpiry =
+          Timestamp.fromDate(DateTime.now().add(new Duration(days: 7)));
       await firebaseAuth
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) async {
-        print('uID: ' + result.user!.uid.toString());
-        print('email: ' + result.user!.email.toString());
-
         //create the new user object
         UserModel _newUser = UserModel(
             uid: result.user!.uid,
             email: result.user!.email!,
             name: nameController.text,
             createdDate: Timestamp.now(),
+            phone: phoneController.text,
+            userType: UserGroup.student.name,
+            photoUrl: DEFAULT_IMAGE_URL,
             degreeProgram: degreeProgramController.text,
             address: addressController.text,
+            isTrailFinished: false,
+            trialExpiryDate: trailExpiry,
             isAdmin: false);
         //create the user in firestore
         _createUserFirestore(_newUser, result.user!);
@@ -162,11 +392,15 @@ class AuthController extends GetxController {
       });
     } on FirebaseAuthException catch (error) {
       //hideLoadingIndicator();
-      Get.snackbar('Sign Up Failed.', error.message!,
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+      setBtnState(0);
+      Get.snackbar(
+        'Sign Up Failed.',
+        error.message!,
+        duration: Duration(seconds: 10),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppThemes.DEEP_ORANGE,
+        colorText: AppThemes.white,
+      );
     }
   }
 
@@ -177,8 +411,14 @@ class AuthController extends GetxController {
         .collection(USERS)
         .doc(_firebaseUser.uid)
         .set(user.toJson())
-        .then((value) =>
-            {_clearControllers(), print("User was registered successfully!")});
+        .whenComplete(
+      () async {
+        setBtnState(2);
+        _clearControllers();
+        AppConstant.displaySuccessSnackBar(
+            "Success", "User was registered successfully!");
+      },
+    ).onError((error, stackTrace) => {setBtnState(0)});
   }
 
   //check if user is an admin user
@@ -189,13 +429,29 @@ class AuthController extends GetxController {
           .doc(user.uid)
           .get()
           .then((value) {
-        //Map<String, dynamic> data = docSnap.data();
-        //var data = docSnap.data;
-        print('Snaps Data Users ${value["isAdmin"]}');
         if (value.exists && value["isAdmin"]) {
           admin.value = true;
         } else {
           admin.value = false;
+        }
+      });
+
+      //update();
+    });
+  }
+
+  findUserInDB() async {
+    debugPrint("findUserInDB()");
+    await getUser.then((user) async {
+      await firebaseFirestore
+          .collection(USERS)
+          .doc(user.uid)
+          .get()
+          .then((value) {
+        if (value.exists) {
+          isUserSignedUp.value = true;
+        } else {
+          isUserSignedUp.value = false;
         }
       });
 
@@ -210,26 +466,117 @@ class AuthController extends GetxController {
       await firebaseAuth.sendPasswordResetEmail(email: emailController.text);
       //hideLoadingIndicator();
 
-      Get.snackbar('Password Reset Email Sent',
-          'Check your email and follow the instructions to reset your password.',
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+      Get.snackbar(
+        'Password Reset Email Sent',
+        'Check your email and follow the instructions to reset your password.',
+        duration: Duration(seconds: 5),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppThemes.DEEP_ORANGE,
+        colorText: AppThemes.white,
+      );
     } on FirebaseAuthException catch (error) {
-      //hideLoadingIndicator();
-
-      Get.snackbar('Password Reset Email Failed', error.message!,
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
-          colorText: Get.theme.snackBarTheme.actionTextColor);
+      //hideLoadingIndicator();\
+      Get.snackbar(
+        'Password Reset Email Failed',
+        error.message!,
+        duration: Duration(seconds: 10),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppThemes.DEEP_ORANGE,
+        colorText: AppThemes.white,
+      );
     }
   }
 
+  Future<void> deleteUserById(UserModel userModel) async {
+    await firebaseFirestore.collection(USERS).doc(userModel.uid!).set(
+        {UserModel.IS_DELETED: true}, SetOptions(merge: true)).whenComplete(() {
+      editTextFieldController.clear();
+    });
+  }
+
+  Future<void> updateCurrentUser(String title) async {
+    String value = editTextFieldController.text.trim();
+    await firebaseFirestore.collection(USERS).doc(userModel!.uid!).set(
+        {title.toLowerCase(): value}, SetOptions(merge: true)).whenComplete(() {
+      editTextFieldController.clear();
+    });
+  }
+
+  Future<void> updateUser(UserModel userModel) async {
+    await firebaseFirestore
+        .collection(USERS)
+        .doc(userModel.uid!)
+        .set(userModel.toJson(), SetOptions(merge: true))
+        .whenComplete(() {
+      print("User updated");
+    });
+  }
+
+  List getProfileData() {
+    var profileData = [
+      {
+        "title": "Phone",
+        "subtitle":
+            userModel!.phone != null ? userModel!.phone : 'no phone number',
+        "icon": "assets/icons/phone_icon.svg"
+      },
+      {
+        "title": "Email",
+        "subtitle":
+            userModel!.email != null ? userModel!.email : "example@gmail.com",
+        "icon": "assets/icons/email_icon.svg"
+      },
+      {
+        "title": "Address",
+        "subtitle": userModel!.address != null
+            ? userModel!.address
+            : 'e.g. street, e.g. city, e.g. Country',
+        "icon": "assets/icons/address_icon.svg"
+      },
+    ];
+    return profileData;
+  }
+
+  Stream<List<ProfileAvatars>> getProfileAvatars() {
+    return firebaseFirestore.collection(PROFILE_AVATARS).snapshots().map(
+        (event) =>
+            event.docs.map((e) => ProfileAvatars.fromMap(e.data())).toList());
+  }
+
+  updateProfileAvatar(ProfileAvatars profileAvatar) async {
+    await firebaseFirestore.collection(USERS).doc(userModel!.uid!).set(
+        {UserModel.PHOTO_URL: profileAvatar.url!},
+        SetOptions(merge: true)).whenComplete(() {
+      Get.back();
+      AppConstant.displaySuccessSnackBar(
+          "Success!", "Profile Avatar Successfully Updated!");
+    });
+  }
+
+  disposeGetXControllers() {
+    //authController.dispose();
+    // subscriptionController.dispose();
+    //qaController.dispose();
+    dailyActivityController.dispose();
+    labController.dispose();
+    notificationController.dispose();
+    categoryController.dispose();
+    feedBackController.dispose();
+    landingPageController.dispose();
+    customTabsController.dispose();
+  }
+
+  void deleteGetXControllers() {
+    Get.delete<SubscriptionController>();
+    Get.delete<QAController>();
+  }
+
   // Sign out
-  Future<void> signOut() {
+  Future<void> signOut() async {
     _clearControllers();
-    return firebaseAuth.signOut();
+    qaController.qaList.clear();
+    sharedPref!.remove(TRIAL_DIALOG);
+    _googleSignIn?.signOut();
+    return await firebaseAuth.signOut();
   }
 }

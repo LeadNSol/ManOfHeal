@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/vd_controller.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
 import 'widgets/vd_body.dart';
@@ -10,11 +9,11 @@ class VignetteDissectionUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Get.put(VDController());
+    //Get.lazyPut(()=>VDController());
     //changing the status bar color for this ui.
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: AppThemes.blackPearl));
+   /* SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: AppThemes.white));*/
 
-TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: AppThemes.BG_COLOR,
       appBar: AppBar(
@@ -28,7 +27,10 @@ TextTheme textTheme = Theme.of(context).textTheme;
             color: AppThemes.white,
           ),
         ),
-        title: Text('Quiz',style: textTheme.headline6!.copyWith(color: AppThemes.white) ,),
+        title: Text(
+          'Quiz',
+          style: AppThemes.headerTitleFont,
+        ),
       ),
       body: VDBody(),
     );

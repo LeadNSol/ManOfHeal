@@ -1,31 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/premium_sub.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/standard_sub.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_acitivity_screen.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/premium_subscription.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/standart_subscription.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/instructions_page.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-reflect-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-reflect.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-stdlib-jdk7.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-stdlib-jdk8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-stdlib-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-stdlib.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-test-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/kotlin-test.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/calendar_icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/heart_border.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/heart_half.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/logo.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/logo_old.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/feed_back_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/notification_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/daily_activity_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/feedback_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/notification_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/profile_avatars.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/quiz_attempts_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/quiz_review_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/score_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/student_answer_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/student_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/models/student_subscription_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feeb_backs/feed_back_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/manage_categories/categories_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/manage_users/users_managment_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/subscription_details/admin_subscription_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/add_question_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/quiz_questions_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/quiz_view_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/circular_avatar.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_header_row.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/double_back_press_on_exit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/loading_animated_button.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/not_found_data_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/my_answers/student_answers_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/my_answers/widgets/answer_bottom_sheet_contents.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/show_answers/admin_show_answers_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/widgets/qod_answer_details.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/widgets/qod_single_answer_list_items.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/widgets/show_give_answer_widgets.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/lab_instruction_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/notifications/enum_notification.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/notifications/notifications_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/notifications/widgets/notification_badge_ui.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/qa_widgets.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/single_answer_details.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/questions/questions_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/questions/single_question.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/questions/single_question_details.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/review_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/kotlin/com/leadn/man_of_heal/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/kotlin/com/leadn/man_of_heal/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/values-night/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/values-night/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Montserrat-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Montserrat-Medium.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Montserrat-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Montserrat-SemiBold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Poppins-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Poppins-Medium.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Poppins-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/fonts/Poppins-SemiBold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/icons/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/assets/icons/logo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/images/default.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/images/default.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/images/defaultDark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/images/defaultold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/assets/images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/bindings/authBinding.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/bindings/qa_binding.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/controllers_base.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/controllers_base.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/custom_tabs_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/custom_tabs_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/lab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/lab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/landing_page_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/landing_page_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/subscription_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/subscription_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/models/category_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/models/category_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/models/lab_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/models/lab_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/models/on_boarding_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/models/on_boarding_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/models/qa_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/models/qa_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/models/quiz_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/models/quiz_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/models/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/models/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/admin_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/admin_home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/admin_dashboard_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/admin_dashboard_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_qa_list_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_qa_list_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_single_question.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/completed/admin_completed_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/completed/admin_completed_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/completed/completed_details_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/completed/completed_details_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/header_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/header_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/in_progress/admin_inprogress_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/in_progress/admin_inprogress_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/in_progress/inprogress_details_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/in_progress/in_progress_details_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/admin_vd_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/admin_vd_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/vd_quiz_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/vd_quiz_body.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/forgot_password_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/forgot_password_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sign_up_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sign_up_ui.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sing_in_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sing_in_ui.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/black_rounded_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/black_rounded_container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_tabs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_tabs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/form_input_field_with_icon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/form_input_field_with_icon.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/primary_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/primary_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_acitivity_screen.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/add_lab/add_lab_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/add_lab/add_lab_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/labs_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/labs_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/lab_details_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/lab_details_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/single_lab_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/single_lab_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/profile/profile_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/profile/profile_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/splash/splash_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/splash/splash_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/qa_list_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/qa_list_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/qa_list_ui_backup.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/ask_question_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/ask_question_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/qa_widgets.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/questions_widget.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/single_answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/single_answer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/single_answer_details.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/single_question.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/single_question_details.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui_backup.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/premium_subscription.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/categories_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/standart_subscription.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/subscription_body.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/subscription_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/subscription/subscription_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/instructions_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/instructions_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/vignette_dissection_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/vignette_dissection_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/vd_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/vd_body.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/std_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/std_home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/AppConstant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/AppConstant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/app_themes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/app_themes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/firebase.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/validator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/validator.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/pubspec.yaml" afterDir="false" />
     </list>
@@ -34,7 +180,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -48,6 +193,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Class" />
+        <option value="Kotlin File" />
         <option value="Dart File" />
       </list>
     </option>
@@ -66,38 +213,56 @@
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="84443f9d-27d2-4f6c-b778-4f053bcb5c89" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_ui.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/man_of_heal/lib/models/quiz_model.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/man_of_heal/lib/ui/labs/labs_ui.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/man_of_heal/lib/utils/app_themes.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/man_of_heal/lib/ui/labs/add_lab/add_lab_ui.dart" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="20dCQqr0L7CAy8dQjHHHSvf9Qhx" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DEBUGGABLE_DEVICE" value="huawei-mar_lx2-TRJDU19409002519" />
+    <property name="DEBUGGABLE_PROCESS" value="com.leadn.man_of_heal" />
+    <property name="DEBUGGER_ID" value="Java" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/man_of_heal" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../AndroidProject/BikeTrackingSystem/BikeTrackingApp" />
+    <property name="settings.editor.selected.configurable" value="emulator" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\assets\fonts" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\android\app" />
       <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\assets\icons" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\auth" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\student\pages" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\components" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\profile" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\daily_activity" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\assets\fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\admin\pages\labs" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\components" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\admin\pages\question_answer\widgets\completed" />
-      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\admin\pages\question_answer\widgets\in_progress" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\daily_activity\widgets" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\student\pages\question_answer\widgets\questions" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\student\pages\question_answer\widgets\answers" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\notifications\widgets" />
+      <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\lib\ui\daily_activity" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -143,5 +308,24 @@
       <updated>1636365080676</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/man_of_heal/lib/ui/components/loading_animated_button.dart</url>
+          <line>20</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/man_of_heal/lib/models/lab_model.dart</url>
+          <line>26</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

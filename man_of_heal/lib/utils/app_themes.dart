@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 extension ColorExtension on String {
   toColor() {
@@ -20,7 +21,8 @@ class AppThemes {
   static const Color whiteLilac = Color.fromRGBO(248, 250, 252, 1);
 
   // static const Color blackPearl = Color.fromRGBO(30, 31, 43, 1);
-  static Color blackPearl = "#2f3335".toColor();
+  //static Color blackPearl = "#2f3335".toColor();
+
   static const Color brinkPink = Color.fromRGBO(255, 97, 136, 1);
   static const Color juneBud = Color.fromRGBO(186, 215, 97, 1);
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
@@ -28,9 +30,16 @@ class AppThemes {
   static const Color ebonyClay = Color.fromRGBO(40, 42, 58, 1);
 
   // static const DEEP_ORANGE = Colors.deepOra(nge;
-  static const DEEP_ORANGE = Color.fromRGBO(239, 70, 69, 1);
+
+  static const blackPearl = Color(0xff1F1D1F);
+
+  //static const DEEP_ORANGE = Color.fromRGBO(239, 70, 69, 1);
+  //static const DEEP_ORANGE = Color(0xFFC7161C);
+  static const DEEP_ORANGE = Color(0xffFC2125);
   static const BLACK_TOP_CARD = Color.fromRGBO(47, 51, 53, 1);
-  static const BG_COLOR = Color.fromRGBO(254, 239, 235, 1);
+
+  //static const BG_COLOR = Color.fromRGBO(254, 239, 235, 1);
+  static const BG_COLOR = Color(0xffFEEFEC);
 
   //static const BG_COLOR = Color(0xfeefeb);
   static const TABS_BG_COLOR = Color.fromRGBO(251, 212, 207, 1);
@@ -48,11 +57,70 @@ class AppThemes {
   //main color
   static const Color _lightPrimaryColor = dodgerPurple;
 
+  /// Fonts
+  static var headerTitleFont = GoogleFonts.poppins(
+    fontSize: 23.85,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
+  static var headerTitleBlackFont = GoogleFonts.poppins(
+    fontSize: 23.85,
+    fontWeight: FontWeight.bold,
+    color: blackPearl,
+  );
+
+  static var dialogTitleHeader = GoogleFonts.poppins(
+      color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
+
+  static var headerItemTitle = GoogleFonts.poppins(
+      fontSize: 16.73,
+      fontWeight: FontWeight.w600,
+      color: AppThemes.blackPearl);
+
+  static var header1 = GoogleFonts.poppins(
+      fontWeight: FontWeight.w700, fontSize: 28, color: AppThemes.DEEP_ORANGE);
+
+  static var buttonFont = GoogleFonts.poppins(
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
+
+  static var header2 =
+      GoogleFonts.poppins(fontSize: 14.24, fontWeight: FontWeight.w700);
+  static var header4 = GoogleFonts.poppins(
+    fontSize: 14.28,
+    color: Colors.black.withOpacity(0.7),
+    fontWeight: FontWeight.w500,
+  );
+
+  static var headerTitle = GoogleFonts.poppins(
+      fontSize: 17.46,
+      color: AppThemes.DEEP_ORANGE,
+      fontWeight: FontWeight.w700);
+  static var header3 =
+      GoogleFonts.poppins(fontSize: 15.94, fontWeight: FontWeight.bold);
+
+  /// normal size
+  static var normalBlackFont = GoogleFonts.poppins(
+      color: blackPearl, fontSize: 13, fontWeight: FontWeight.w600);
+  static var normalBlack45Font = GoogleFonts.poppins(
+      color: Colors.black45, fontSize: 13, fontWeight: FontWeight.w600);
+  static var normalORANGEFont = GoogleFonts.poppins(
+      color: DEEP_ORANGE, fontSize: 13, fontWeight: FontWeight.w600);
+
+  static var captionFont = GoogleFonts.poppins(
+      color: blackPearl,
+      fontSize: 11,
+      fontWeight: FontWeight.w600,
+      fontStyle: FontStyle.italic);
+
   //Background Colors
   static const Color _lightBackgroundColor = whiteLilac;
   static const Color _lightBackgroundAppBarColor = _lightPrimaryColor;
   static const Color _lightBackgroundSecondaryColor = white;
-  static  Color _lightBackgroundAlertColor = blackPearl;
+  static Color _lightBackgroundAlertColor = blackPearl;
   static const Color _lightBackgroundActionTextColor = white;
 
   // static const Color _lightBackgroundErrorColor = brinkPink;
@@ -79,11 +147,11 @@ class AppThemes {
   static const Color _darkPrimaryColor = dodgerPurple;
 
   //Background Colors
-  static const Color _darkBackgroundColor = ebonyClay;
+  static const Color _darkBackgroundColor = BG_COLOR;
   static const Color _darkBackgroundAppBarColor = _darkPrimaryColor;
   static const Color _darkBackgroundSecondaryColor =
       Color.fromRGBO(0, 0, 0, .6);
-  static  Color _darkBackgroundAlertColor = blackPearl;
+  static Color _darkBackgroundAlertColor = blackPearl;
   static const Color _darkBackgroundActionTextColor = white;
 
   //static const Color _darkBackgroundErrorColor = Color.fromRGBO(255, 97, 136, 1);
@@ -128,11 +196,11 @@ class AppThemes {
     appBarTheme: AppBarTheme(
       color: _lightBackgroundAppBarColor,
       iconTheme: IconThemeData(color: _lightTextColor),
-      textTheme: _lightTextTheme,
+      toolbarTextStyle: _lightTextTheme.bodyText2,
+      titleTextStyle: _lightTextTheme.headline6,
     ),
     colorScheme: ColorScheme.light(
       primary: _lightPrimaryColor,
-      primaryVariant: _lightBackgroundColor,
       // secondary: _lightSecondaryColor,
     ),
     snackBarTheme: SnackBarThemeData(

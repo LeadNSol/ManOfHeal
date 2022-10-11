@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/controllers/custom_tabs_controller.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
@@ -74,19 +75,19 @@ class Tabs extends StatelessWidget {
         curve: Curves.fastLinearToSlowEaseIn,
         decoration: BoxDecoration(
           color: selectedPage == pageNumber ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         padding: EdgeInsets.symmetric(
-          vertical: selectedPage == pageNumber ? 12.0 : 0,
-          horizontal: selectedPage == pageNumber ? 20.0 : 0,
+          vertical: selectedPage == pageNumber ? 8.0 : 0,
+          horizontal: selectedPage == pageNumber ? 25.0 : 0,
         ),
         margin: EdgeInsets.symmetric(
-          vertical: selectedPage == pageNumber ? 0 : 12.0,
-          horizontal: selectedPage == pageNumber ? 0 : 20.0,
+          vertical: selectedPage == pageNumber ? 0 : 8.0,
+          horizontal: selectedPage == pageNumber ? 0 : 25.0,
         ),
         child: Text(
           text ?? "Tab Button",
-          style: TextStyle(
+          style: GoogleFonts.poppins( fontSize: 15.54, fontWeight: FontWeight.w500,
             color: selectedPage == pageNumber
                 ? Colors.black
                 : AppThemes.DEEP_ORANGE,

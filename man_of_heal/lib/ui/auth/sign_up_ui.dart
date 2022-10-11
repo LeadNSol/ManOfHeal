@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
 import 'package:man_of_heal/ui/components/form_password_input_field_with_icon.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/label_button.dart';
 import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 import 'package:man_of_heal/utils/validator.dart';
@@ -18,7 +18,7 @@ class SignUpUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
+    authController.setBtnState(0);
     return SafeArea(
       top: true,
       child: Scaffold(
@@ -35,23 +35,25 @@ class SignUpUI extends StatelessWidget {
                     FormVerticalSpace(
                       height: 30,
                     ),
-                    Center(child: SvgPicture.asset("assets/icons/logo.svg")),
+                    Center(
+                        child: SvgPicture.asset(
+                      "assets/icons/logo.svg",
+                      width: 150,
+                    )),
                     FormVerticalSpace(
                       height: 30,
                     ),
                     Text(
                       "Create your\nAccount",
-                      style: _textTheme.headline5!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppThemes.DEEP_ORANGE),
+                      style: AppThemes.header1,
                     ),
                     FormVerticalSpace(
                       height: 15,
                     ),
                     Text(
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-                      style: _textTheme.bodyText2!
-                          .copyWith(color: AppThemes.blackPearl),
+                      style: GoogleFonts.montserrat(
+                          fontSize: 13, color: AppThemes.blackPearl),
                     ),
                     FormVerticalSpace(
                       height: 10,
@@ -62,7 +64,7 @@ class SignUpUI extends StatelessWidget {
                       labelText: 'Name',
                       autofocus: true,
                       iconColor: AppThemes.DEEP_ORANGE,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       validator: Validator().name,
                       onChanged: (value) => null,
                       /* onSaved: (value) =>
@@ -76,7 +78,7 @@ class SignUpUI extends StatelessWidget {
                       labelText: 'Email',
                       autofocus: false,
                       iconColor: AppThemes.DEEP_ORANGE,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       validator: Validator().email,
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) => null,
@@ -88,7 +90,7 @@ class SignUpUI extends StatelessWidget {
                       iconPrefix: Icons.lock,
                       labelText: 'Password',
                       iconColor: AppThemes.DEEP_ORANGE,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       keyboardType: TextInputType.text,
                       validator: Validator().password,
                       obscureText: true,
@@ -103,7 +105,7 @@ class SignUpUI extends StatelessWidget {
                       labelText: 'Phone Number',
                       autofocus: false,
                       iconColor: AppThemes.DEEP_ORANGE,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       keyboardType: TextInputType.phone,
                       validator: Validator().number,
                       onChanged: (value) => null,
@@ -133,60 +135,37 @@ class SignUpUI extends StatelessWidget {
                         onTap: () {},
                         child: Text(
                           'From Map',
-                          style: _textTheme.bodyText2!.copyWith(
-                              color: AppThemes.DEEP_ORANGE,
-                              fontWeight: FontWeight.w500),
+                          style: AppThemes.normalORANGEFont,
                         ),
                       ),
                       iconColor: AppThemes.DEEP_ORANGE,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       keyboardType: TextInputType.streetAddress,
-                      validator: Validator().name,
+                      validator: Validator().notEmpty,
                       onChanged: (value) => null,
                       onSaved: (value) => null,
                     ),
                     FormVerticalSpace(
                       height: 40,
                     ),
-                    Center(
-                      child: Container(
-                        width: 300,
-                        child: PrimaryButton(
-                            labelText: 'Sign Up',
-                            buttonStyle: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              primary: AppThemes.DEEP_ORANGE,
-                              shape: StadiumBorder(),
-                            ),
-                            textStyle: _textTheme.headline5!
-                                .copyWith(color: AppThemes.white),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                SystemChannels.textInput.invokeMethod(
-                                    'TextInput.hide'); //to hide the keyboard - if any
-                                authController.signUp();
-                              }
-                            }),
+                    Obx(
+                      () => Center(
+                        child: _setupSignUpBtn(),
                       ),
                     ),
                     FormVerticalSpace(),
                     Center(
-                      child:
-
-                      InkWell(
-                        onTap: () => Get.to(SignInUI()),
-                        child: Column(
-                          children: [
-                            Text("Already have an Account?",
-                                style: _textTheme.bodyText1!
-                                    .copyWith(color: AppThemes.blackPearl)),
-                            Text("Sign In here", style: _textTheme.bodyText1!.copyWith(color: AppThemes.DEEP_ORANGE),),
-                          ],
-                        ),
-                      )
-
-                    ),
+                        child: InkWell(
+                      onTap: () => Get.to(() => SignInUI()),
+                      child: Column(
+                        children: [
+                          Text("Already have an Account?",
+                              style: AppThemes.normalBlackFont),
+                          Text("Sign In here",
+                              style: AppThemes.normalORANGEFont),
+                        ],
+                      ),
+                    )),
                     FormVerticalSpace()
                   ],
                 ),
@@ -195,6 +174,52 @@ class SignUpUI extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _setupSignUpBtn() {
+    if (authController.btnState! == 1)
+      return Container(
+        width: 45,
+        height: 45,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppThemes.DEEP_ORANGE,
+        ),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          strokeWidth: 2.5,
+        ),
+      );
+    else if (authController.btnState! == 2)
+      return Container(
+          width: 45,
+          height: 45,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppThemes.rightAnswerColor,
+          ),
+          child: Icon(Icons.check, size: 30, color: AppThemes.white));
+
+    return Container(
+      width: 300,
+      child: PrimaryButton(
+          labelText: 'Sign Up',
+          buttonStyle: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            primary: AppThemes.DEEP_ORANGE,
+            shape: StadiumBorder(),
+          ),
+          textStyle: AppThemes.buttonFont,
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              SystemChannels.textInput.invokeMethod(
+                  'TextInput.hide'); //to hide the keyboard - if any
+              authController.signUp();
+            }
+          }),
     );
   }
 }

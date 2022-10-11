@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/ui/auth/forgot_password_ui.dart';
 import 'package:man_of_heal/ui/auth/sign_up_ui.dart';
@@ -19,10 +19,11 @@ class SignInUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
-    return SafeArea(
-      child: Scaffold(
-        body: Form(
+    /// btn state default
+    authController.setBtnState(0);
+    return Scaffold(
+      body: SafeArea(
+        child: Form(
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -33,14 +34,22 @@ class SignInUI extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     //LogoGraphicHeader(),
-                    Center(child: SvgPicture.asset("assets/icons/logo.svg")),
+                    FormVerticalSpace(
+                      height: 50,
+                    ),
+                    Center(
+                        child: SvgPicture.asset(
+                      "assets/icons/logo.svg",
+                      width: 150,
+                    )),
                     FormVerticalSpace(
                       height: 50,
                     ),
                     Text(
                       "Sign in to your\nAccount",
-                      style: _textTheme.headline5!.copyWith(
-                          fontWeight: FontWeight.w500,
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
                           color: AppThemes.DEEP_ORANGE),
                     ),
                     FormVerticalSpace(
@@ -48,8 +57,8 @@ class SignInUI extends StatelessWidget {
                     ),
                     Text(
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-                      style: _textTheme.bodyText2!
-                          .copyWith(color: AppThemes.blackPearl),
+                      style: GoogleFonts.montserrat(
+                          fontSize: 13, color: AppThemes.blackPearl),
                     ),
                     FormVerticalSpace(
                       height: 10,
@@ -60,7 +69,7 @@ class SignInUI extends StatelessWidget {
                       labelText: 'Email',
                       iconColor: AppThemes.DEEP_ORANGE,
                       autofocus: true,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       validator: Validator().email,
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) => null,
@@ -71,7 +80,7 @@ class SignInUI extends StatelessWidget {
                       controller: authController.passwordController,
                       iconPrefix: Icons.lock_rounded,
                       iconColor: AppThemes.DEEP_ORANGE,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       labelText: 'Password',
                       validator: Validator().password,
                       obscureText: true,
@@ -81,51 +90,30 @@ class SignInUI extends StatelessWidget {
                     FormVerticalSpace(
                       height: 40,
                     ),
-                    Center(
-                      child: Container(
-                        width: 300,
-                        child: PrimaryButton(
-                            buttonStyle: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              primary: AppThemes.DEEP_ORANGE,
-                              shape: StadiumBorder(),
-                            ),
-                            labelText: 'SIGN IN',
-                            textStyle: _textTheme.headline6!
-                                .copyWith(color: AppThemes.white),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                SystemChannels.textInput.invokeMethod(
-                                    'TextInput.hide'); //to hide the keyboard - if any
-                                authController.signIn();
-                              }
-                            }),
+                    Obx(
+                      () => Center(
+                        child: _setupButton(),
                       ),
                     ),
                     Container(
                       alignment: Alignment.centerRight,
                       child: LabelButton(
                         labelText: 'Forgot Password!',
-                        textStyle: _textTheme.bodyText2!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: AppThemes.DEEP_ORANGE),
-                        onPressed: () => Get.to(ForgotPassword()),
+                        textStyle: AppThemes.normalORANGEFont,
+                        onPressed: () => Get.to(() => ForgotPassword()),
                       ),
                     ),
                     FormVerticalSpace(),
                     Center(
                       child: InkWell(
-                        onTap: () => Get.to(SignUpUI()),
+                        onTap: () => Get.to(() => SignUpUI()),
                         child: Column(
                           children: [
                             Text("Don't have an Account?",
-                                style: _textTheme.bodyText1!
-                                    .copyWith(color: AppThemes.blackPearl)),
+                                style: AppThemes.normalBlackFont),
                             Text(
                               "Sign up here",
-                              style: _textTheme.bodyText1!
-                                  .copyWith(color: AppThemes.DEEP_ORANGE),
+                              style: AppThemes.normalORANGEFont,
                             ),
                           ],
                         ),
@@ -140,21 +128,52 @@ class SignInUI extends StatelessWidget {
       ),
     );
   }
+
+  Widget _setupButton() {
+    if (authController.btnState! == 1)
+      return Container(
+        width: 45,
+        height: 45,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppThemes.DEEP_ORANGE,
+        ),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          strokeWidth: 2.5,
+        ),
+      );
+    else if (authController.btnState! == 2)
+      return Container(
+          width: 45,
+          height: 45,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppThemes.rightAnswerColor,
+          ),
+          child: Center(child: Icon(Icons.check, size: 30, color: AppThemes.white)));
+    return Container(
+      width: 300,
+      child: PrimaryButton(
+          buttonStyle: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            primary: AppThemes.DEEP_ORANGE,
+            shape: StadiumBorder(),
+          ),
+          labelText: 'SIGN IN',
+          textStyle: AppThemes.buttonFont,
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              SystemChannels.textInput.invokeMethod(
+                  'TextInput.hide'); //to hide the keyboard - if any
+              // animateButton();
+              authController.signIn();
+            }
+          }),
+    );
+  }
+
+  void animateButton() {}
 }
-/*
-RichText(
-text: TextSpan(
-text: 'Don\'t have an account?',
-style: _textTheme.bodyMedium!.copyWith(color: AppThemes.white,),
-children: <TextSpan>[
-TextSpan(text: '\n         Sign up here',
-style: _textTheme.bodyLarge!.copyWith(color: AppThemes.white),
-recognizer: TapGestureRecognizer()
-..onTap = () {
-// navigate to desired screen
-Get.to(SignUpUI());
-}
-)
-]
-),
-),*/

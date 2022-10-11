@@ -4,92 +4,64 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/profile/profile_ui.dart';
+import 'package:man_of_heal/ui/components/black_rounded_container.dart';
+import 'package:man_of_heal/ui/components/custom_header_row.dart';
+import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
+import 'package:man_of_heal/ui/components/primary_button.dart';
+import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart';
+import 'package:man_of_heal/utils/AppConstant.dart';
+import 'package:man_of_heal/utils/app_themes.dart';
 
 import 'vignette_dissection_ui.dart';
 
-class QuizInstructionsScreen extends StatefulWidget {
-  const QuizInstructionsScreen({Key? key}) : super(key: key);
+class QuizInstructionsScreen extends StatelessWidget {
+  final instructionList = [
+    "1 mark award for correct answer and no mark for incorrect answer.",
+    "Tap on option to select the correct answer.",
+    "Tap on the save button to save progress.",
+    "Complete quiz before time ends."
+  ];
 
-  @override
-  _QuizInstructionsScreenState createState() => _QuizInstructionsScreenState();
-}
-
-class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
   @override
   Widget build(BuildContext context) {
+    /* var duration = 0.obs;
+    vdController.getActiveQuiz().then((value) {
+      print('Duration: ${value.duration}');
+      print('Duration: ${value.quizTitle}');
+      //duration.value = value.duration!;
+    });*/
+
     return Scaffold(
-      backgroundColor: Color(0xffFEEFEC),
+      backgroundColor: AppThemes.BG_COLOR,
       body: Stack(
         fit: StackFit.expand,
         children: [
           /// black background
           Positioned(
-            top: 0,
-            height: 225,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20.04),
-                ),
-                color: Color(0xff1F1D1F),
-              ),
-            ),
-          ),
+              top: 0,
+              height: 225,
+              left: 0,
+              right: 0,
+              child: BlackRoundedContainer()),
 
           Positioned(
-            top: 50,
+            /* top: 50,
             left: 10,
-            right: 10,
+            right: 10,*/
             child: ListView(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            authController.userModel.value!.name!,
-                            style: GoogleFonts.poppins(
-                              fontSize: 20.85.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          )),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(ProfileUI());
-                          },
-                          child: Container(
-                            height: 50.0.sp,
-                            width: 50.sp,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.0),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Image.network(
-                                  "https://cdn-icons-png.flaticon.com/128/3011/3011270.png"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                FormVerticalSpace(
+                  height: 50,
+                ),
+                CustomHeaderRow(
+                  title: "Quiz Instructions",
+                  hasProfileIcon: true,
                 ),
                 Container(
-                  height: 100.0.sp,
+                  height: 130.0.sp,
                   margin: EdgeInsets.only(
                     left: 17.0.sp,
                     right: 17.0.sp,
@@ -141,15 +113,14 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
                   ),
                 ),
                 SizedBox(height: 40.0.sp),
-
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       width: 136.62.w,
                       height: 120.03.h,
                       margin: EdgeInsets.only(
-                        left: 20.0.w,
+                        right: 5.0.w,
                       ),
                       padding: EdgeInsets.symmetric(
                         vertical: 12.0.h,
@@ -172,22 +143,25 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               buildQuestionMarkSvg(),
-                              Text(
-                                '15 Mints',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12.0.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xffFC2125).withOpacity(0.7),
+                              Obx(
+                                () => Text(
+                                  '${vdController.quizQuestionsList.length} Questions',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12.0.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xffFC2125).withOpacity(0.7),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(height: 20.0.h),
                           Text(
-                            'Total duration of quiz',
+                            '10 points for correct answer',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                               fontSize: 12.0.sp,
+                              fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),
                           ),
@@ -198,7 +172,7 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
                       width: 136.62.w,
                       height: 120.03.h,
                       margin: EdgeInsets.only(
-                        right: 20.0.w,
+                        left: 5.0.w,
                       ),
                       padding: EdgeInsets.symmetric(
                         vertical: 12.0.h,
@@ -208,7 +182,7 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
                         color: Colors.white.withOpacity(0.5),
                         border: Border.all(
                           width: 1.0.w,
-                          color: Color(0xffFC2125).withOpacity(0.5),
+                          color: AppThemes.DEEP_ORANGE.withOpacity(0.5),
                         ),
                       ),
                       child: ListView(
@@ -221,22 +195,26 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               buildTimerSvg(),
-                              Text(
-                                '10 Questions',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12.0.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xffFC2125).withOpacity(0.7),
+                              Obx(
+                                () => Text(
+                                  '${vdController.duration.value} Mints',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12.0.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        AppThemes.DEEP_ORANGE.withOpacity(0.7),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(height: 20.0.h),
                           Text(
-                            '10 points for correct answer',
+                            'Total duration of quiz',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                               fontSize: 12.0.sp,
+                              fontWeight: FontWeight.w600,
                               color: Colors.black,
                             ),
                           ),
@@ -246,146 +224,50 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
                   ],
                 ),
                 SizedBox(height: 20.0.sp),
-
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0.h,
-                    right: 30.0.w,
-                    left: 30.0.w,
-                  ),
-                  child: Text(
-                    '1 mark award for correct answer and no mark for incorrect answer.',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: instructionList
+                      .map((e) => singleInstructionItems(e))
+                      .toList(),
                 ),
-
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0.h,
-                    right: 30.0.w,
-                    left: 30.0.w,
-                  ),
-                  child: Text(
-                    'Tap on option to select the correct answer.',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0.h,
-                    right: 30.0.w,
-                    left: 30.0.w,
-                  ),
-                  child: Text(
-                    'Tap on the save button to save progress.',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0.h,
-                    right: 30.0.w,
-                    left: 30.0.w,
-                  ),
-                  child: Text(
-                    'Complete quiz before time ends.',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: () => Get.to(VignetteDissectionUI()),
+                SizedBox(height: 20.0.sp),
+                Center(
                   child: Container(
-                    width: 289.21,
-                    height: 45.52,
-                    margin: EdgeInsets.only(
-                      top: 30.0.h,
-                      right: 20.0.w,
-                      left: 20.0.w,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22.76),
-                      color: Color(0xffFC2125),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Start quiz',
-                        style: GoogleFonts.poppins(
-                          fontSize: 17.46.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+                    width: 300,
+                    height: 50,
+                    child: PrimaryButton(
+                      buttonStyle: ElevatedButton.styleFrom(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                        primary: AppThemes.DEEP_ORANGE,
+                        shape: StadiumBorder(),
                       ),
+                      labelText: 'Start quiz',
+                      textStyle: AppThemes.buttonFont,
+                      onPressed: () async {
+                        if(vdController.quizID.value != "") {
+                          await vdController.findUserAttemptedQuiz();
+                          vdController.resetAllValues();
+
+                          debugPrint(
+                              "Net: Length ${vdController
+                                  .hasAlreadyAttemptTheQuiz.value}");
+                          if (vdController.hasAlreadyAttemptTheQuiz.value) {
+                            Get.to(() => LeaderBoardUI());
+                            AppConstant.displayNormalSnackBar("Attempt Alert!",
+                                "You have already Attempt the previous Quiz!");
+                          } else {
+                            Get.to(() => VignetteDissectionUI());
+                          }
+                        }else{
+                          AppConstant.displayNormalSnackBar("Quiz Alert", "No Quiz is uploaded yet!");
+                        }
+                      },
                     ),
                   ),
                 ),
+                SizedBox(height: 20.0.sp),
 
-                // Container(
-                //   margin: EdgeInsets.only(
-                //     left: 17.0,
-                //     right: 17.0,
-                //     top: 30,
-                //   ),
-                //   padding: EdgeInsets.all(17.0),
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(11.86),
-                //     color: Colors.white,
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: const Color(0xFFC7161C).withOpacity(0.22),
-                //         offset: Offset(0, 0),
-                //         blurRadius: 10.78,
-                //       ),
-                //     ],
-                //   ),
-                //   child: ListView(
-                //     shrinkWrap: true,
-                //     physics: const ClampingScrollPhysics(),
-                //     padding: EdgeInsets.zero,
-                //     children: [
-                //       Align(
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           'Question of the day',
-                //           style: GoogleFonts.poppins(
-                //             fontSize: 17.46,
-                //             color: Color(0xffFC2125),
-                //             fontWeight: FontWeight.w700,
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(height: 30),
-                //       Align(
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo',
-                //           style: GoogleFonts.poppins(
-                //             fontSize: 14.28,
-                //             color: Colors.black,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -409,6 +291,25 @@ class _QuizInstructionsScreenState extends State<QuizInstructionsScreen> {
       '<svg viewBox="53.99 334.48 34.88 34.88" ><path transform="translate(53.42, 333.91)" d="M 35.4375 18 C 35.4375 27.63260269165039 27.62978935241699 35.4375 18 35.4375 C 8.370210647583008 35.4375 0.5625 27.63260078430176 0.5625 18 C 0.5625 8.37302303314209 8.370210647583008 0.5625 18 0.5625 C 27.62978935241699 0.5625 35.4375 8.373023986816406 35.4375 18 Z M 18.46792984008789 6.328125 C 14.63610935211182 6.328125 12.19218826293945 7.942289352416992 10.27307796478271 10.81110954284668 C 10.02445316314697 11.18278121948242 10.10763263702393 11.68403911590576 10.46397686004639 11.95425033569336 L 12.9037504196167 13.80417251586914 C 13.26972675323486 14.08169555664062 13.79116439819336 14.01567268371582 14.07550811767578 13.65496921539307 C 15.33157062530518 12.06182861328125 16.19282913208008 11.13799285888672 18.1046257019043 11.13799285888672 C 19.54104042053223 11.13799285888672 21.3177661895752 12.06246185302734 21.3177661895752 13.45535278320312 C 21.3177661895752 14.50835227966309 20.4484920501709 15.04912662506104 19.03022003173828 15.84428977966309 C 17.37618827819824 16.77149963378906 15.1875 17.92553901672363 15.1875 20.8125 L 15.1875 21.09375 C 15.1875 21.55971145629883 15.56528949737549 21.9375 16.03125 21.9375 L 19.96875 21.9375 C 20.43471145629883 21.9375 20.8125 21.55971145629883 20.8125 21.09375 L 20.8125 21.00002288818359 C 20.8125 18.99878883361816 26.6615161895752 18.91546821594238 26.6615161895752 13.5 C 26.6615161895752 9.421733856201172 22.4311637878418 6.328125 18.46792984008789 6.328125 Z M 18 23.765625 C 16.21652412414551 23.765625 14.765625 25.21652412414551 14.765625 27 C 14.765625 28.78340530395508 16.21652412414551 30.234375 18 30.234375 C 19.78347587585449 30.234375 21.234375 28.78340530395508 21.234375 27 C 21.234375 25.21652412414551 19.78347587585449 23.765625 18 23.765625 Z" fill="#fc2125" stroke="none" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
       width: 30.88.sp,
       height: 30.88.sp,
+    );
+  }
+
+  Widget singleInstructionItems(text) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 10.0.h,
+        right: 30.0.w,
+        left: 30.0.w,
+      ),
+      child: Text(
+        '• $text',
+        textAlign: TextAlign.justify,
+        style: GoogleFonts.poppins(
+          fontSize: 14.0.sp,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }

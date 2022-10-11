@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/ui/admin/pages/admin_dashboard_ui.dart';
 import 'package:man_of_heal/ui/admin/pages/question_answer/admin_qa_list_ui.dart';
+import 'package:man_of_heal/ui/daily_activity/my_answers/student_answers_ui.dart';
+import 'package:man_of_heal/ui/daily_activity/show_answers/admin_show_answers_ui.dart';
 import 'package:man_of_heal/ui/student/pages/question_answer/qa_list_ui.dart';
 import 'package:man_of_heal/ui/student/pages/std_dashboard_ui.dart';
 
@@ -18,6 +20,7 @@ class LandingPageController extends GetxController {
 
   List<Widget> adminPages = [
     AdminDashboardUI(),
+    //AdminShowAnswersUI(),
     //AdminVignetteDissection(),
     AdminQuestionAnswerList(),
     //QuestionAnswerList(),
@@ -30,6 +33,7 @@ class LandingPageController extends GetxController {
   List<Widget> studentPages = [
     StudentDashboardUI(),
     QuestionAnswerList(),
+    //MyAnswerUI()
     //LabsUI(),
     //ProfileUI()
   ];
@@ -50,5 +54,13 @@ class LandingPageController extends GetxController {
 
   void setCalledFor(calledForValue) {
     calledFor(calledForValue);
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    studentTabIndex(0);
+    adminTabIndex(0);
+    super.onClose();
   }
 }

@@ -25,9 +25,12 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.obscureText = false,
       this.minLines = 1,
-      this.maxLines,
+      this.maxLines = 1,
+      this.isExpanded = false,
       this.maxLength,
       this.autofocus,
+      this.enableBorder,
+      this.textCapitalization = TextCapitalization.none,
       this.maxLengthEnforcement,
       required this.onChanged,
       required this.onSaved});
@@ -42,10 +45,13 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final obscureText;
   final int minLines;
   final int? maxLines;
+  final bool? isExpanded;
   final iconColor;
   final textStyle;
   final maxLength;
   final maxLengthEnforcement;
+  final InputBorder? enableBorder;
+  final TextCapitalization? textCapitalization;
   final void Function(String) onChanged;
   final void Function(String?)? onSaved;
 
@@ -53,6 +59,9 @@ class FormInputFieldWithIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       autofocus: autofocus!,
+      textCapitalization: textCapitalization!,
+      textAlignVertical: TextAlignVertical.top,
+      scrollPhysics: AlwaysScrollableScrollPhysics(),
       decoration: InputDecoration(
         filled: false,
         suffix: suffix,
@@ -62,14 +71,15 @@ class FormInputFieldWithIcon extends StatelessWidget {
         ),
         labelText: labelText,
         labelStyle: textStyle,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: iconColor ?? AppThemes.DEEP_ORANGE,
-            width: 2.0,
-          ),
-          //borderRadius: BorderRadius.circular(20)
-        ),
-        focusedBorder: UnderlineInputBorder(
+        enabledBorder: enableBorder ??
+            UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: iconColor ?? AppThemes.DEEP_ORANGE,
+                width: 2.0,
+              ),
+              //borderRadius: BorderRadius.circular(20)
+            ),
+        focusedBorder: enableBorder ??UnderlineInputBorder(
           borderSide:
               BorderSide(color: iconColor ?? AppThemes.DEEP_ORANGE, width: 2.0),
           //borderRadius: BorderRadius.circular(25.0),
@@ -82,8 +92,9 @@ class FormInputFieldWithIcon extends StatelessWidget {
       onChanged: onChanged,
       keyboardType: keyboardType,
       obscureText: obscureText,
-      maxLines: maxLines,
-      minLines: minLines,
+      expands: isExpanded!,
+      maxLines: isExpanded! ? null : maxLines,
+      minLines: isExpanded! ? null : minLines,
       maxLengthEnforcement: maxLengthEnforcement,
       maxLength: maxLength,
       validator: validator,

@@ -8,14 +8,19 @@ class CustomContainer extends StatelessWidget {
   final double? height;
   final Color? color;
   final bool? hasOuterShadow;
+  final bool? isNotificationBody;
   final Alignment? alignment;
+  final EdgeInsetsGeometry? margin, padding;
 
   CustomContainer(
       {required this.child,
       this.constraints,
       this.height,
       this.width,
-      this.hasOuterShadow,
+      this.margin,
+      this.padding,
+      this.isNotificationBody = false,
+      this.hasOuterShadow = false,
       this.alignment,
       this.color});
 
@@ -24,43 +29,43 @@ class CustomContainer extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: color,
       alignment: alignment,
-      decoration: hasOuterShadow! ? boxOuterShadow() : boxNoShadow(),
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+      decoration: hasOuterShadow!
+          ? boxOuterShadow(isNotificationBody)
+          : boxNoShadow(isNotificationBody),
+      padding: padding == null ? const EdgeInsets.all(15) : padding,
+      margin: margin == null
+          ? const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10)
+          : margin,
       child: child,
     );
   }
 }
 
-BoxDecoration boxNoShadow() {
+BoxDecoration boxNoShadow(isNotificationBody) {
   return BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(14.3)),
-    color: Colors.white,
+    color: isNotificationBody ? Colors.grey[300]! : Colors.white,
     boxShadow: [
       BoxShadow(
         color: AppThemes.DEEP_ORANGE.withOpacity(0.22),
-        blurRadius: 4,
-        spreadRadius: 2,
-        offset: Offset(2, 3),
-        // Shadow position
+        offset: Offset(0, 0),
+        blurRadius: 10.78,
       ),
     ],
   );
 }
 
-BoxDecoration boxOuterShadow() {
+BoxDecoration boxOuterShadow(isNotificationBody) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(12.0),
-    color: Colors.white,
+    color: isNotificationBody ? Colors.grey[300]! : Colors.white,
     boxShadow: [
       BoxShadow(
-          color: AppThemes.DEEP_ORANGE.withOpacity(0.22),
-          blurRadius: 13,
-          spreadRadius: 2,
-          blurStyle: BlurStyle.outer // Shadow position
-          ),
+        color: AppThemes.DEEP_ORANGE.withOpacity(0.22),
+        offset: Offset(0, 0),
+        blurRadius: 10.78,
+      ),
     ],
   );
 }

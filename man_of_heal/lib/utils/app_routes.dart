@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:man_of_heal/bindings/authBinding.dart';
-import 'package:man_of_heal/bindings/qa_binding.dart';
 import 'package:man_of_heal/ui/admin/pages/admin_dashboard_ui.dart';
 import 'package:man_of_heal/ui/admin/pages/question_answer/admin_qa_list_ui.dart';
 import 'package:man_of_heal/ui/admin/pages/vignette_dissection/admin_vd_ui.dart';
@@ -17,23 +15,17 @@ import 'package:man_of_heal/ui/student/pages/std_dashboard_ui.dart';
 class AppRoutes {
   AppRoutes._(); //this is to prevent anyone from instantiating this object
   static final routes = [
-    GetPage(name: '/', page: () => SplashUI(), binding: AuthBinding()),
-    GetPage(name: '/welcome-back', page: () => WelcomeBackUI()),
+    GetPage(name: '/', page: () => SplashUI()), //binding: AuthBinding()
+    GetPage(name: '/welcome', page: () => WelcomeBackUI()),
     GetPage(name: '/signIn', page: () => SignInUI()),
     GetPage(name: '/signup', page: () => SignUpUI()),
     GetPage(name: '/forgot-password', page: () => ForgotPassword()),
     GetPage(name: '/profile', page: () => ProfileUI()),
-    GetPage(name: '/', page: () => AdminDashboardUI()),
-    GetPage(name: '/', page: () => StudentDashboardUI()),
-    GetPage(name: '/vignette', page: () => AdminVignetteDissectionUI()),
-    GetPage(
-        name: '/admin-qa',
-        page: () => AdminQuestionAnswerList(),
-        binding: QABinding()),
-    GetPage(
-        name: '/question-answer',
-        page: () => QuestionAnswerList(),
-        binding: QABinding()),
+    GetPage(name: '/AdminDashboard', page: () => AdminDashboardUI()),
+    GetPage(name: '/StudentDashboard', page: () => StudentDashboardUI()),
+    GetPage(name: '/vignette', page: () => AdminVignetteDissectionUI(), ),
+    GetPage(name: '/admin-qa', page: () => AdminQuestionAnswerList()),
+    GetPage(name: '/question-answer', page: () => QuestionAnswerList()),
     GetPage(name: '/lab-value', page: () => LabsUI()),
   ];
 

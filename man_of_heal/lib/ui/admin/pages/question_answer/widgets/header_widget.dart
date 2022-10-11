@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/qa_model.dart';
 import 'package:man_of_heal/models/user_model.dart';
-import 'package:get/get.dart';
+import 'package:man_of_heal/ui/components/circular_avatar.dart';
+import 'package:man_of_heal/utils/app_themes.dart';
 
 class HeaderWidget extends StatelessWidget {
   final QuestionModel questionModel;
@@ -12,12 +14,16 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var name = "fetching...".obs;
+    var photoUrl = "".obs;
 
     getUserById().then((UserModel model) {
       name.value = model.name!;
+      photoUrl.value = model.photoUrl!;
     });
 
-    TextTheme textTheme = Theme.of(context).textTheme;
+    // print('photo Url${authController.userModel.value!.photoUrl}');
+
+    //TextTheme textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,19 +36,29 @@ class HeaderWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: Image.network(
-                "https://cdn-icons-png.flaticon.com/128/3011/3011270.png"),
+          child: Obx(
+            () => CircularAvatar(
+              padding: 1,
+              imageUrl: photoUrl.value,
+            ),
           ),
+
+          /*Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Obx(
+                  () => Image.network(photoUrl.value.isEmpty
+                  ? "https://cdn-icons-png.flaticon.com/128/3011/3011270.png"
+                  : photoUrl.value),
+            ),
+          ),*/
         ),
         SizedBox(
           width: 5,
         ),
-        Obx(()=>Text(
+        Obx(
+          () => Text(
             '${name.value}',
-            style: textTheme.bodyText1!
-                .copyWith(fontWeight: FontWeight.w600, fontSize: 15),
+            style: AppThemes.header2,
           ),
         ),
       ],

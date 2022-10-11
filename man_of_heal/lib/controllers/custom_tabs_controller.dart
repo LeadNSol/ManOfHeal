@@ -6,7 +6,10 @@ class CustomTabsController extends GetxController {
   static CustomTabsController instance = Get.find();
 
   var selectedPage = 0.obs;
+
   late PageController pageController;
+  late PageController adminSubsPageController;
+
   var searchIconVisibility = false.obs;
   var pageTitle = "Questions".obs;
   var initialPage = 0.obs;
@@ -21,6 +24,29 @@ class CustomTabsController extends GetxController {
       duration: Duration(milliseconds: 700),
       curve: Curves.linearToEaseOut,
     );
+  }
+
+  /*
+  * Admin Subscription UI @pageNum
+  * */
+  void onAdminSubscriptionPageChange(int pageNum) {
+    selectedPage.value = pageNum;
+    setAdminSubscriptionToolBar();
+    adminSubsPageController.animateToPage(
+      pageNum,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.linearToEaseOut,
+    );
+  }
+
+  setAdminSubscriptionToolBar() {
+    if (selectedPage.value == 1) {
+      searchIconVisibility.value = true;
+      pageTitle.value = "Subscribers";
+    } else {
+      searchIconVisibility.value = false;
+      pageTitle.value = "Un-Subscribers";
+    }
   }
 
   setToolbar() {
@@ -38,7 +64,6 @@ class CustomTabsController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     pageController = PageController();
-
     super.onInit();
   }
 

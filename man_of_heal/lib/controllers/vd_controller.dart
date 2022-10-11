@@ -1,88 +1,202 @@
 import 'dart:async';
 
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:man_of_heal/controllers/admin_vd_controller.dart';
+import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/models/quiz_attempts_model.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart';
+import 'package:man_of_heal/models/quiz_review_model.dart';
+import 'package:man_of_heal/models/score_model.dart';
+import 'package:man_of_heal/utils/AppConstant.dart';
+import 'package:man_of_heal/utils/firebase.dart';
 
-class VDController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class VDController extends GetxController {
   static VDController instance = Get.find<VDController>();
 
-  late AnimationController animationController;
-  late Animation _animation;
+  static const SCORE_BOARD_COLLECTION = "score_board_collection";
+  static const QUIZ_ATTEMPTS_COLLECTION = "quiz_attempts";
 
-  Animation get animation => _animation;
+  var quizID = "".obs;
+
   PageController pageController = PageController();
+  PageController pageReviewQuizController = PageController();
+  CountDownController countDownController = CountDownController();
 
   RxInt duration = 0.obs;
 
-  obtainDuration(int index) {
-    duration.value = questions[index].duration!;
-  }
+  var leaderboardList = <ScoreModel>[].obs;
 
-  /* var percentValue = (10.0).obs;
-  late Timer _timer;
-
-  //var _start = 10.obs;
-
-  void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (percentValue.value == 0.0) {
-          _timer.cancel();
-        } else {
-          percentValue.value--;
-        }
-      },
-    );
-  }*/
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    //default obtaining list first question duration
-    obtainDuration(0);
-    //cardQuestion(questions[0].question);
-    animationController = AnimationController(
-        vsync: this, duration: Duration(seconds: duration.value));
-    _animation = Tween<double>(begin: 0, end: 1).animate(animationController);
-    /*..addListener(() {
-        update();
-      });*/
-
-    animationController.forward().whenComplete(nextQuestion);
-  }
+  var attemptedQuizModel = QuizAttemptsModel().obs;
 
   @override
   void onReady() {
     super.onReady();
-    cardQuestion.value = questions[0].question!;
+
+    leaderboardList.bindStream(getLeaderData());
   }
 
-  List<QuizQuestion> getQuizQuestions() {
-    return sample_data
-        .map(
-          (question) => QuizQuestion(
-              qqId: question['id'],
-              question: question['question'],
-              options: question['options'],
-              correctAnswer: question['correctAnswer'],
-              duration: question['duration']),
-        )
-        .toList();
+  var quizQuestionsList = <QuizQuestion>[].obs;
+
+  Stream<List<QuizQuestion>> getQuizQuestions(String? quizID) {
+    return firebaseFirestore
+        .collection(AdminVdController.QUIZ_COLLECTION)
+        .doc(quizID)
+        .collection(AdminVdController.QUIZ_QUESTION_COLLECTION)
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => QuizQuestion.fromMap(e.data())).toList());
   }
 
-  List<QuizQuestion> get questions => this.getQuizQuestions();
-
-  var cardQuestion = 'question card here'.obs;
-
-  setCardQuestion(String question) {
-    cardQuestion.value = question;
+  Future<QuizModel> getActiveQuiz() {
+    return firebaseFirestore
+        .collection(AdminVdController.QUIZ_COLLECTION)
+        .where(QuizModel.IS_ACTIVE, isEqualTo: true)
+        .limit(1)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+        if (doc[QuizModel.IS_ACTIVE]) {
+          quizID.value = doc[QuizModel.QM_ID];
+          duration.value = doc[QuizModel.DURATION];
+          quizQuestionsList.bindStream(getQuizQuestions(quizID.value));
+        }
+      });
+      return QuizModel.fromDoc(querySnapshot.docs);
+    });
   }
+
+  var hasAlreadyAttemptTheQuiz = false.obs;
+  var quizReviewDbList = [].obs;
+
+  Future<void> findUserAttemptedQuiz() async {
+    return await firebaseFirestore
+        .collection(AdminVdController.QUIZ_COLLECTION)
+        .doc(quizID.value)
+        .collection(QUIZ_ATTEMPTS_COLLECTION)
+        .where(QuizAttemptsModel.STUDENT_ID,
+            isEqualTo: authController.userModel?.uid!)
+        .limit(1)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        if (doc[QuizAttemptsModel.STUDENT_ID] ==
+            authController.userModel?.uid!) {
+          hasAlreadyAttemptTheQuiz.value = true;
+          return;
+        } else
+          hasAlreadyAttemptTheQuiz.value = false;
+      });
+    });
+  }
+
+  /* Future<List<QuizReviewModel>> fetchQuizReview(QuizAttemptsModel model) {
+    for (QuizReviewModel? reviewModel in model.quizReviewList!) {
+      firebaseFirestore
+          .collection(AdminVdController.QUIZ_COLLECTION)
+          .doc(model.quizId!)
+          .collection(AdminVdController.QUIZ_QUESTION_COLLECTION)
+          .doc(reviewModel!.quizQuestionsId!)
+          .get()
+          .then((value) => null);
+    }
+    return [];
+  }*/
+
+  Future<ScoreModel> getUserScore() {
+    return firebaseFirestore
+        .collection(SCORE_BOARD_COLLECTION)
+        .doc(authController.userModel!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> map =
+            documentSnapshot.data() as Map<String, dynamic>;
+        return ScoreModel.fromMap(map);
+      }
+      return ScoreModel();
+    });
+  }
+
+  Future<void> postQuizAttempt(QuizAttemptsModel model) async {
+    var ref = firebaseFirestore
+        .collection(AdminVdController.QUIZ_COLLECTION)
+        .doc(model.quizId!)
+        .collection(QUIZ_ATTEMPTS_COLLECTION);
+
+    model.qamUId = ref.doc().id;
+    await ref.doc(model.qamUId).set(model.toMap(), SetOptions(merge: true));
+  }
+
+  ///Leader board
+  Future<void> createScoreBoard() async {
+   // int noOfQuestions = quizQuestionsList.length;
+    await getUserScore().then((ScoreModel model) {
+      /*  if (model!.score!.isEqual(0)) {
+        print('score is less than or equal 0');
+      } else {*/
+
+      int score;
+      if (model.isBlank!)
+        score = (numOfCorrectAns * 10);
+      else
+        score = model.score! + numOfCorrectAns * 10;
+
+      model = ScoreModel(
+          score: score,
+          userId: authController.userModel!.uid!,
+          attemptedDate: Timestamp.now());
+
+      firebaseFirestore
+          .collection(SCORE_BOARD_COLLECTION)
+          .doc(authController.userModel!.uid)
+          .set(model.toJson(), SetOptions(merge: true))
+          .then((value) {
+        //TODO: quiz attempt posting
+
+        QuizAttemptsModel model = QuizAttemptsModel(
+          attemptDate: Timestamp.now(),
+          studentId: authController.userModel!.uid,
+          quizId: quizID.value,
+        );
+
+        postQuizAttempt(model).then((value) =>
+            AppConstant.displaySuccessSnackBar(
+                "Success", "Successfully submitted"));
+      });
+      //}
+    });
+  }
+
+  String getUserName(id) {
+    return authController.usersList.isNotEmpty
+        ? authController.usersList
+            .firstWhere((element) => element.uid == id)
+            .name!
+        : "";
+  }
+
+  String getPhotoUrl(id) {
+    return authController.usersList.isNotEmpty
+        ? authController.usersList
+            .firstWhere((element) => element.uid == id)
+            .photoUrl!
+        : "https://cdn-icons-png.flaticon.com/512/3011/3011270.png";
+  }
+
+  Stream<List<ScoreModel>> getLeaderData() {
+    return firebaseFirestore
+        .collection(SCORE_BOARD_COLLECTION)
+        .orderBy(ScoreModel.SCORE, descending: true)
+        .snapshots()
+        .map((event) => event.docs.map((e) {
+              return ScoreModel.fromMap(e.data());
+            }).toList());
+  }
+
+  List<QuizQuestion> get questions => quizQuestionsList;
 
   var isAnswered = false.obs;
 
@@ -104,6 +218,7 @@ class VDController extends GetxController
   var _numOfCorrectAns = 0.obs;
 
   int get numOfCorrectAns => this._numOfCorrectAns.value;
+  List<QuizReviewModel> quizReviewList = [];
 
   void checkAns(
       QuizQuestion quizQuestion, int selectedIndex, int correctIndex) {
@@ -116,9 +231,16 @@ class VDController extends GetxController
     if (_correctAns == _selectedAns) _numOfCorrectAns.value++;
 
     print('Correct: $_numOfCorrectAns');
+    print('Correct Index: $correctIndex');
+    print('Selected Index: $selectedIndex');
     // It will stop the counter
     //animationController.stop();
     //update();
+
+    quizReviewList.add(QuizReviewModel(
+        quizQuestion: quizQuestion,
+        correctIndex: correctIndex,
+        selectedIndex: selectedIndex));
 
     // Once user select an ans after 3s it will go to the next qn
     Future.delayed(Duration(seconds: 1), () {
@@ -126,36 +248,52 @@ class VDController extends GetxController
     });
   }
 
+  var isLastQuestion = false.obs;
+
   void nextQuestion() {
     if (_questionNumber.value != questions.length) {
+      isLastQuestion.value = false;
       isAnswered.value = false;
       pageController.nextPage(
           duration: Duration(milliseconds: 250), curve: Curves.ease);
 
       // Reset the counter
-      animationController.reset();
+      // animationController.reset();
 
       // Then start it again
       // Once timer is finish go to the next qn
-      animationController.forward().whenComplete(nextQuestion);
+      //animationController.forward().whenComplete(nextQuestion);
       //obtainDuration(_questionNumber.value);
     } else {
+      //_questionNumber.value = 1;
       // Get package provide us simple way to navigate another page
-      Get.to(ScoreBoardUI());
+      //Get.to(()=>ScoreBoardUI());
+      isLastQuestion.value = true;
     }
   }
 
   void updateTheQnNum(int index) {
-    setCardQuestion(questions[index].question!);
+    //setCardQuestion(questions[index].question!);
     _questionNumber.value = index + 1;
+  }
+
+  resetAllValues() {
+    _questionNumber.value = 1;
+    isAnswered.value = false;
+    isLastQuestion.value = false;
+    _correctAns = 0;
+    _numOfCorrectAns.value = 0;
+    _selectedAns = 0;
+    quizReviewList.clear();
   }
 
   @override
   void onClose() {
     // TODO: implement onClose
     super.onClose();
-    animationController.dispose();
-    pageController.dispose();
+    //animationController.dispose();
+    //pageController.dispose();
+    resetAllValues();
     //_timer.cancel();
   }
 }

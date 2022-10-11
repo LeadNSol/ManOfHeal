@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/models/lab_model.dart';
+import 'package:man_of_heal/ui/components/black_rounded_container.dart';
+import 'package:man_of_heal/ui/components/custom_container.dart';
+import 'package:man_of_heal/ui/components/custom_header_row.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/profile/profile_ui.dart';
 import 'package:man_of_heal/utils/AppConstant.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
@@ -16,172 +18,73 @@ class LabDetails extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        /* appBar: AppBar(
-          leading: InkWell(
-            onTap: () => Get.back(),
-            child: Icon(
-              Icons.arrow_back_ios_new,
-              size: 20,
-            ),
-          ),
-          title: Text('Lab Details'),
-        ),*/
-        body: _detailsLabBody(context),
+        body: detailsLabBody(context),
       ),
     );
   }
 
-  Widget _detailsLabBody(context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          child: Column(
+  Widget detailsLabBody(context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Positioned(
+          height: 225,
+          top: 0,
+          right: 0,
+          left: 0,
+          child: BlackRoundedContainer(),
+        ),
+        Positioned(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: AlwaysScrollableScrollPhysics(),
             children: [
-              Expanded(
-                flex: 2,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  fit: StackFit.expand,
-                  children: [
-                    //background round shape with black color
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppThemes.blackPearl,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          //Header profile icon and Dashboard Text...
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () => Get.back(),
-                                    child: Icon(
-                                      Icons.arrow_back_ios_new,
-                                      size: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'Lab Details',
-                                    style: textTheme.headline6!.copyWith(
-                                        fontWeight: FontWeight.w800,
-                                        color: AppThemes.white),
-                                  ),
-                                ],
-                              ),
-
-                              //profile icon
-                              InkWell(
-                                onTap: () {
-                                  Get.to(ProfileUI());
-                                },
-                                child: Container(
-                                  height: 60,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    color: Colors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Image.network(
-                                        "https://cdn-icons-png.flaticon.com/128/3011/3011270.png"),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          FormVerticalSpace(),
-                          Container(
-                            height: 100,
-                            width: constraints.maxWidth,
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Image.network(
-                                labModel.imageIconUrl!,
-                              ),
-                            ),
-                          ),
-                          Expanded(child: Center()),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+              FormVerticalSpace(),
+              CustomHeaderRow(
+                title: "Status",
+                hasProfileIcon: true,
               ),
+              FormVerticalSpace(),
               Container(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight / 1.5,
-                color: AppThemes.BG_COLOR,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Positioned(
-                      top: -constraints.maxHeight * 0.05,
-                      child: Container(
-                        width: constraints.maxWidth * 0.89,
-                        height: constraints.maxHeight * 0.60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppThemes.DEEP_ORANGE.withOpacity(0.26),
-                              blurRadius: 4,
-                              spreadRadius: 2,
-                              offset: Offset(2, 3),
-                              //blurStyle: BlurStyle.outer // Shadow position
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _headerWidget(textTheme),
-                                FormVerticalSpace(),
-                                SingleChildScrollView(
-                                  child: Text(
-                                    labModel.longDescription!,
-                                    style: textTheme.bodyText2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                height: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Image.network(
+                    labModel.imageIconUrl!,
+                  ),
                 ),
               ),
+              CustomContainer(
+                height: AppConstant.getScreenHeight(context) * 0.55,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _headerWidget(),
+                        FormVerticalSpace(),
+                        SingleChildScrollView(
+                          child: Text(
+                            labModel.longDescription!,
+                            style: AppThemes.normalBlack45Font,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 
-  Widget _headerWidget(TextTheme textTheme) {
+  Widget _headerWidget() {
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -190,7 +93,10 @@ class LabDetails extends StatelessWidget {
           children: [
             Text(
               '${labModel.title}',
-              style: textTheme.headline6,
+              style: GoogleFonts.poppins(
+                  fontSize: 22.22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             FormVerticalSpace(
               height: 10,
@@ -199,8 +105,10 @@ class LabDetails extends StatelessWidget {
               children: [
                 Text(
                   'By ${labModel.adminName}',
-                  style: textTheme.bodyText2!
-                      .copyWith(fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black45),
                 ),
                 SizedBox(
                   width: 30,
@@ -216,9 +124,11 @@ class LabDetails extends StatelessWidget {
                       ),
                       TextSpan(
                         text:
-                            "  ${AppConstant.convertToFormattedDataTime("MM.dd.yyyy", labModel.createdDate!)}",
-                        style: textTheme.subtitle1!.copyWith(
-                            fontWeight: FontWeight.w500, fontSize: 12),
+                            "  ${AppConstant.formattedDataTime("MM.dd.yyyy", labModel.createdDate!)}",
+                        style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black45),
                       ),
                     ],
                   ),

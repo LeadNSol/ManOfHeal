@@ -7,7 +7,7 @@ class Validator {
   String? email(String? value) {
     String pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value!))
+    if (!regex.hasMatch(value!.trim()))
       return 'Invalid Email Format';
     else
       return null;
@@ -25,7 +25,7 @@ class Validator {
   String? name(String? value) {
     String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value!))
+    if (!regex.hasMatch(value!.trim()))
       return 'Name Required';
     else
       return null;
@@ -34,7 +34,7 @@ class Validator {
   String? question(String? value) {
     String pattern = r"^\d+(?:\.\d+)?$";
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value!))
+    if (!regex.hasMatch(value!.trim()))
       return "Invalid question format";
     else
       return null;
@@ -42,9 +42,11 @@ class Validator {
 
 
   String? number(String? value) {
-    String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
+   // String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
+    String pattern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
+
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value!))
+    if (!regex.hasMatch(value!.trim()))
       return 'Invalid phone number format';
     else
       return null;
@@ -60,11 +62,15 @@ class Validator {
   }
 
   String? notEmpty(String? value) {
-    String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+    //String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+    String pattern = r'/^(?!\s*$).+/';
+   // String pattern = "/(.|\s)*\S(.|\s)*/gm";
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value!))
-      return 'This is Required';
-    else
+   // if (!regex.hasMatch(value!.trim())) {
+    if (value == null || value.isEmpty) {
+      return 'This is required!';
+    } else {
       return null;
+    }
   }
 }

@@ -1,264 +1,300 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/daily_acitivity_screen.dart';
-import 'package:man_of_heal/ui/daily_activity/daily_activity_ui.dart';
-import 'package:man_of_heal/ui/labs/labs_ui.dart';
+import 'package:man_of_heal/models/user_model.dart';
+import 'package:man_of_heal/ui/components/circular_avatar.dart';
+import 'package:man_of_heal/ui/components/custom_container.dart';
+import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
+import 'package:man_of_heal/ui/daily_activity/daily_activity_screen.dart';
+import 'package:man_of_heal/ui/labs/widgets/lab_instruction_ui.dart';
+import 'package:man_of_heal/ui/notifications/widgets/notification_badge_ui.dart';
 import 'package:man_of_heal/ui/profile/profile_ui.dart';
-import 'package:man_of_heal/ui/student/pages/vignette_dissection/vignette_dissection_ui.dart';
+import 'package:man_of_heal/utils/AppConstant.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
 import 'vignette_dissection/instructions_page.dart';
 
-class StudentDashboardUI extends StatelessWidget {
-  //const StudentDashboardUI({Key? key}) : super(key: key);
+class StudentDashboardUI extends StatefulWidget {
+  const StudentDashboardUI({Key? key}) : super(key: key);
 
   @override
+  State<StudentDashboardUI> createState() => _StudentDashboardUIState();
+}
+
+class _StudentDashboardUIState extends State<StudentDashboardUI> {
+  @override
   Widget build(BuildContext context) {
+    if (authController.userModel!.isTrailFinished != null &&
+        !authController.userModel!.isTrailFinished!) {
+      if (authController.isTrailDialogFirstTimeOpen() != null &&
+          !authController.isTrailDialogFirstTimeOpen()) {
+        Future.delayed(Duration.zero, () => showTrailNotifyDialog(context));
+        authController.setIsTrialDialogFirstTimeOpen(true);
+      }
+    }
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppThemes.BG_COLOR,
+        backgroundColor: AppThemes.blackPearl,
         resizeToAvoidBottomInset: false,
-        body: dashBoard(context),
+        body: newDashboard(context),
       ),
     );
   }
 
-  Widget dashBoard(context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Column(
-          children: [
-            // top header with black background...
-            Expanded(
-              flex: 2,
-              child: Stack(
-                fit: StackFit.expand,
-                clipBehavior: Clip.none,
+  Widget newDashboard(context) {
+    return Stack(
+      children: [
+        /// pink background
+        Positioned(
+          top: AppConstant.getScreenHeight(context) * 0.23,
+          left: 0,
+          child: Container(
+            width: AppConstant.getScreenWidth(context),
+            height: AppConstant.getScreenHeight(context),
+            decoration: BoxDecoration(
+              color: AppThemes.BG_COLOR,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25),
+                topLeft: Radius.circular(25),
+              ),
+            ),
+          ),
+        ),
+
+        /// headers
+        Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              //Header profile icon and Dashboard Text...
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //Background rounded bottom left, right black color
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppThemes.blackPearl,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(25),
+                  Expanded(
+                    flex: kIsWeb ? 5 : 3,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //Header profile icon and Dashboard Text...
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                text: 'Dashboard \n',
-                                style: textTheme.headline5!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppThemes.white),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text:
-                                          'Welcome ${authController.userModel.value!.name}',
-                                      style: textTheme.caption!.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          color: AppThemes.white)),
-                                ],
-                              ),
-                            ),
-
-                            //profile icon
-                            InkWell(
-                              onTap: () {
-                                Get.to(ProfileUI());
-                              },
-                              child: Container(
-                                height: 60,
-                                width: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Image.network(
-                                      "https://cdn-icons-png.flaticon.com/128/3011/3011270.png"),
-                                ),
-                              ),
-                            ),
-                          ],
+                        Text("Dashboard", style: AppThemes.headerTitleFont),
+                        Text('Welcome ${authController.userModel!.name}',
+                            style: GoogleFonts.montserrat(
+                                fontSize: 10, color: Colors.white)),
+                        FormVerticalSpace(
+                          height: 5,
                         ),
-                        //FormVerticalSpace(),
-                        const Spacer(),
+                        Obx(
+                          () => authController.userModel!.trialExpiryDate !=
+                                      null &&
+                                  authController.userModel!.isTrailFinished!
+                              ? Container()
+                              : trailPeriodCounter(AppThemes.white, 13),
+                        ),
                       ],
                     ),
                   ),
-
-                  Positioned(
-                    top: constraints.maxHeight * 0.28,
+                  NotificationBadgeUI(),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  //profile icon
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => ProfileUI());
+                    },
                     child: Container(
-                      width: constraints.maxWidth,
-                      height: constraints.maxHeight,
+                      height: 50,
+                      width: 50,
                       decoration: BoxDecoration(
-                        color: AppThemes.BG_COLOR,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25),
-                          topLeft: Radius.circular(25),
-                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: Colors.white,
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            /*
-                           *  Question and Term of the day Section
-                          *
-                           * */
-                            Positioned(
-                              top: -constraints.maxWidth * 0.14,
-                              left: constraints.maxWidth * 0.028,
-                              child: GestureDetector(
-                                onTap: () {
-                                  print('question of the day.');
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => DailyActivityScreen()));
-                                },
-                                child: Container(
-                                  width: constraints.maxWidth * 0.89,
-                                  height: constraints.maxWidth * 0.40,
-                                  alignment: Alignment.topLeft,
-                                  decoration: BoxDecoration(
-                                    color: AppThemes.white,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: AppThemes.DEEP_ORANGE
-                                              .withOpacity(0.22),
-                                          blurRadius: 13,
-                                          spreadRadius: 2,
-                                          offset: Offset(0, 1),
-                                          blurStyle:
-                                              BlurStyle.inner // Shadow position
-                                          ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        customRichText(
-                                            textTheme,
-                                            "Question of the day",
-                                            "In medicine the MMR vaccination gives "
-                                                "protection against which diseases?"),
-                                        customRichText(
-                                            textTheme,
-                                            "Term of the day",
-                                            "Term of the day will goes here!"),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            /*
-                            * Dashboard Items
-                             * */
-                            Positioned(
-                              top: constraints.maxWidth / 4,
-                              left: constraints.maxWidth * 0.05,
-                              child: Container(
-                                margin: EdgeInsets.all(10),
-                                height: constraints.maxWidth,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        customDashboardItems(context, () {
-                                          //answerAndQuestion screen is on 1 position at students page list
-                                          landingPageController
-                                              .setCalledFor("Questions");
-                                          landingPageController
-                                              .setStudentPage(1);
-                                        },
-                                            constraints,
-                                            "assets/icons/questions_icon.svg",
-                                            "Questions"),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        customDashboardItems(context, () {
-                                          Get.to(DailyActivityUI());
-                                        }, constraints,
-                                            "assets/icons/qod_icon.svg", "QOD"),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        customDashboardItems(
-                                            context,
-                                            () => Get.to(LabsUI()),
-                                            constraints,
-                                            "assets/icons/lab_icon.svg",
-                                            "Labs"),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        customDashboardItems(context, () {
-                                          //Get.to(VignetteDissectionUI());
-                                          Get.to(QuizInstructionsScreen());
-                                        },
-                                            constraints,
-                                            "assets/icons/quiz_icon.svg",
-                                            "Quiz"),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                      child: Obx(
+                        () => CircularAvatar(
+                          padding: 1,
+                          imageUrl: authController.userModel!.photoUrl!,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
+              //FormVerticalSpace(),
+              const Spacer(),
+            ],
+          ),
+        ),
+
+        ///QOQ and TOD
+        Obx(
+          ()=> CustomContainer(
+            margin: const EdgeInsets.only(top: 120, left: 15, right: 15),
+            height: kIsWeb ? 120 : 150,
+            child: InkWell(
+              onTap: () => Get.to(() => DailyActivityScreen()),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Question Of The Day',
+                        style: AppThemes.headerTitle,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${dailyActivityController.model!.qOfDay!.isNotEmpty ? dailyActivityController.model!.qOfDay : AppConstant.noTODFound}',
+                        style: AppThemes.normalBlackFont,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Term Of The Day',
+                        style: AppThemes.headerTitle,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${dailyActivityController.model!.termOfDay!.isNotEmpty ? dailyActivityController.model!.termOfDay : AppConstant.noTODFound}',
+                        style: AppThemes.normalBlackFont,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        );
+          ),
+        ),
+
+        Container(
+          margin: EdgeInsets.only(
+              top: AppConstant.getScreenHeight(context) * (kIsWeb ? 0.4 : 0.3),
+              left: 15,
+              right: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  customDashboardItems(
+                      context,
+                      () => landingPageController.setStudentPage(1),
+                      "assets/icons/questions_icon.svg",
+                      "Questions"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  customDashboardItems(
+                      context,
+                      () => Get.to(() => DailyActivityScreen()),
+                      "assets/icons/qod_icon.svg",
+                      "QOD"),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  customDashboardItems(
+                      context,
+                      () => Get.to(() => LabInstructionUI()),
+                      "assets/icons/lab_icon.svg",
+                      "Labs"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  customDashboardItems(context, () {
+                    //Get.to(()=>VignetteDissectionUI());
+                    Get.to(() => QuizInstructionsScreen());
+                  }, "assets/icons/quiz_icon.svg", "Quiz"),
+                ],
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget trailPeriodCounter(color, double fontSize) {
+    if (authController.userModel!.isTrailFinished == null) return Container();
+
+    int endTime =
+        authController.userModel!.trialExpiryDate!.millisecondsSinceEpoch;
+
+    return CountdownTimer(
+      endTime: endTime,
+      widgetBuilder: (context, CurrentRemainingTime? time) {
+        if (time == null) {
+          UserModel userModel = authController.userModel!;
+          userModel.isTrailFinished = true;
+          authController.updateUser(userModel);
+          return Text(
+            'Trail Overs',
+            style: GoogleFonts.poppins(
+                fontSize: fontSize, color: color, fontWeight: FontWeight.w700),
+          );
+        }
+        return Text('Trials ends in: ${AppConstant.getFormattedTime(time)}',
+            style: GoogleFonts.poppins(
+                fontSize: fontSize, color: color, fontWeight: FontWeight.w700));
       },
     );
   }
 
-  Widget customDashboardItems(context, onTap, constraints, image, name) {
+
+  showTrailNotifyDialog(context) {
+    if (!Get.isDialogOpen!)
+      Get.defaultDialog(
+        title: "Trail Notifier",
+        titleStyle: AppThemes.headerItemTitle,
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(children: [
+                TextSpan(
+                  text: "Congratulations!\n",
+                  style: AppThemes.normalORANGEFont,
+                ),
+                TextSpan(
+                  text:
+                      "You have got trials and have FREE access to Ask Questions for next 7 days!\n",
+                  style: AppThemes.normalBlack45Font,
+                ),
+              ]),
+            ),
+            trailPeriodCounter(AppThemes.DEEP_ORANGE, 20),
+          ],
+        ),
+      );
+  }
+
+  Widget customDashboardItems(context, onTap, image, name) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -278,14 +314,11 @@ class StudentDashboardUI extends StatelessWidget {
               height: 50,
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Text(
               "$name",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2!
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: AppThemes.normalBlackFont,
             )
           ],
         ),

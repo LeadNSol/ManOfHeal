@@ -19,7 +19,7 @@ class ForgotPassword extends StatelessWidget {
     TextTheme _textTheme = Theme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
-        appBar: appBar(context),
+       // appBar: appBar(context),
         body: Form(
           key: _formKey,
           child: Padding(
@@ -31,15 +31,13 @@ class ForgotPassword extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     // LogoGraphicHeader(),
-                    Center(child: SvgPicture.asset("assets/icons/logo.svg")),
+                    Center(child: SvgPicture.asset("assets/icons/logo.svg",width: 150,)),
                     FormVerticalSpace(
                       height: 50,
                     ),
                     Text(
                       "Reset Your Account\nPassword",
-                      style: _textTheme.headline5!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppThemes.DEEP_ORANGE),
+                      style:AppThemes.header1,
                     ),
                     FormVerticalSpace(
                       height: 15,
@@ -50,7 +48,7 @@ class ForgotPassword extends StatelessWidget {
                       labelText: 'Email',
                       iconColor: AppThemes.DEEP_ORANGE,
                       autofocus: true,
-                      textStyle: TextStyle(color: AppThemes.blackPearl),
+                      textStyle: AppThemes.normalBlackFont,
                       validator: Validator().email,
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) => null,
@@ -71,8 +69,7 @@ class ForgotPassword extends StatelessWidget {
                               shape: StadiumBorder(),
                             ),
                             labelText: 'Reset Password',
-                            textStyle: _textTheme.bodyText1!.copyWith(
-                                color: AppThemes.white, fontSize: 16),
+                            textStyle: AppThemes.buttonFont,
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 SystemChannels.textInput.invokeMethod(
@@ -84,7 +81,7 @@ class ForgotPassword extends StatelessWidget {
                       ),
                     ),
                     FormVerticalSpace(),
-                    signInLink(context, _textTheme),
+                    signInLink(context),
                   ],
                 ),
               ),
@@ -102,13 +99,12 @@ class ForgotPassword extends StatelessWidget {
     return AppBar(title: Text('Reset Password'));
   }
 
-  signInLink(BuildContext context, _textTheme) {
+  signInLink(BuildContext context) {
     if (authController.emailController.text == '') {
       return Center(
         child: LabelButton(
           labelText: 'Back to Sign In',
-          textStyle: _textTheme.bodyText1!
-              .copyWith(color: AppThemes.white, fontSize: 16.0),
+          textStyle: AppThemes.normalORANGEFont,
           onPressed: () => Get.offAll(SignInUI()),
         ),
       );
