@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/controllers/qa_controller.dart';
 import 'package:man_of_heal/controllers/subscription_controller.dart';
+import 'package:man_of_heal/controllers/vd_controller.dart';
 import 'package:man_of_heal/models/profile_avatars.dart';
 import 'package:man_of_heal/models/user_model.dart';
 import 'package:man_of_heal/ui/admin/admin_home.dart';
@@ -161,11 +162,12 @@ class AuthController extends GetxController
     adminUsersList.clear();
     if (usersList!.isNotEmpty) {
       usersList.forEach((element) {
-        if (element.isAdmin! /*&& element.isDeleted!*/) {
+        if (element.isAdmin!) {
           adminUsersList.add(element);
         }
       });
     }
+    adminUsersList.refresh();
   }
 
   handleAuthChanged(_firebaseUser) async {
@@ -209,6 +211,9 @@ class AuthController extends GetxController
     qaController.initQA();
     notificationController.initData();
     feedBackController.fetchCurrentAdminFeedBack();
+    if(Get.isRegistered<VDController>()){
+      vdController.initData();
+    }
   }
 
   //Streams the firestore user from the firestore collection
@@ -245,7 +250,7 @@ class AuthController extends GetxController
 
   UserModel? getUserFromListById(String id) {
     return usersList.isNotEmpty
-        ? usersList.firstWhere((element) => element.uid == id)
+        ? usersList.firstWhere((element) => element.uid == id, orElse:()=> UserModel())
         : UserModel();
   }
 

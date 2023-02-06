@@ -210,7 +210,7 @@ class ScoreBoardUI extends StatelessWidget {
                       //SizedBox(width: 50,),
                       Expanded(
                         child: bottomActionIcon(
-                          () => Get.to(LeaderBoardUI()),
+                          () => Get.to(()=>LeaderBoardUI()),
                           "score_leader_board_icon.svg",
                           "Leader Board",
                         ),

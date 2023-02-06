@@ -20,21 +20,16 @@ class ShowGiveAnswerButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-    return Obx(() {
       if (authController.admin.isTrue) return _buildShowAnswersToAdminButton();
       if (activityModel != null && activityModel!.qOfDay!.isNotEmpty) {
         if (showAnswerForCurrentDate!)
           dailyActivityController.setCurrentDate(Timestamp.now());
 
-        if (dailyActivityController.checkIfStdGiveAnswer()!)
-          return _buildShowMyAnswerButton();
-        else {
-          return _buildGiveAnswerButton();
-        }
+      return Obx(()=> dailyActivityController.checkIfStdGiveAnswer()!? _buildShowMyAnswerButton(): _buildGiveAnswerButton());
+
       } else
         return Container();
-    });
+
   }
 
   _buildShowAnswersToAdminButton() {

@@ -15,15 +15,14 @@ class QuizViewUI extends StatelessWidget {
   final QuizQuestion? question;
   final int? pageIndex;
 
-  QuizViewUI(this.question, this.pageIndex);
+  // QuizViewUI(this.question, this.pageIndex);
 
-  //const QuizViewUI({Key? key}) : super(key: key);
-  final QuizModel quizModel = Get.find();
+  const QuizViewUI({Key? key, this.question, this.pageIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     adminVdController.pageController = PageController(initialPage: pageIndex!);
-    print('QuizModel ${quizModel.quizTitle!}');
+
     return Scaffold(
       backgroundColor: AppThemes.BG_COLOR,
       body: Stack(
@@ -182,6 +181,7 @@ class QuizViewUI extends StatelessWidget {
   }
 
   Widget btnReviewSubmit() {
+    final QuizModel quizModel = Get.find();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -190,13 +190,13 @@ class QuizViewUI extends StatelessWidget {
           child: PrimaryButton(
             buttonStyle: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-              primary: AppThemes.DEEP_ORANGE,
+              backgroundColor: AppThemes.DEEP_ORANGE,
               shape: StadiumBorder(),
             ),
             labelText: 'Review',
             textStyle: AppThemes.buttonFont,
             onPressed: () {
-              Get.off(AdminVignetteDissectionUI());
+              Get.off(() => AdminVignetteDissectionUI());
             },
           ),
         ),
@@ -205,13 +205,14 @@ class QuizViewUI extends StatelessWidget {
           child: PrimaryButton(
             buttonStyle: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-              primary: AppThemes.DEEP_ORANGE,
+              backgroundColor: AppThemes.DEEP_ORANGE,
               shape: StadiumBorder(),
             ),
             labelText: 'Submit',
             textStyle: AppThemes.buttonFont,
             onPressed: () {
-              if (!quizModel.isBlank!) adminVdController.updateQuiz(quizModel);
+              if (!quizModel.isBlank!)
+                adminVdController.updateQuiz(quizModel);
               else
                 print('quiz model is blank');
             },

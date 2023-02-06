@@ -50,9 +50,9 @@ class QAController extends GetxController {
     ever(categoryController.categoriesList, populateSearchFilterDropDown);
   }
 
-  var answerList = [].obs;
+  var answerList = <QuestionModel>[].obs;
   var questionsList = <QuestionModel>[].obs;
-  var searchList = [].obs;
+  var searchList =  <QuestionModel>[].obs;
 
   var notFoundListItems = "".obs;
 
@@ -116,7 +116,8 @@ class QAController extends GetxController {
     for (QuestionModel model in answerList) {
       if (model.answerMap != null) {
         if (dropDownValue != CHOOSE_CATEGORY.toLowerCase()) {
-          if (dropDownValue.contains(model.category!.toLowerCase())) {
+          String category = categoryController.getCategoryById(model.category);
+          if (dropDownValue.contains(category.toLowerCase())) {
             if (search.isEmpty) {
               searchList.add(model);
             } else if (model.answerMap!.answer!
@@ -126,12 +127,11 @@ class QAController extends GetxController {
             }
           }
         } else if (model.answerMap!.answer!.toLowerCase().contains(search)) {
-          print("Search $search Called");
           searchList.add(model);
         }
       }
     }
-    update();
+  searchList.refresh();
   }
 
   var inProgressQList = <QuestionModel>[].obs;

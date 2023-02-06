@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -157,7 +156,9 @@ class DailyActivityScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: ShowGiveAnswerButtons(
-                            activityModel: dailyActivityController.model!,),
+                          showAnswerForCurrentDate: true,
+                          activityModel: dailyActivityController.model!,
+                        ),
                       )
                     ],
                   ),

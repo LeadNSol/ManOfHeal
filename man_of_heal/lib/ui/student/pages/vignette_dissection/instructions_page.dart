@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/ui/components/black_rounded_container.dart';
+import 'package:man_of_heal/ui/components/custom_container.dart';
 import 'package:man_of_heal/ui/components/custom_header_row.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/components/primary_button.dart';
@@ -24,13 +25,6 @@ class QuizInstructionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* var duration = 0.obs;
-    vdController.getActiveQuiz().then((value) {
-      print('Duration: ${value.duration}');
-      print('Duration: ${value.quizTitle}');
-      //duration.value = value.duration!;
-    });*/
-
     return Scaffold(
       backgroundColor: AppThemes.BG_COLOR,
       body: Stack(
@@ -45,9 +39,6 @@ class QuizInstructionsScreen extends StatelessWidget {
               child: BlackRoundedContainer()),
 
           Positioned(
-            /* top: 50,
-            left: 10,
-            right: 10,*/
             child: ListView(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
@@ -60,24 +51,12 @@ class QuizInstructionsScreen extends StatelessWidget {
                   title: "Quiz Instructions",
                   hasProfileIcon: true,
                 ),
-                Container(
+                CustomContainer(
                   height: 130.0.sp,
                   margin: EdgeInsets.only(
                     left: 17.0.sp,
                     right: 17.0.sp,
                     top: 75.sp,
-                  ),
-                  padding: EdgeInsets.all(17.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(11.86),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFC7161C).withOpacity(0.22),
-                        offset: Offset(0, 0),
-                        blurRadius: 10.78,
-                      ),
-                    ],
                   ),
                   child: Column(
                     children: [
@@ -236,22 +215,12 @@ class QuizInstructionsScreen extends StatelessWidget {
                     width: 300,
                     height: 50,
                     child: PrimaryButton(
-                      buttonStyle: ElevatedButton.styleFrom(
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                        primary: AppThemes.DEEP_ORANGE,
-                        shape: StadiumBorder(),
-                      ),
                       labelText: 'Start quiz',
                       textStyle: AppThemes.buttonFont,
                       onPressed: () async {
                         if(vdController.quizID.value != "") {
                           await vdController.findUserAttemptedQuiz();
                           vdController.resetAllValues();
-
-                          debugPrint(
-                              "Net: Length ${vdController
-                                  .hasAlreadyAttemptTheQuiz.value}");
                           if (vdController.hasAlreadyAttemptTheQuiz.value) {
                             Get.to(() => LeaderBoardUI());
                             AppConstant.displayNormalSnackBar("Attempt Alert!",

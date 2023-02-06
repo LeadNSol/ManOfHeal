@@ -133,6 +133,7 @@ class AdminVdController extends GetxController {
   }
 
   Stream<List<QuizModel>> getQuiz() {
+    quizList.clear();
     return firebaseFirestore.collection(QUIZ_COLLECTION).snapshots().map(
         (query) => query.docs
             .map((items) => QuizModel.fromMap(items.data()))

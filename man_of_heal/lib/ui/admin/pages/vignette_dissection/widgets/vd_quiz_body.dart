@@ -94,7 +94,7 @@ class VDQuizReview extends StatelessWidget {
                       itemBuilder: (context, index) {
                         QuizModel quizModel = adminVdController.quizList[index];
 
-                        return SingleQuizItem(quizModel);
+                        return SingleQuizItem(quizModel: quizModel,);
                       },
                     ),
                   ),
@@ -109,23 +109,19 @@ class VDQuizReview extends StatelessWidget {
 }
 
 class SingleQuizItem extends StatelessWidget {
-  //const SingleQuizItem({Key? key}) : super(key: key);
+  const SingleQuizItem({Key? key, this.quizModel}) : super(key: key);
   final QuizModel? quizModel;
 
-  SingleQuizItem(this.quizModel);
+
 
   @override
   Widget build(BuildContext context) {
-    /* var totalQuestions = 0.obs;
-     adminVdController
-        .getQuizQuestionsSizeById(quizModel!.qmID!).toList().then((value) => print('total $value'));*/
-    //print('total $totalQuestions');
     return CustomContainer(
       margin: const EdgeInsets.only(left: 17, right: 17, top: 0, bottom: 10),
       child: ListTile(
           onTap: () {
-            Get.lazyPut(() => quizModel!);
-            Get.to(() => QuizQuestionsUI(quizModel!));
+            Get.put(quizModel!);
+            Get.to(() => QuizQuestionsUI(quizModel: quizModel!));
           },
           title: Text(
             '${quizModel!.quizTitle!}',

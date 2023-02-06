@@ -37,6 +37,7 @@ class StudentAnswerUI extends StatelessWidget {
 
   buildBody(context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Obx(
           () => dailyActivityController.currentStdAnswerList.isNotEmpty

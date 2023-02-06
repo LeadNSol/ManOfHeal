@@ -18,7 +18,7 @@ class LeaderBoardUI extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: AppThemes.blackPearl,
-        body: newLbBody(context),
+        body: Obx(() => newLbBody(context)),
       ),
     );
   }
@@ -26,27 +26,51 @@ class LeaderBoardUI extends StatelessWidget {
   Widget newLbBody(context) {
     var top3List = <ScoreModel>[].obs;
     var otherList = <ScoreModel>[].obs;
+    top3List.clear();
+    otherList.clear();
     otherList.addAll(vdController.leaderboardList);
-    //print('Before: ${vdController.leaderboardList.length}');
-    for (int i = 0; i < 3; i++) {
-      ScoreModel sm = otherList.reduce((previousValue, element) =>
-          previousValue.score! > element.score! ? previousValue : element);
-      // print('Max Value: ${sm.score!}');
-      if (top3List.isEmpty)
-        top3List.add(sm);
-      else if (top3List.length <= 1) {
-        top3List.insert(0, sm);
-      } else
-        top3List.add(sm);
-      otherList.remove(sm);
+
+    if (otherList.length > 1) {
+      int length = otherList.length == 2 ? 2 : 3;
+      for (int i = 0; i < length; i++) {
+        ScoreModel sm = otherList.reduce((previousValue, element) =>
+            previousValue.score! > element.score! ? previousValue : element);
+        // print('Max Value: ${sm.score!}');
+        if (top3List.isEmpty)
+          top3List.add(sm);
+        else if (top3List.length <= 1) {
+          top3List.insert(0, sm);
+        } else
+          top3List.add(sm);
+        otherList.remove(sm);
+      }
     }
+
+    /* if (otherList.length == 1) {
+      top3List.insert(0,otherList[0]);
+      otherList.clear();
+    } else {
+      int length = otherList.length == 2 ? 2 : 3;
+      for (int i = 0; i < length; i++) {
+        ScoreModel sm = otherList.reduce((previousValue, element) =>
+            previousValue.score! > element.score! ? previousValue : element);
+        // print('Max Value: ${sm.score!}');
+        if (top3List.isEmpty)
+          top3List.add(sm);
+        else if (top3List.length <= 1) {
+          top3List.insert(0, sm);
+        } else
+          top3List.add(sm);
+        otherList.remove(sm);
+      }
+    }*/
 
     return Stack(
       fit: StackFit.expand,
       children: [
         /// pink background
         Positioned(
-          top: AppConstant.getScreenHeight(context) * (kIsWeb? 0.5:0.4),
+          top: AppConstant.getScreenHeight(context) * (kIsWeb ? 0.5 : 0.4),
           left: 0,
           child: Container(
             width: AppConstant.getScreenWidth(context),
@@ -75,17 +99,22 @@ class LeaderBoardUI extends StatelessWidget {
             Obx(
               () => Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: SingleChildScrollView(
-                  //scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: top3List.map((ScoreModel model) {
-                      int index = top3List.indexOf(model);
-                      return Expanded(child: topThree(index, model));
-                    }).toList(),
-                  ),
-                ),
+                child: top3List.isEmpty
+                    ? Container(
+                        height: AppConstant.getScreenHeight(context) *
+                            (kIsWeb ? 0.5 : 0.2),
+                      )
+                    : SingleChildScrollView(
+                        //scrollDirection: Axis.horizontal,
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: top3List.map((ScoreModel model) {
+                            int index = top3List.indexOf(model);
+                            return Expanded(child: topThree(index, model));
+                          }).toList(),
+                        ),
+                      ),
               ),
             ),
 
@@ -95,14 +124,12 @@ class LeaderBoardUI extends StatelessWidget {
             ),
             Obx(
               () => Expanded(
-
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: AlwaysScrollableScrollPhysics(),
                   itemCount: otherList.length,
                   padding: EdgeInsets.all(10),
                   itemBuilder: (context, index) {
-
                     ScoreModel model = otherList[index];
                     return otherListItems(model);
                   },
@@ -185,7 +212,8 @@ class LeaderBoardUI extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(vdController.getPhotoUrl(model.userId!.trim())),
+          backgroundImage:
+              NetworkImage(vdController.getPhotoUrl(model.userId!.trim())),
         ),
         title: Text(
           //model.userId !=null ? model.userId! : "",

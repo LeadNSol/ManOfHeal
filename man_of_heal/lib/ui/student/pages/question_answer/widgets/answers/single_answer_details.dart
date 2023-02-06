@@ -91,22 +91,22 @@ class AnswerDetails extends StatelessWidget {
                         ? Container(
                             child: null,
                           )
-                        :*/ Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Answered By",
-                                style: AppThemes.headerItemTitle.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              FormVerticalSpace(
-                                height: 10,
-                              ),
-                              answerBy(questionModel!),
-                            ],
-                          ),
+                        :*/
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Answered By",
+                          style: AppThemes.headerItemTitle.copyWith(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                        FormVerticalSpace(
+                          height: 10,
+                        ),
+                        answerBy(questionModel!),
+                      ],
+                    ),
 
                     //FormVerticalSpace(height: 10,),
                     ///bottom footer
@@ -215,35 +215,34 @@ class AnswerDetails extends StatelessWidget {
             ],
           ),
         ),
-        if(authController.admin.isFalse)
-        Obx(
-          () => Visibility(
-            visible: feedBackController.haveCurrentUserInList.isFalse,
-            child: Expanded(
-              flex: 2,
-              child:
-              Container(
-                      width: 100,
-                      child: PrimaryButton(
-                        buttonStyle: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 5.0),
-                          backgroundColor: AppThemes.DEEP_ORANGE,
-                          shape: StadiumBorder(),
-                        ),
-                        labelText: 'Rete Instructor!',
-                        textStyle: AppThemes.buttonFont.copyWith(fontSize: 11),
-                        onPressed: () {
-                          //authController.deleteUserById(userModel);
-                          feedBackController.rating(0);
-                          showRatingBottomSheet(userModel);
-                          //Get.back();
-                        },
-                      ),
+        if (authController.admin.isFalse)
+          Obx(
+            () => Visibility(
+              visible: feedBackController.haveCurrentUserInList.isFalse,
+              child: Expanded(
+                flex: 2,
+                child: Container(
+                  width: 100,
+                  child: PrimaryButton(
+                    buttonStyle: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                      backgroundColor: AppThemes.DEEP_ORANGE,
+                      shape: StadiumBorder(),
                     ),
+                    labelText: 'Rete Instructor!',
+                    textStyle: AppThemes.buttonFont.copyWith(fontSize: 11),
+                    onPressed: () {
+                      //authController.deleteUserById(userModel);
+                      feedBackController.rating(0);
+                      showRatingBottomSheet(userModel);
+                      //Get.back();
+                    },
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -254,129 +253,124 @@ class AnswerDetails extends StatelessWidget {
     final iconColor = AppThemes.DEEP_ORANGE;
 
     Get.bottomSheet(
-      ListView(
-        shrinkWrap: true,
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(20.0),
-        //crossAxisAlignment: CrossAxisAlignment.center,
-        //mainAxisAlignment: MainAxisAlignment.,
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              "Feed back for ${userModel.name!}!",
-              style: AppThemes.dialogTitleHeader,
-            ),
-          ),
-          FormVerticalSpace(),
-          Align(
-            alignment: Alignment.center,
-            child: RatingBar(
-              initialRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              onRatingUpdate: (value) {
-                feedBackController.rating.value = value;
-              },
-              ratingWidget: RatingWidget(
-                full: Image.asset(
-                  'assets/icons/heart.png',
-                  color: iconColor,
-                ),
-                half: Image.asset(
-                  'assets/icons/heart_half.png',
-                  color: iconColor,
-                ),
-                empty: Image.asset(
-                  'assets/icons/heart_border.png',
-                  color: iconColor,
+      SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  "Feed back for ${userModel.name!}!",
+                  style: AppThemes.dialogTitleHeader,
                 ),
               ),
-            ),
-          ),
-          FormVerticalSpace(
-            height: 5,
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.center,
-              child: Obx(
-                () => Text(
-                  "Ratings: ${feedBackController.rating.value}",
-                  style: AppThemes.normalBlackFont,
-                ),
-              ),
-            ),
-          ),
-          FormVerticalSpace(
-            height: 25,
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Container(
-                  height: 150,
-                  child: FormInputFieldWithIcon(
-                    controller: feedBackController.remarksController,
-                    iconPrefix: Icons.feedback_outlined,
-                    labelText: 'Remarks',
-                    maxLines: 3,
-                    isExpanded: true,
-
-                    maxLength: 400,
-                    autofocus: false,
-                    enableBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppThemes.DEEP_ORANGE,
-                        width: 2.0,
-                      ),
+              FormVerticalSpace(),
+              Align(
+                alignment: Alignment.center,
+                child: RatingBar(
+                  initialRating: 0,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  onRatingUpdate: (value) {
+                    feedBackController.rating.value = value;
+                  },
+                  ratingWidget: RatingWidget(
+                    full: Image.asset(
+                      'assets/icons/heart.png',
+                      color: iconColor,
                     ),
-                    //textCapitalization: TextCapitalization.words,
-                    iconColor: AppThemes.DEEP_ORANGE,
-                    textStyle: AppThemes.normalBlackFont,
-                    validator: Validator().notEmpty,
-                    onChanged: (value) => null,
-                    onSaved: (value) => null,
-                  ),
-                ),
-                FormVerticalSpace(
-                  height: 15,
-                ),
-                Center(
-                  child: Container(
-                    width: 150,
-                    child: PrimaryButton(
-                      buttonStyle: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5.0, vertical: 5.0),
-                        backgroundColor: AppThemes.DEEP_ORANGE,
-                        shape: StadiumBorder(),
-                      ),
-                      labelText: 'Submit',
-                      textStyle: AppThemes.buttonFont,
-                      onPressed: () {
-                        if (_formKey.currentState!.validate() &&
-                            feedBackController.rating.value > 0) {
-                          SystemChannels.textInput.invokeMethod(
-                              'TextInput.hide'); //to hide the keyboard - if any
-                          feedBackController.createFeedBack(
-                              questionModel!, userModel);
-                          Get.back();
-                          //print('added');
-                        } else
-                          AppConstant.displaySnackBar(
-                              "Alert!", "Rating must not be Zero");
-                      },
+                    half: Image.asset(
+                      'assets/icons/heart_half.png',
+                      color: iconColor,
+                    ),
+                    empty: Image.asset(
+                      'assets/icons/heart_border.png',
+                      color: iconColor,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              FormVerticalSpace(height: 5),
+              Align(
+                alignment: Alignment.center,
+                child: Obx(
+                  () => Text(
+                    "Ratings: ${feedBackController.rating.value}",
+                    style: AppThemes.normalBlackFont,
+                  ),
+                ),
+              ),
+              FormVerticalSpace(
+                height: 25
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 150,
+                      child: FormInputFieldWithIcon(
+                        controller: feedBackController.remarksController,
+                        iconPrefix: Icons.feedback_outlined,
+                        labelText: 'Remarks',
+                        maxLines: 3,
+                        isExpanded: true,
+                        maxLength: 400,
+                        autofocus: false,
+                        enableBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppThemes.DEEP_ORANGE,
+                            width: 2.0,
+                          ),
+                        ),
+                        //textCapitalization: TextCapitalization.words,
+                        iconColor: AppThemes.DEEP_ORANGE,
+                        textStyle: AppThemes.normalBlackFont,
+                        validator: Validator().notEmpty,
+                        onChanged: (value) => null,
+                        onSaved: (value) => null,
+                      ),
+                    ),
+                    FormVerticalSpace(
+                      height: 15,
+                    ),
+                    Center(
+                      child: Container(
+                        width: 150,
+                        child: PrimaryButton(
+                          buttonStyle: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 5.0),
+                            backgroundColor: AppThemes.DEEP_ORANGE,
+                            shape: StadiumBorder(),
+                          ),
+                          labelText: 'Submit',
+                          textStyle: AppThemes.buttonFont,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate() &&
+                                feedBackController.rating.value > 0) {
+                              SystemChannels.textInput.invokeMethod(
+                                  'TextInput.hide'); //to hide the keyboard - if any
+                              feedBackController.createFeedBack(
+                                  questionModel!, userModel);
+                              Get.back();
+                              //print('added');
+                            } else
+                              AppConstant.displaySnackBar(
+                                  "Alert!", "Rating must not be Zero");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(

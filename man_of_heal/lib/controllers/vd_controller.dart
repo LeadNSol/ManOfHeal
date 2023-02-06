@@ -25,7 +25,7 @@ class VDController extends GetxController {
   PageController pageReviewQuizController = PageController();
   CountDownController countDownController = CountDownController();
 
-  RxInt duration = 0.obs;
+  var duration = 0.obs;
 
   var leaderboardList = <ScoreModel>[].obs;
 
@@ -34,7 +34,11 @@ class VDController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    initData();
+  }
 
+  void initData() {
+    getActiveQuiz();
     leaderboardList.bindStream(getLeaderData());
   }
 
@@ -57,10 +61,12 @@ class VDController extends GetxController {
         .limit(1)
         .get()
         .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
+      querySnapshot.docs.forEach((doc) {
         if (doc[QuizModel.IS_ACTIVE]) {
           quizID.value = doc[QuizModel.QM_ID];
           duration.value = doc[QuizModel.DURATION];
+          debugPrint("Duration Docs: ${doc[QuizModel.DURATION]}");
+          debugPrint("Duration: ${duration.value}");
           quizQuestionsList.bindStream(getQuizQuestions(quizID.value));
         }
       });
@@ -132,7 +138,7 @@ class VDController extends GetxController {
 
   ///Leader board
   Future<void> createScoreBoard() async {
-   // int noOfQuestions = quizQuestionsList.length;
+    // int noOfQuestions = quizQuestionsList.length;
     await getUserScore().then((ScoreModel model) {
       /*  if (model!.score!.isEqual(0)) {
         print('score is less than or equal 0');

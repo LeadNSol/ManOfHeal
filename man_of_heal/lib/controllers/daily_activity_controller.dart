@@ -39,21 +39,18 @@ class DailyActivityController extends GetxController {
   setCurrentDate(Timestamp date) {
     String sDate = AppConstant.formattedDataTime("dd-MM-yyyy", date);
     _currentDate.value = sDate;
-
     allStudentsAnswers.bindStream(streamAllStudentsAnswers(sDate));
-    currentStdAnswerList.bindStream(getCurrentStudentAnswersByDate(date: sDate));
-
+    currentStdAnswerList
+        .bindStream(getCurrentStudentAnswersByDate(date: sDate));
   }
 
   /// for re-active approach and visibility of approve button
   var stdAnswerModel = StdAnswerModel().obs;
 
-
   @override
   void onReady() {
     String date = AppConstant.formattedDataTime("dd-MM-yyyy", Timestamp.now());
     getDailyActivity(date);
-
 
     //ever(allStudents, handleAllStudents);
     super.onReady();
@@ -82,8 +79,12 @@ class DailyActivityController extends GetxController {
         .collection(studentAnswersCollection)
         .doc(model.uId)
         .set(model.toMap(), SetOptions(merge: true))
-        .then((value) =>{stdAnswerModel.refresh(),Get.back(),
-            AppConstant.displaySuccessSnackBar("Update", "Answer status is Approved"),});
+        .then((value) => {
+              stdAnswerModel.refresh(),
+              Get.back(),
+              AppConstant.displaySuccessSnackBar(
+                  "Update", "Answer status is Approved"),
+            });
   }
 
   var studentsInUserList = <UserModel>[].obs;
@@ -109,10 +110,9 @@ class DailyActivityController extends GetxController {
   handleAdminSearch(String query) {
     searchAnswersList.clear();
     if (allStudentsAnswers.isNotEmpty) {
-      if(query.isNotEmpty) {
-        StdAnswerModel model = allStudentsAnswers
-            .firstWhere((element) =>
-            element.answer!.toLowerCase().contains(query));
+      if (query.isNotEmpty) {
+        StdAnswerModel model = allStudentsAnswers.firstWhere(
+            (element) => element.answer!.toLowerCase().contains(query));
         searchAnswersList.add(model);
       }
     }
@@ -146,17 +146,16 @@ class DailyActivityController extends GetxController {
                 "You have Answered Q: ${model.qOfDay!} Successfully!"),
             //sendNotificationToStudent(model!)
           });
-
     }
   }
 
   Stream<List<StdAnswerModel>> getCurrentStudentAnswersByDate({String? date}) {
-    currentStdAnswerList.clear();
     return firebaseFirestore
         .collection(DAILY_ACTIVITY)
         .doc(date)
         .collection(studentAnswersCollection)
-        .where(StdAnswerModel.answerBY, isEqualTo: authController.userModel!.uid)
+        .where(StdAnswerModel.answerBY,
+            isEqualTo: authController.userModel!.uid)
         .snapshots()
         .map((event) => event.docs
             .map((e) =>
@@ -165,7 +164,7 @@ class DailyActivityController extends GetxController {
   }
 
   bool? checkIfStdGiveAnswer() {
-    print("checkIfStdGiveAnswer()");
+
     if (currentStdAnswerList.isNotEmpty) {
       for (StdAnswerModel answerModel in currentStdAnswerList) {
         if (answerModel.answerBy!.contains(authController.userModel!.uid!)) {
@@ -272,10 +271,22 @@ class DailyActivityController extends GetxController {
     searchController.clear();
   }
 
+  clearObjectsAndLists() {
+    currentStdAnswerList.clear();
+    allStudentsAnswers.clear();
+    stdAnswerSearchList.clear();
+    searchAnswersList.clear();
+
+    stdAnswerModel.close();
+    _dailyActivityModel.close();
+
+  }
+
   @override
   void onClose() {
     // TODO: implement onClose
     clearControllers();
+    clearObjectsAndLists();
     super.onClose();
   }
 }

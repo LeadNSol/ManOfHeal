@@ -12,9 +12,7 @@ import 'package:man_of_heal/utils/app_themes.dart';
 class QuizQuestionsUI extends StatelessWidget {
   final QuizModel? quizModel;
 
-  QuizQuestionsUI(this.quizModel);
-
-  // const QuizQuestionsUI({Key? key}) : super(key: key);
+  const QuizQuestionsUI({Key? key, this.quizModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +23,7 @@ class QuizQuestionsUI extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(()=>AddQuestionUI(quizModel!));
-          /*print('Pressed fab');
-            Get.defaultDialog(
-              title: 'Add Lab',
-              titleStyle: AppThemes.dialogTitleHeader,
-              content: AddLabUI(),
-            );*/
+          Get.to(() => AddQuestionUI(quizModel!));
         },
         child: Container(
           width: 60,
@@ -83,14 +75,18 @@ class QuizQuestionsUI extends StatelessWidget {
               ),
 
               ///Header Row
-              CustomHeaderRow(title: "Quiz Questions", hasProfileIcon: true,),
+              CustomHeaderRow(
+                title: "Quiz Questions",
+                hasProfileIcon: true,
+              ),
               FormVerticalSpace(
                 height: AppConstant.getScreenHeight(context) * 0.18,
               ),
               Expanded(
                 flex: 5,
                 child: Container(
-                  child: Obx(()=> ListView.builder(
+                  child: Obx(
+                    () => ListView.builder(
                       shrinkWrap: true,
                       itemCount: adminVdController.quizQuestionsList.length,
                       itemBuilder: (context, index) {
@@ -114,8 +110,7 @@ class QuizQuestionsUI extends StatelessWidget {
     return InkWell(
       onTap: () {
         adminVdController.updatePageNumber(index);
-        Get.to(()=>QuizViewUI(question, index));
-
+        Get.to(() => QuizViewUI(question: question, pageIndex: index));
       },
       child: Container(
         height: 90,

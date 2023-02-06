@@ -9,19 +9,12 @@ import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/review_ui.dart';
 import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
 class VDBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //vdController.quizQuestionsList.bindStream(vdController.getQuizQuestions());
-    print('QuizQL ${vdController.quizQuestionsList.length}');
-    // var quizID =  "".obs;
-    //var cardQuestion = "No question found!".obs;
-    //vdController.getActiveQuiz();
-
-
+    //return _body(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         return Container(
@@ -110,32 +103,45 @@ class VDBody extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: CircularCountDownTimer(
-                            width: 70,
-                            height: 70,
-                            duration: 15 * 60,
-                            textStyle: AppThemes.normalBlackFont,
-                            autoStart: true,
-                            strokeCap: StrokeCap.round,
-                            initialDuration: 0,
-                            textFormat: CountdownTextFormat.MM_SS,
-                            isReverse: true,
-                            isReverseAnimation: true,
-                            ringColor: Colors.grey[200]!,
-                            fillColor: AppThemes.DEEP_ORANGE,
-                            onStart: () {
-                              debugPrint('Circular started');
-                              //vdController.obtainDuration(vdController.questionNumber-1);
-                            },
-                            onComplete: () {
-                              //vdController.countDownController.restart(duration: vdController.duration.value);
-                              vdController.updateTheQnNum(
-                                  vdController.questionNumber.value);
-                              vdController.nextQuestion();
-                              vdController.countDownController
-                                  .restart(duration: 15);
-                            },
-                          ),
+                          child: Obx(() {
+                            int duration = (((vdController.duration.value) /
+                                            vdController.questions.length) /
+                                        10)
+                                    .round() *
+                                60;
+
+                            return CircularCountDownTimer(
+                              width: 70,
+                              height: 70,
+                              controller: vdController.countDownController,
+                              duration: duration,
+                              textStyle: AppThemes.normalBlackFont,
+                              autoStart: true,
+                              strokeCap: StrokeCap.round,
+                              initialDuration: 0,
+                              textFormat: CountdownTextFormat.MM_SS,
+                              isReverse: true,
+                              isReverseAnimation: true,
+                              ringColor: Colors.grey[200]!,
+                              fillColor: AppThemes.DEEP_ORANGE,
+                              onStart: () {
+                                debugPrint('Circular started');
+                                //vdController.obtainDuration(vdController.questionNumber-1);
+                              },
+                              onComplete: () {
+                                //vdController.countDownController.restart(duration: vdController.duration.value);
+                                if (vdController.isLastQuestion.isFalse) {
+                                  vdController.updateTheQnNum(
+                                      vdController.questionNumber.value);
+                                  vdController.nextQuestion();
+                                  vdController.countDownController
+                                      .restart(duration: duration);
+                                } else {
+                                  vdController.countDownController.reset();
+                                }
+                              },
+                            );
+                          }),
                         ),
                       ),
                     ),
@@ -162,6 +168,144 @@ class VDBody extends StatelessWidget {
     );
   }
 }
+
+/*_body(context) {
+  return Stack(
+    fit: StackFit.expand,
+    clipBehavior: Clip.antiAlias,
+    children: [
+      /// black background
+      Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 210,
+        child: BlackRoundedContainer(),
+      ),
+
+      /// QuestionCard plus options
+      Positioned(
+        top: 120,
+        left: 0,
+        right: 0,
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            FormVerticalSpace(),
+            CustomContainer(
+              //width: constraints.maxWidth * 0.9,
+              margin: EdgeInsets.only(
+                left: 17.0,
+                right: 17.0,
+              ),
+              height: 130,
+              child: Column(
+                children: [
+                  FormVerticalSpace(),
+
+                  //Question numbering
+                  Obx(
+                    () => Text.rich(
+                      TextSpan(
+                        text: "Question ${vdController.questionNumber.value}",
+                        style: AppThemes.buttonFont
+                            .copyWith(color: AppThemes.DEEP_ORANGE),
+                        children: [
+                          TextSpan(
+                            text: "/${vdController.questions.length}",
+                            style: AppThemes.buttonFont
+                                .copyWith(color: AppThemes.DEEP_ORANGE),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  FormVerticalSpace(height: 10),
+                  Container(
+                    margin: const EdgeInsets.all(5),
+                    child: Obx(
+                      () => Text(
+                        "${vdController.quizQuestionsList[vdController.questionNumber.value - 1].question}",
+                        style: AppThemes.normalBlackFont.copyWith(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      ///Duration circle
+      Positioned(
+        top: 100,
+        left: 0,
+        right: 0,
+        child: Column(
+          children: [
+            Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(200.0),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: CircularCountDownTimer(
+                  width: 70,
+                  height: 70,
+                  duration: 15 * 60,
+                  textStyle: AppThemes.normalBlackFont,
+                  autoStart: true,
+                  strokeCap: StrokeCap.round,
+                  initialDuration: 0,
+                  textFormat: CountdownTextFormat.MM_SS,
+                  isReverse: true,
+                  isReverseAnimation: true,
+                  ringColor: Colors.grey[200]!,
+                  fillColor: AppThemes.DEEP_ORANGE,
+                  onStart: () {
+                    debugPrint('Circular started');
+                    //vdController.obtainDuration(vdController.questionNumber-1);
+                  },
+                  onComplete: () {
+                    //vdController.countDownController.restart(duration: vdController.duration.value);
+                    vdController
+                        .updateTheQnNum(vdController.questionNumber.value);
+                    vdController.nextQuestion();
+                    vdController.countDownController.restart(duration: 15);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      ///PageView Options
+      Positioned(
+        top: 70,
+        left: 0,
+        right: 0,
+        child: PageView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          controller: vdController.pageController,
+          onPageChanged: vdController.updateTheQnNum,
+          itemCount: vdController.questions.length,
+          itemBuilder: (context, index) {
+            QuizQuestion quizQuestion = vdController.questions[index];
+
+            return QuestionCard(quizQuestion);
+          },
+        ),
+      ),
+    ],
+  );
+}*/
 
 class QuestionCard extends StatelessWidget {
   //const QuestionCard({Key? key}) : super(key: key);
@@ -213,7 +357,7 @@ class QuestionCard extends StatelessWidget {
             child: PrimaryButton(
               buttonStyle: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                primary: AppThemes.DEEP_ORANGE,
+                backgroundColor: AppThemes.DEEP_ORANGE,
                 shape: StadiumBorder(),
               ),
               labelText: 'Review',
@@ -229,7 +373,7 @@ class QuestionCard extends StatelessWidget {
             child: PrimaryButton(
               buttonStyle: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                primary: AppThemes.DEEP_ORANGE,
+                backgroundColor: AppThemes.DEEP_ORANGE,
                 shape: StadiumBorder(),
               ),
               labelText: 'Submit',
@@ -245,7 +389,8 @@ class QuestionCard extends StatelessWidget {
       ),
     );
   }
-  _buildNewBody(context){
+
+/*  _buildNewBody(context) {
     return Stack(
       fit: StackFit.expand,
       clipBehavior: Clip.none,
@@ -268,7 +413,7 @@ class QuestionCard extends StatelessWidget {
               FormVerticalSpace(),
               //question body
               CustomContainer(
-                width: AppConstant.getScreenWidth(context) ,
+                width: AppConstant.getScreenWidth(context),
                 height: 130.0,
                 hasOuterShadow: false,
                 child: Column(
@@ -277,7 +422,7 @@ class QuestionCard extends StatelessWidget {
 
                     //Question numbering
                     Obx(
-                          () => Text.rich(
+                      () => Text.rich(
                         TextSpan(
                           text: "Question ${vdController.questionNumber.value}",
                           style: AppThemes.buttonFont
@@ -296,17 +441,16 @@ class QuestionCard extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.all(5),
                       child: Obx(
-                            () => Text(
+                        () => Text(
                           "${vdController.quizQuestionsList[vdController.questionNumber.value - 1].question}",
                           style:
-                          AppThemes.normalBlackFont.copyWith(fontSize: 12),
+                              AppThemes.normalBlackFont.copyWith(fontSize: 12),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -351,22 +495,17 @@ class QuestionCard extends StatelessWidget {
               },
               onComplete: () {
                 //vdController.countDownController.restart(duration: vdController.duration.value);
-                vdController.updateTheQnNum(
-                    vdController.questionNumber.value);
+                vdController.updateTheQnNum(vdController.questionNumber.value);
                 vdController.nextQuestion();
-                vdController.countDownController
-                    .restart(duration: 5);
+                vdController.countDownController.restart(duration: 5);
               },
             ),
           ),
         ),
       ],
     );
-
-  }
+  }*/
 }
-
-
 
 class Options extends StatelessWidget {
   final String? text;
