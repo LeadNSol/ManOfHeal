@@ -9,29 +9,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="Bugs were fixed, trial period, daily activity answer section were added">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+    <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/quiz_questions_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/quiz_questions_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/quiz_view_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/quiz_view_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/vd_quiz_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/vignette_dissection/widgets/vd_quiz_body.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/not_found_data_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/not_found_data_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/daily_activity_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/my_answers/student_answers_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/my_answers/student_answers_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/widgets/show_give_answer_widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/widgets/show_give_answer_widgets.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/qa_widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/qa_widgets.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/single_answer_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/single_answer_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/questions/questions_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/questions/questions_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/instructions_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/instructions_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/vignette_dissection_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/vignette_dissection_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/vd_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/vignette_dissection/widgets/vd_body.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665485527130</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Bugs were fixed, trial period, daily activity answer section were added">
+      <created>1675707121326</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1675707121326</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
