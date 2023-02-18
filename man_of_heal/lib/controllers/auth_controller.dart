@@ -434,7 +434,7 @@ class AuthController extends GetxController
           .doc(user.uid)
           .get()
           .then((value) {
-        if (value.exists && value["isAdmin"]) {
+        if (value.exists) {
           admin.value = true;
         } else {
           admin.value = false;

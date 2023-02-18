@@ -138,12 +138,12 @@ class SingleSubscriptionItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  stdModel!.userModel!.name!,
+                  stdModel!.userModel?.name??"",
                   style: AppThemes.header2.copyWith(color: AppThemes.DEEP_ORANGE),
                 ),
-                _textWidget("Email", stdModel!.userModel!.email!),
-                _textWidget("Phone", stdModel!.userModel!.phone!),
-                _textWidget("Plan", stdModel!.subscription!.planName!),
+                _textWidget("Email", stdModel!.userModel?.email??""),
+                _textWidget("Phone", stdModel!.userModel!.phone??""),
+                _textWidget("Plan", stdModel!.subscription!.planName??""),
                 _textWidget(
                     "Subscribe at",
                     AppConstant.formattedDataTime(

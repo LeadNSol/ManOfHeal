@@ -3,7 +3,7 @@
     package="com.leadn.man_of_heal">
    <application
         android:label="Man of Heal"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

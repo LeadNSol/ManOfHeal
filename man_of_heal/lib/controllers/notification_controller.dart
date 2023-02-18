@@ -49,6 +49,7 @@ class NotificationController extends GetxController {
     flutterLocalNotificationsPlugin.initialize(
       InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        iOS: DarwinInitializationSettings()
       ),
     );
 

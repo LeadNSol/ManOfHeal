@@ -25,19 +25,19 @@ dependencies:
     sdk: flutter
 
   # Add the dependency for the Firebase Core Flutter SDK
-  firebase_core: ^1.24.0
-  cloud_firestore: ^3.5.0
-  firebase_auth: ^3.11.1
-  firebase_messaging: ^13.0.4
+  firebase_core: ^2.5.0
+  cloud_firestore: ^4.3.2
+  firebase_auth: ^4.2.6
+  firebase_messaging: ^14.2.2
 
-  flutter_local_notifications: ^11.0.1
+  flutter_local_notifications: ^13.0.0
 
 
   #time-ago lib
   timeago: ^3.3.0
 
   # animation loader...
-  lottie: ^1.4.3
+  lottie: ^2.2.0
 
   #get-x state, route management and dependency injection
   get: ^4.6.5
@@ -62,7 +62,7 @@ dependencies:
   flutter_calendar_carousel: ^2.4.0
   #stripe with dio for http requests
 
-  flutter_stripe: ^5.1.0
+  flutter_stripe: ^8.0.0+1
   #flutter_stripe_web: ^1.0.0
 
   http: ^0.13.5
@@ -71,14 +71,16 @@ dependencies:
   flutter_rating_bar: ^4.0.1
 
   #flutter load svg
-  flutter_svg: ^1.1.5
-  google_fonts: ^3.0.1
+  flutter_svg: ^2.0.0+1
+  google_fonts: ^4.0.3
   flutter_screenutil: ^5.5.4
 
   #shared_preferences
   shared_preferences: ^2.0.15
 
-  package_info_plus: ^1.4.3+1
+  package_info_plus: ^3.0.3
+  flutter_launcher_icons: ^0.11.0
+
 
   #restart app
   #flutter_phoenix: ^1.1.0
@@ -86,7 +88,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   integration_test:
-    sdk: flutter
+      sdk: flutter
+
+flutter_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/logo/logo_new.png"
+    min_sdk_android: 21 # android min sdk min:16, default 21
+
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -113,7 +124,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  #`
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
