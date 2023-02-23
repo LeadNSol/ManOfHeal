@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/quiz_review_model.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
+
 
 class ReviewUI extends StatelessWidget {
 
@@ -52,7 +49,7 @@ class ReviewUI extends StatelessWidget {
                     itemBuilder: (context, index) {
                       //int jumpToIndex = adminVdController.pageNumber.value;
                       QuizReviewModel reviewModel =
-                          vdController.quizReviewList[index];
+                      vdController.quizReviewList[index];
 
                       return pageViewQuestionBody(context, reviewModel, index);
                     },
@@ -115,10 +112,10 @@ class ReviewUI extends StatelessWidget {
 
           ...List.generate(
             reviewModel.quizQuestion!.options!.length,
-            (i) => OptionsUI(
-              reviewModel.quizQuestion!.options![i],
-              i,
-              reviewModel
+                (i) => StdOptionsUI(
+                reviewModel.quizQuestion!.options![i],
+                i,
+                reviewModel
             ),
           ),
           //FormVerticalSpace(height: 100,),
@@ -150,9 +147,9 @@ class ReviewUI extends StatelessWidget {
         IconButton(
             onPressed: () {
 
-                vdController.pageReviewQuizController.nextPage(
-                    duration: Duration(milliseconds: 600),
-                    curve: Curves.easeIn);
+              vdController.pageReviewQuizController.nextPage(
+                  duration: Duration(milliseconds: 600),
+                  curve: Curves.easeIn);
 
             },
             icon: Icon(
@@ -164,14 +161,14 @@ class ReviewUI extends StatelessWidget {
   }
 }
 
-class OptionsUI extends StatelessWidget {
+class StdOptionsUI extends StatelessWidget {
   final String? text;
   final int? index;
   final QuizReviewModel? reviewModel;
 
   //final VoidCallback? press;
 
-  OptionsUI(this.text, this.index, this.reviewModel);
+  StdOptionsUI(this.text, this.index, this.reviewModel);
 
   final optionNumber = ['a', 'b', 'c', 'd'];
 
@@ -227,10 +224,10 @@ class OptionsUI extends StatelessWidget {
               child: getRightAnswerColor() == defaultColor
                   ? null
                   : Icon(
-                      getRightAnswerIcon(),
-                      size: 16,
-                      color: AppThemes.white,
-                    ),
+                getRightAnswerIcon(),
+                size: 16,
+                color: AppThemes.white,
+              ),
             )
           ],
         ),

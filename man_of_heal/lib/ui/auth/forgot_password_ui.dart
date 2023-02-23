@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/auth/sing_in_ui.dart';
+import 'package:man_of_heal/ui/auth/sign_in_ui.dart';
 import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/components/label_button.dart';

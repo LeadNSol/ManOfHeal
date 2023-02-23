@@ -53,9 +53,10 @@ class FeedBackUI extends StatelessWidget {
   }
 
   Widget SingleFeedBackItem(FeedbackModel model) {
-    UserModel? userModel =
+    final UserModel? userModel =
         authController.getUserFromListById(model.studentId!);
-    var isOverFlowVisible = false.obs;
+    final  isOverFlowVisible = false.obs;
+
     return CustomContainer(
       child: ListTile(
         onTap: () => isOverFlowVisible.value = !isOverFlowVisible.value,

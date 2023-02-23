@@ -44,12 +44,13 @@ class AuthController extends GetxController
   TextEditingController degreeProgramController = TextEditingController();
   TextEditingController addressController = TextEditingController();
 
-  // Rx<User> firebaseUser = Rx<User>(firebaseAuth.currentUser);
+  //Rx<User?> firebaseUser = Rx<User?>(firebaseAuth.currentUser);
+
   // Rx<UserModel> userModel = UserModel().obs;
   // final RxBool admin = false.obs;
   // final RxBool isLoggedIn = false.obs;
 
-  Rxn<User> firebaseUser = Rxn<User>();
+  Rxn<User?> firebaseUser = Rxn<User?>();
 
   var _userModel = UserModel().obs;
 
@@ -77,7 +78,7 @@ class AuthController extends GetxController
   Future<User> get getUser async => firebaseAuth.currentUser!;
 
   // Firebase user a realtime stream
-  Stream<User?> get user => firebaseAuth.authStateChanges();
+  //Stream<User?> get user => firebaseAuth.authStateChanges();
 
   final GoogleSignIn? _googleSignIn = GoogleSignIn();
 
@@ -89,18 +90,17 @@ class AuthController extends GetxController
 
   @override
   void onInit() {
-    // TODO: implement onInit
+    // TOO: implement onInit
     super.onInit();
     animationController = AnimationController(
       vsync: this,
-    );
-    animationController.addListener(() {
-      //  if the full duration of the animation is 8 secs then 0.5 is 4 secs
-      /* if (animationController.value > 0.5) {
-        // When it gets there hold it there.
-        animationController.value = 0.5;
-      }*/
-    });
+      //duration: Duration(seconds: 2),
+    );//..forward();
+    /*animationController.addListener(() {
+      if (animationController.status == AnimationStatus.completed) {
+        Get.offNamed('/welcome');
+      }
+    });*/
   }
 
   late SharedPreferences? sharedPref;
@@ -110,7 +110,6 @@ class AuthController extends GetxController
     sharedPref = await SharedPreferences.getInstance();
     //run every time auth state changes
     firebaseUser.bindStream(firebaseAuth.userChanges());
-
     ever(firebaseUser, handleAuthChanged);
 
     profileAvatarsList.bindStream(getProfileAvatars());
@@ -118,6 +117,7 @@ class AuthController extends GetxController
 
     ever(usersList, pickAdmins);
 
+    //handleAuthChanged();
     super.onReady();
   }
 
@@ -211,7 +211,7 @@ class AuthController extends GetxController
     qaController.initQA();
     notificationController.initData();
     feedBackController.fetchCurrentAdminFeedBack();
-    if(Get.isRegistered<VDController>()){
+    if (Get.isRegistered<VDController>()) {
       vdController.initData();
     }
   }
@@ -250,7 +250,8 @@ class AuthController extends GetxController
 
   UserModel? getUserFromListById(String id) {
     return usersList.isNotEmpty
-        ? usersList.firstWhere((element) => element.uid == id, orElse:()=> UserModel())
+        ? usersList.firstWhere((element) => element.uid == id,
+            orElse: () => UserModel())
         : UserModel();
   }
 
@@ -273,7 +274,7 @@ class AuthController extends GetxController
               password: passwordController.text.trim())
           .then((value) {
         //retrying to reload all controllers
-        Get.reload(force: true);
+        //Get.reload(force: true);
 
         setBtnState(2);
         _clearControllers();
@@ -283,19 +284,14 @@ class AuthController extends GetxController
             "Sign In Alert!", "Logged in Successfully!");
         //setBtnState(0);
         //_initControllers();
-      });
+      }); /*.catchError((e){
+        signUpInstructor();
+      });*/
     } catch (error) {
       setBtnState(0);
       //hideLoadingIndicator();
-
-      Get.snackbar(
-        'Sign In Error',
-        'Login failed: email or password incorrect.',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: AppThemes.DEEP_ORANGE,
-        colorText: AppThemes.white,
-        duration: Duration(seconds: 5),
-      );
+      AppConstant.displaySnackBar(
+          'Sign In Error', 'Login failed: email or password incorrect.');
     }
   }
 
@@ -367,7 +363,6 @@ class AuthController extends GetxController
   // User registration using email and password
   signUp() async {
     // showLoadingIndicator();
-
     setBtnState(1);
     try {
       Timestamp trailExpiry =
@@ -376,6 +371,8 @@ class AuthController extends GetxController
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) async {
+        //firebaseAuth.currentUser!.unlink(result.user!.uid);
+
         //create the new user object
         UserModel _newUser = UserModel(
             uid: result.user!.uid,
@@ -410,14 +407,14 @@ class AuthController extends GetxController
   }
 
   //create the firestore user in users collection
-  void _createUserFirestore(UserModel user, User _firebaseUser) {
+  Future<void> _createUserFirestore(UserModel user, User _firebaseUser) async {
     print("user entered=" + _firebaseUser.uid);
-    firebaseFirestore
+    await firebaseFirestore
         .collection(USERS)
         .doc(_firebaseUser.uid)
         .set(user.toJson())
         .whenComplete(
-      () async {
+      () {
         setBtnState(2);
         _clearControllers();
         AppConstant.displaySuccessSnackBar(
@@ -434,7 +431,7 @@ class AuthController extends GetxController
           .doc(user.uid)
           .get()
           .then((value) {
-        if (value.exists) {
+        if (value.exists && value['isAdmin']) {
           admin.value = true;
         } else {
           admin.value = false;

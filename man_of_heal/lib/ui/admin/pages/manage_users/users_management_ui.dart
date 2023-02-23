@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/user_model.dart';
@@ -14,6 +15,10 @@ import 'package:man_of_heal/utils/AppConstant.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 import 'package:man_of_heal/utils/svgs.dart';
 
+import '../../../../utils/validator.dart';
+import '../../../components/form_input_field_with_icon.dart';
+import '../../../components/form_password_input_field_with_icon.dart';
+
 class UserManagementUI extends StatelessWidget {
   const UserManagementUI({Key? key}) : super(key: key);
 
@@ -25,7 +30,8 @@ class UserManagementUI extends StatelessWidget {
         body: body(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: Visibility(
-          visible: authController.admin.isTrue,
+          visible: authController.userModel != null &&
+              authController.userModel!.userType!.contains("superAdmin"),
           child: Container(
             alignment: Alignment.centerRight,
             margin: EdgeInsets.only(
@@ -83,7 +89,8 @@ class UserManagementUI extends StatelessWidget {
                 hasProfileIcon: true,
               ),
               FormVerticalSpace(
-                height: AppConstant.getScreenWidth(context) * (kIsWeb? 0.07 :0.28),
+                height: AppConstant.getScreenWidth(context) *
+                    (kIsWeb ? 0.07 : 0.28),
               ),
               CustomContainer(
                 height: 90,
@@ -121,39 +128,9 @@ class UserManagementUI extends StatelessWidget {
   }
 
   void addInstructors() {
+    authController.setBtnState(0);
     Get.bottomSheet(
-      Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Choose Instructor (Admin)",
-                  style: AppThemes.headerTitleBlackFont,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: authController.usersList.length,
-                  itemBuilder: (_, index) {
-                    UserModel userModel = authController.usersList[index];
-                    if (userModel.isAdmin!) return Container();
-                    return SingleUserListItems(
-                      userModel: userModel,
-                      calledFor: 1,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      _displayListUsers(),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(15), topLeft: Radius.circular(15)),
@@ -161,25 +138,62 @@ class UserManagementUI extends StatelessWidget {
       backgroundColor: Colors.white,
     );
   }
+
+  Widget _displayListUsers(){
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                "Choose Instructor (Admin)",
+                style: AppThemes.headerTitleBlackFont,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Obx(
+                  () => ListView.builder(
+                shrinkWrap: true,
+                itemCount: authController.usersList.length,
+                itemBuilder: (_, index) {
+                  UserModel userModel = authController.usersList[index];
+                  if (userModel.isAdmin!) return Container();
+                  return SingleUserListItems(
+                    userModel: userModel,
+                    calledFor: 1,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 }
-/**
- *
- * @calledFor 0. default calling
- *            1. called for selection of instructor
- *            2. called for Student answer section i.e. display students
- * */
+
 class SingleUserListItems extends StatelessWidget {
   const SingleUserListItems({Key? key, this.userModel, this.calledFor = 0})
       : super(key: key);
 
   final UserModel? userModel;
+
+  /*
+   * @calledFor 0. default calling
+   *  1. called for selection of instructor
+   * 2. called for Student answer section i.e. display students
+   * */
   final int? calledFor;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: CustomContainer(
         child: Row(
           children: [
@@ -200,7 +214,7 @@ class SingleUserListItems extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    userModel!.name!,
+                    userModel!.name??"",
                     style: AppThemes.header2
                         .copyWith(color: AppThemes.DEEP_ORANGE),
                   ),
@@ -212,18 +226,18 @@ class SingleUserListItems extends StatelessWidget {
                         )
                       : Container(),
                   Text(
-                    userModel!.email!,
+                    userModel!.email??"",
                     softWrap: true,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: AppThemes.normalBlackFont.copyWith(fontSize: 11),
                   ),
                   Text(
-                    userModel!.phone!,
+                    userModel!.phone??"",
                     style: AppThemes.normalBlackFont.copyWith(fontSize: 11),
                   ),
                   Text(
-                    userModel!.address!,
+                    userModel!.address??"",
                     softWrap: true,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -238,17 +252,15 @@ class SingleUserListItems extends StatelessWidget {
                 ],
               ),
             ),
+            if (authController.userModel != null &&
+                authController.userModel!.userType!
+                    .contains(UserGroup.superAdmin.name))
             calledFor == 1
                 ? Expanded(
                     child: InkWell(
-                      onTap: () {
-                        userModel!.isAdmin = true;
-                        userModel!.userType = UserGroup.instructor.name;
-                        authController.updateUser(userModel!);
-                        Get.back();
-                      },
+                      onTap: () =>showSelectAdminConfirmationDialog(userModel!),
                       child: Text(
-                        "Select Instructor",
+                        "Select as Admin",
                         style: AppThemes.normalORANGEFont.copyWith(
                             fontSize: 12, color: AppThemes.rightAnswerColor),
                         textAlign: TextAlign.center,
@@ -260,22 +272,26 @@ class SingleUserListItems extends StatelessWidget {
                     ? Container()
                     : calledFor == 2
                         ? Container()
-                        : Expanded(
-                            child: InkWell(
-                              onTap: () =>
-                                  showDeleteConfirmationDialog(userModel!),
-                              child: Text(
-                                "Remove",
-                                style: AppThemes.normalORANGEFont
-                                    .copyWith(fontSize: 12),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
+                        : showRemoveBtn()
           ],
         ),
       ),
     );
+  }
+
+  Widget showRemoveBtn() {
+    return userModel!.userType != UserGroup.superAdmin.name
+        ? Expanded(
+            child: InkWell(
+              onTap: () => showDeleteConfirmationDialog(userModel!),
+              child: Text(
+                "Remove",
+                style: AppThemes.normalORANGEFont.copyWith(fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
+        : Container();
   }
 
   Widget _textWidget(title, value) {
@@ -312,10 +328,17 @@ class SingleUserListItems extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+
                 Container(
                   width: 100,
                   child: PrimaryButton(
-
+                      labelText: 'No',
+                      textStyle: AppThemes.buttonFont,
+                      onPressed: () => Get.back()),
+                ),
+                Container(
+                  width: 100,
+                  child: PrimaryButton(
                     labelText: 'Yes',
                     textStyle: AppThemes.buttonFont,
                     onPressed: () {
@@ -326,12 +349,53 @@ class SingleUserListItems extends StatelessWidget {
                     },
                   ),
                 ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showSelectAdminConfirmationDialog(UserModel userModel) {
+    Get.defaultDialog(
+      title: "Admin Selection!",
+      titleStyle:
+      AppThemes.dialogTitleHeader.copyWith(color: AppThemes.DEEP_ORANGE),
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(
+              "This operation will wiped out all activities of `${userModel.name}` as Student.\nAre you sure to select `${userModel.name!}` as Admin (Instructor)?",
+              style: AppThemes.normalBlackFont,
+            ),
+            FormVerticalSpace(),
+            buildLabInstructionIcon(),
+            FormVerticalSpace(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+
                 Container(
                   width: 100,
                   child: PrimaryButton(
                       labelText: 'No',
                       textStyle: AppThemes.buttonFont,
                       onPressed: () => Get.back()),
+                ),
+                Container(
+                  width: 100,
+                  child: PrimaryButton(
+                    labelText: 'Yes',
+                    textStyle: AppThemes.buttonFont,
+                    onPressed: () {
+                      userModel.isAdmin = true;
+                      userModel.userType = UserGroup.admin.name;
+                      authController.updateUser(userModel);
+                      Get.back();
+                    },
+                  ),
                 ),
               ],
             )

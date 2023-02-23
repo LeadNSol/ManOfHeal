@@ -5,7 +5,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/ui/auth/sign_up_ui.dart';
-import 'package:man_of_heal/ui/auth/sing_in_ui.dart';
+import 'package:man_of_heal/ui/auth/sign_in_ui.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/utils/app_themes.dart';

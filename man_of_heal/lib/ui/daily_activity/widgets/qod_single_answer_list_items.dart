@@ -26,8 +26,7 @@ class SingleAnswerListItems extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         dailyActivityController.stdAnswerModel(stdModel);
-        Get.to(()=>QODAnswerDetails());
-
+        Get.to(() => QODAnswerDetails());
       },
       child: CustomContainer(
         child: Column(
@@ -48,12 +47,18 @@ class SingleAnswerListItems extends StatelessWidget {
             Container(
               width: 245,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-              child: Text(
-                '${stdModel!.answer}',
-                maxLines: 2,
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.ellipsis,
-                style: AppThemes.normalBlack45Font,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${stdModel!.answer}',
+                    maxLines: 2,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppThemes.normalBlack45Font,
+                  ),
+                ],
               ),
             ),
             FormVerticalSpace(height: 5),
@@ -76,7 +81,7 @@ class SingleAnswerListItems extends StatelessWidget {
             FormVerticalSpace(
               height: 10,
             ),
-            stdModel!.checkBy != null ? _footerWidget(stdModel!) : Container(),
+            _footerWidget(stdModel!),
           ],
         ),
       ),
@@ -172,26 +177,41 @@ class SingleAnswerListItems extends StatelessWidget {
     //UserModel? adminModel = authController.getAdminFromListById(model.checkBy!);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Image.asset(
-          "assets/icons/tick_mark_icon.png",
-          width: 10,
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        model.checkBy!=null?
         Text(
-          'Approved',
-          style: GoogleFonts.poppins(
-              color: Colors.green, fontWeight: FontWeight.w700, fontSize: 8),
-        ):
-        Text(
-          'Not Approved',
-          style: GoogleFonts.poppins(
-              color: Colors.redAccent, fontWeight: FontWeight.w700, fontSize: 8),
+          "Asked By: ${authController.getUserFromListById(stdModel!.answerBy!)!.name!}",
+          style: AppThemes.captionFont,
         ),
+        model.checkBy != null
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Image.asset(
+                    "assets/icons/tick_mark_icon.png",
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  model.checkBy != null
+                      ? Text(
+                          'Approved',
+                          style: GoogleFonts.poppins(
+                              color: Colors.green,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 8),
+                        )
+                      : Text(
+                          'Not Approved',
+                          style: GoogleFonts.poppins(
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 8),
+                        ),
+                ],
+              )
+            : Container()
       ],
     );
   }

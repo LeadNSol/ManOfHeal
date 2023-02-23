@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/admin/pages/feeb_backs/feed_back_ui.dart';
-import 'package:man_of_heal/ui/admin/pages/manage_users/users_managment_ui.dart';
-import 'package:man_of_heal/ui/admin/pages/subscription_details/admin_subscription_ui.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/profile/profile_ui.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class CustomHeaderRow extends StatelessWidget {
   //const CustomHeaderRow({Key? key}) : super(key: key);

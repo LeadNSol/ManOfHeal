@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:man_of_heal/bindings/init_binding.dart';
 import 'package:man_of_heal/controllers/auth_controller.dart';
 import 'package:man_of_heal/controllers/categories_controller.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
@@ -42,9 +43,8 @@ void main() async {
     Stripe.publishableKey = AppConstant.PUBLISHABLE_KEY;
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-    /*SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarIconBrightness:Brightness.dark), );*/
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.grey[300]!));
   }
   await firebaseInitialization.then((value) {
     //making app wise access for the controller
@@ -101,13 +101,15 @@ class ManOfHeal extends StatelessWidget {
         //disabling demo label
         title: 'Man Of Heal',
 
-        //theme: AppThemes.lightTheme,
+        theme: AppThemes.lightTheme,
         darkTheme: AppThemes.darkTheme,
-        //themeMode: ThemeMode.system,
-        // themeMode: ThemeMode.system,
+        themeMode: ThemeMode.system,
 
         initialRoute: "/",
         getPages: AppRoutes.routes,
+
+        initialBinding: AppInitBindings(),
+
         //home: SignInUI(),
       ),
     );

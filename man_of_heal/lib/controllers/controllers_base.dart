@@ -1,15 +1,4 @@
-import 'package:man_of_heal/controllers/admin_vd_controller.dart';
-import 'package:man_of_heal/controllers/auth_controller.dart';
-import 'package:man_of_heal/controllers/categories_controller.dart';
-import 'package:man_of_heal/controllers/custom_tabs_controller.dart';
-import 'package:man_of_heal/controllers/daily_activity_controller.dart';
-import 'package:man_of_heal/controllers/feed_back_controller.dart';
-import 'package:man_of_heal/controllers/lab_controller.dart';
-import 'package:man_of_heal/controllers/landing_page_controller.dart';
-import 'package:man_of_heal/controllers/notification_controller.dart';
-import 'package:man_of_heal/controllers/qa_controller.dart';
-import 'package:man_of_heal/controllers/subscription_controller.dart';
-import 'package:man_of_heal/controllers/vd_controller.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 
 AuthController authController = AuthController.instance;
 

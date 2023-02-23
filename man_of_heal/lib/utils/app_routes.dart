@@ -1,25 +1,22 @@
 import 'package:get/get.dart';
-import 'package:man_of_heal/ui/admin/pages/admin_dashboard_ui.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/admin_qa_list_ui.dart';
-import 'package:man_of_heal/ui/admin/pages/vignette_dissection/admin_vd_ui.dart';
-import 'package:man_of_heal/ui/auth/forgot_password_ui.dart';
-import 'package:man_of_heal/ui/auth/sign_up_ui.dart';
-import 'package:man_of_heal/ui/auth/sing_in_ui.dart';
-import 'package:man_of_heal/ui/auth/welcome_back_ui.dart';
-import 'package:man_of_heal/ui/labs/labs_ui.dart';
-import 'package:man_of_heal/ui/profile/profile_ui.dart';
-import 'package:man_of_heal/ui/splash/splash_ui.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/qa_list_ui.dart';
-import 'package:man_of_heal/ui/student/pages/std_dashboard_ui.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
 
 class AppRoutes {
   AppRoutes._(); //this is to prevent anyone from instantiating this object
+
+  static const initRoute = "/";
+  static const signInRoute = "/signIn";
+  static const signUpRoute = "/signUp";
+  static const welcomeRoute = "/welcome";
+  static const forgotPasswordRoute = "/forgotPassword";
+  static const profileRoute = "/profile";
+
   static final routes = [
-    GetPage(name: '/', page: () => SplashUI()), //binding: AuthBinding()
+    GetPage(name: initRoute, page: () => SplashUI()), //binding: AuthBinding()
     GetPage(name: '/welcome', page: () => WelcomeBackUI()),
     GetPage(name: '/signIn', page: () => SignInUI()),
     GetPage(name: '/signup', page: () => SignUpUI()),
-    GetPage(name: '/forgot-password', page: () => ForgotPassword()),
+    GetPage(name: '/forgotPassword', page: () => ForgotPassword()),
     GetPage(name: '/profile', page: () => ProfileUI()),
     GetPage(name: '/AdminDashboard', page: () => AdminDashboardUI()),
     GetPage(name: '/StudentDashboard', page: () => StudentDashboardUI()),

@@ -11,7 +11,7 @@ import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 import 'package:man_of_heal/utils/validator.dart';
 
-import 'sing_in_ui.dart';
+import 'sign_in_ui.dart';
 
 class SignUpUI extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -36,10 +36,11 @@ class SignUpUI extends StatelessWidget {
                       height: 30,
                     ),
                     Center(
-                        child: SvgPicture.asset(
-                      "assets/icons/logo.svg",
-                      width: 150,
-                    )),
+                      child: SvgPicture.asset(
+                        "assets/icons/logo.svg",
+                        width: 150,
+                      ),
+                    ),
                     FormVerticalSpace(
                       height: 30,
                     ),
@@ -131,13 +132,13 @@ class SignUpUI extends StatelessWidget {
                       iconPrefix: Icons.fmd_good,
                       labelText: 'Address',
                       autofocus: false,
-                      suffix: GestureDetector(
+                      /* suffix: GestureDetector(
                         onTap: () {},
                         child: Text(
                           'From Map',
                           style: AppThemes.normalORANGEFont,
                         ),
-                      ),
+                      ),*/
                       iconColor: AppThemes.DEEP_ORANGE,
                       textStyle: AppThemes.normalBlackFont,
                       keyboardType: TextInputType.streetAddress,
@@ -209,7 +210,7 @@ class SignUpUI extends StatelessWidget {
           labelText: 'Sign Up',
           buttonStyle: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            primary: AppThemes.DEEP_ORANGE,
+            backgroundColor: AppThemes.DEEP_ORANGE,
             shape: StadiumBorder(),
           ),
           textStyle: AppThemes.buttonFont,
