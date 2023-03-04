@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/ui/admin/pages/vignette_dissection/admin_vd_ui.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class QuizViewUI extends StatelessWidget {
+class QuizViewUI extends GetView<AdminVdController> {
   final QuizQuestion? question;
   final int? pageIndex;
 
@@ -21,7 +15,7 @@ class QuizViewUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    adminVdController.pageController = PageController(initialPage: pageIndex!);
+    controller.pageController = PageController(initialPage: pageIndex!);
 
     return Scaffold(
       backgroundColor: AppThemes.BG_COLOR,
@@ -56,13 +50,13 @@ class QuizViewUI extends StatelessWidget {
                   height: AppConstant.getScreenHeight(context) * 0.65,
                   child: PageView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    controller: adminVdController.pageController,
-                    onPageChanged: adminVdController.updatePageNumber,
-                    itemCount: adminVdController.quizQuestionsList.length,
+                    controller: controller.pageController,
+                    onPageChanged: controller.updatePageNumber,
+                    itemCount: controller.quizQuestionsList.length,
                     itemBuilder: (context, index) {
-                      //int jumpToIndex = adminVdController.pageNumber.value;
+                      //int jumpToIndex = controller.pageNumber.value;
                       QuizQuestion quizQuestion =
-                          adminVdController.quizQuestionsList[index];
+                          controller.quizQuestionsList[index];
                       //vdController.setCardQuestion(quizQuestion.question!);
                       print('Correct Index before: $pageIndex');
                       return pageViewQuestionBody(context, quizQuestion, index);
@@ -76,7 +70,7 @@ class QuizViewUI extends StatelessWidget {
                 Obx(
                   () => Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: adminVdController.isLastPage.isFalse
+                    child: controller.isLastPage.isFalse
                         ? btnNextPrevious()
                         : btnReviewSubmit(),
                   ),
@@ -152,7 +146,7 @@ class QuizViewUI extends StatelessWidget {
           quarterTurns: 2,
           child: IconButton(
             onPressed: () {
-              adminVdController.pageController.previousPage(
+              controller.pageController.previousPage(
                   duration: Duration(milliseconds: 600), curve: Curves.easeOut);
             },
             icon: Icon(
@@ -165,9 +159,9 @@ class QuizViewUI extends StatelessWidget {
         ///Next
         IconButton(
             onPressed: () {
-              if (adminVdController.pageNumber.value !=
-                  adminVdController.quizQuestionsList.length) {
-                adminVdController.pageController.nextPage(
+              if (controller.pageNumber.value !=
+                  controller.quizQuestionsList.length) {
+                controller.pageController.nextPage(
                     duration: Duration(milliseconds: 600),
                     curve: Curves.easeIn);
               } else {}
@@ -212,7 +206,7 @@ class QuizViewUI extends StatelessWidget {
             textStyle: AppThemes.buttonFont,
             onPressed: () {
               if (!quizModel.isBlank!)
-                adminVdController.updateQuiz(quizModel);
+                controller.updateQuiz(quizModel);
               else
                 print('quiz model is blank');
             },

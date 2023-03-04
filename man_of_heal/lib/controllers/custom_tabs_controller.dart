@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 
 class CustomTabsController extends GetxController {
-  static CustomTabsController instance = Get.find();
+  //static CustomTabsController instance = Get.find();
+
+  final AuthController? authController;
+
+  CustomTabsController(this.authController);
 
   var selectedPage = 0.obs;
 
@@ -52,11 +56,11 @@ class CustomTabsController extends GetxController {
   setToolbar() {
     if (selectedPage.value == 1) {
       searchIconVisibility.value = true;
-      pageTitle.value = authController.admin.isFalse ? "Answers" : "Completed";
+      pageTitle.value = authController!.admin.isFalse ? "Answers" : "Completed";
     } else {
       searchIconVisibility.value = false;
       pageTitle.value =
-          authController.admin.isFalse ? "Ask Question" : "Questions";
+          authController!.admin.isFalse ? "Ask Question" : "Questions";
     }
   }
 

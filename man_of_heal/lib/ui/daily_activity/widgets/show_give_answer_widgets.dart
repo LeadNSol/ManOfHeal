@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/daily_activity_model.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/daily_activity/my_answers/student_answers_ui.dart';
-import 'package:man_of_heal/ui/daily_activity/my_answers/widgets/answer_bottom_sheet_contents.dart';
-import 'package:man_of_heal/ui/daily_activity/show_answers/admin_show_answers_ui.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class ShowGiveAnswerButtons extends StatelessWidget {
+class ShowGiveAnswerButtons extends GetView<DailyActivityController> {
   const ShowGiveAnswerButtons({
     Key? key,
     this.showAnswerForCurrentDate = true,
@@ -23,9 +20,9 @@ class ShowGiveAnswerButtons extends StatelessWidget {
       if (authController.admin.isTrue) return _buildShowAnswersToAdminButton();
       if (activityModel != null && activityModel!.qOfDay!.isNotEmpty) {
         if (showAnswerForCurrentDate!)
-          dailyActivityController.setCurrentDate(Timestamp.now());
+          controller.setCurrentDate(Timestamp.now());
 
-      return Obx(()=> dailyActivityController.checkIfStdGiveAnswer()!? _buildShowMyAnswerButton(): _buildGiveAnswerButton());
+      return Obx(()=> controller.checkIfStdGiveAnswer()!? _buildShowMyAnswerButton(): _buildGiveAnswerButton());
 
       } else
         return Container();
@@ -45,7 +42,7 @@ class ShowGiveAnswerButtons extends StatelessWidget {
         textStyle: AppThemes.buttonFont,
         onPressed: () => {
               if (showAnswerForCurrentDate!)
-                dailyActivityController.setCurrentDate(Timestamp.now()),
+                controller.setCurrentDate(Timestamp.now()),
               Get.to(() => AdminShowAnswersUI())
             });
   }

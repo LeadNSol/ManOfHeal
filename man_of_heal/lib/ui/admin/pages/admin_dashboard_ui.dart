@@ -3,18 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/admin/pages/vignette_dissection/admin_vd_ui.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/daily_activity/daily_activity_screen.dart';
-import 'package:man_of_heal/ui/labs/widgets/lab_instruction_ui.dart';
-import 'package:man_of_heal/ui/notifications/widgets/notification_badge_ui.dart';
-import 'package:man_of_heal/ui/profile/profile_ui.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminDashboardUI extends StatelessWidget {
+class AdminDashboardUI extends GetView<LandingPageController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -104,55 +98,7 @@ class AdminDashboardUI extends StatelessWidget {
         ),
 
         ///QOQ and TOD
-        Obx(
-          ()=> CustomContainer(
-            margin: const EdgeInsets.only(top: 120, left: 17, right: 17),
-            height: kIsWeb ? 120 : 150,
-            child: InkWell(
-              onTap: ()=>Get.to(()=>DailyActivityScreen()),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Question Of The Day',
-                        style: AppThemes.headerTitle,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '${dailyActivityController.model!.qOfDay!.isNotEmpty ? dailyActivityController.model!.qOfDay : AppConstant.noTODFound}',
-                        style: AppThemes.normalBlackFont,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Term Of The Day',
-                        style: AppThemes.headerTitle,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '${dailyActivityController.model!.termOfDay!.isNotEmpty ? dailyActivityController.model!.termOfDay : AppConstant.noTODFound}',
-                        style: AppThemes.normalBlackFont,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        QodAndTodUI(),
 
         /// Dashboard items
         Container(
@@ -169,7 +115,7 @@ class AdminDashboardUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   customDashboardItems(context, () {
-                    landingPageController.setAdminPage(1);
+                    controller.setAdminPage(1);
                   }, "assets/icons/questions_icon.svg", "Questions"),
                   SizedBox(
                     width: 10,
@@ -179,9 +125,7 @@ class AdminDashboardUI extends StatelessWidget {
                   }, "assets/icons/qod_icon.svg", "QOD"),
                 ],
               ),
-              SizedBox(
-                height: 10
-              ),
+              SizedBox(height: 10),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

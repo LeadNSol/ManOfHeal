@@ -9,6 +9,32 @@ import 'package:man_of_heal/utils/app_themes.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
+const USERS = "users";
+const ADMIN = "admins";
+const PROFILE_AVATARS = "profile_avatars";
+const USER_NOTIFICATION = "notifications";
+const DEFAULT_IMAGE_URL =
+    "https://cdn-icons-png.flaticon.com/128/3011/3011270.png";
+
+const TRIAL_DIALOG = "TrialDialog";
+
+const QA_COLLECTION = "questions_answers";
+const QUIZ_COLLECTION = "quiz_collection";
+const QUIZ_QUESTION_COLLECTION = "quiz_question_collection";
+const CATEGORIES = "categories";
+const CHOOSE_CATEGORY = "Choose Category";
+const userFeedBackCollections = "feed_backs";
+
+const LAB_COLLECTION = "lab_collections";
+
+const SUBSCRIPTION_COLLECTION = "subscriptions";
+
+const SCORE_BOARD_COLLECTION = "score_board_collection";
+const QUIZ_ATTEMPTS_COLLECTION = "quiz_attempts";
+
+const STANDARD_PLAN_PRICE = 99;
+const PREMIUM_PLAN_PRICE = 179.99;
+
 class AppConstant {
   AppConstant._();
 
@@ -45,14 +71,12 @@ class AppConstant {
     return DateFormat(customFormat).format(date);
   }
 
- static String getFormattedTime(CurrentRemainingTime? time) {
+  static String getFormattedTime(CurrentRemainingTime? time) {
     return "${time!.days != null && time.days! > 0 ? "${time.days} days &" : ""}"
         "${time.hours != null ? time.hours! < 10 ? "0${time.hours}:" : "${time.hours}:" : ""}"
         "${time.min != null ? time.min! < 10 ? "0${time.min}:" : "${time.min}:" : ""}"
         "${time.sec! < 10 ? "0${time.sec}" : time.sec}";
   }
-
-
 
   static Size getSize(BuildContext context) {
     //debugPrint('Size = ' + MediaQuery.of(context).size.toString());
@@ -135,9 +159,8 @@ class AppConstant {
             "Copy alert!", "Copied to Clipboard!"));
   }
 
-
-  static Future<PackageInfo> getBuildNumber() async{
-    PackageInfo? packageInfo =  await PackageInfo.fromPlatform();
+  static Future<PackageInfo> getBuildNumber() async {
+    PackageInfo? packageInfo = await PackageInfo.fromPlatform();
     return packageInfo;
   }
 

@@ -2,42 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:man_of_heal/controllers/admin_vd_controller.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
 
-import 'widgets/vd_quiz_body.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminVignetteDissectionUI extends StatelessWidget {
+class AdminVignetteDissectionUI extends GetView<AdminVdController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppThemes.BG_COLOR,
-      /*appBar: AppBar(
-        //leadingWidth: 25,
-        leading: InkWell(
-          onTap: () => Get.back(),
-          child: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: AppThemes.blackPearl,
-          ),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "Vignette Dissection",
-          style: AppThemes.headerTitleBlackFont,
-        ),
-      ),*/
       body: VDQuizReview(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
@@ -58,7 +35,7 @@ class AdminVignetteDissectionUI extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FormInputFieldWithIcon(
-                        controller: adminVdController.quizTitleController,
+                        controller: controller.quizTitleController,
                         iconPrefix: Icons.title,
                         labelText: 'Quiz title',
                         autofocus: true,
@@ -73,7 +50,7 @@ class AdminVignetteDissectionUI extends StatelessWidget {
                         height: 10,
                       ),
                       FormInputFieldWithIcon(
-                        controller: adminVdController.quizDescriptionController,
+                        controller: controller.quizDescriptionController,
                         iconPrefix: Icons.description_outlined,
                         labelText: 'Quiz Description',
                         autofocus: false,
@@ -87,9 +64,10 @@ class AdminVignetteDissectionUI extends StatelessWidget {
                         onSaved: (value) => null,
                       ),
                       FormVerticalSpace(),
+
                       /// dropdown duration
                       Obx(
-                            () => Container(
+                        () => Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           decoration: BoxDecoration(
                               border: Border.all(
@@ -112,24 +90,26 @@ class AdminVignetteDissectionUI extends StatelessWidget {
                               DropdownButton(
                                 isExpanded: true,
                                 style: AppThemes.normalBlackFont,
-                                hint: Text('${adminVdController.duration.value}'),
+                                hint: Text('${controller.duration.value}'),
                                 onChanged: (newValue) {
-                                  adminVdController.setDuration(newValue);
+                                  controller.setDuration(newValue);
                                 },
-                                items: adminVdController.durationsList.map((element) {
-                                  //print('Option Value: ${adminVdController.option.value}');
+                                items: controller.durationsList.map((element) {
+                                  //print('Option Value: ${controller.option.value}');
                                   return DropdownMenuItem(
                                     child: Text('$element Mints'),
                                     value: element,
                                   );
                                 }).toList(),
-                                value: adminVdController.duration.value,
+                                value: controller.duration.value,
                               ),
                             ],
                           ),
                         ),
                       ),
-                      FormVerticalSpace(height: 10,),
+                      FormVerticalSpace(
+                        height: 10,
+                      ),
 
                       //FormVerticalSpace()
                     ],
@@ -142,7 +122,7 @@ class AdminVignetteDissectionUI extends StatelessWidget {
                     buttonStyle: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 10.0),
-                      primary: AppThemes.DEEP_ORANGE,
+                      backgroundColor: AppThemes.DEEP_ORANGE,
                       shape: StadiumBorder(),
                     ),
                     labelText: 'Add',
@@ -151,14 +131,14 @@ class AdminVignetteDissectionUI extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         SystemChannels.textInput.invokeMethod(
                             'TextInput.hide'); //to hide the keyboard - if any
-                        await adminVdController.createQuiz();
+                        await controller.createQuiz();
                         Get.back();
                       }
                     }),
               ),
 
               /*onConfirm: () async {
-              await adminVdController.createQuiz();
+              await controller.createQuiz();
             },*/
             );
           else

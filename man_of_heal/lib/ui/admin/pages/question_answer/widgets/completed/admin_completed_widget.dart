@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/completed/completed_details_widget.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/header_widget.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminCompletedQuestion extends StatelessWidget {
+class AdminCompletedQuestion extends GetView<QAController> {
   @override
   Widget build(BuildContext context) {
     debugPrint("");
     return Obx(
-      () => qaController.adminSearchList.isNotEmpty
-          ? _buildListView(qaController.adminSearchList)
-          : qaController.completedQAList.isNotEmpty
-              ? _buildListView(qaController.completedQAList)
+      () => controller.adminSearchList.isNotEmpty
+          ? _buildListView(controller.adminSearchList)
+          : controller.completedQAList.isNotEmpty
+              ? _buildListView(controller.completedQAList)
               : Center(
                   child: Text(
-                    qaController.notFoundListItems.value,
+                    controller.notFoundListItems.value,
                     style: AppThemes.headerItemTitle,
                   ),
                 ),

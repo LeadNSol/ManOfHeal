@@ -1,17 +1,13 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/review_ui.dart';
-import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/score_board_ui.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class VDBody extends StatelessWidget {
+
+class VDBody extends GetView<VDController> {
   @override
   Widget build(BuildContext context) {
     //return _body(context);
@@ -59,13 +55,13 @@ class VDBody extends StatelessWidget {
                                   () => Text.rich(
                                     TextSpan(
                                       text:
-                                          "Question ${vdController.questionNumber.value}",
+                                          "Question ${controller.questionNumber.value}",
                                       style: AppThemes.buttonFont.copyWith(
                                           color: AppThemes.DEEP_ORANGE),
                                       children: [
                                         TextSpan(
                                           text:
-                                              "/${vdController.questions.length}",
+                                              "/${controller.questions.length}",
                                           style: AppThemes.buttonFont.copyWith(
                                               color: AppThemes.DEEP_ORANGE),
                                         ),
@@ -78,7 +74,7 @@ class VDBody extends StatelessWidget {
                                   margin: const EdgeInsets.all(5),
                                   child: Obx(
                                     () => Text(
-                                      "${vdController.quizQuestionsList[vdController.questionNumber.value - 1].question}",
+                                      "${controller.quizQuestionsList[controller.questionNumber.value - 1].question}",
                                       style: AppThemes.normalBlackFont
                                           .copyWith(fontSize: 12),
                                     ),
@@ -104,8 +100,8 @@ class VDBody extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Obx(() {
-                            int duration = (((vdController.duration.value) /
-                                            vdController.questions.length) /
+                            int duration = (((controller.duration.value) /
+                                            controller.questions.length) /
                                         10)
                                     .round() *
                                 60;
@@ -113,7 +109,7 @@ class VDBody extends StatelessWidget {
                             return CircularCountDownTimer(
                               width: 70,
                               height: 70,
-                              controller: vdController.countDownController,
+                              controller: controller.countDownController,
                               duration: duration,
                               textStyle: AppThemes.normalBlackFont,
                               autoStart: true,
@@ -126,18 +122,18 @@ class VDBody extends StatelessWidget {
                               fillColor: AppThemes.DEEP_ORANGE,
                               onStart: () {
                                 debugPrint('Circular started');
-                                //vdController.obtainDuration(vdController.questionNumber-1);
+                                //controller.obtainDuration(controller.questionNumber-1);
                               },
                               onComplete: () {
-                                //vdController.countDownController.restart(duration: vdController.duration.value);
-                                if (vdController.isLastQuestion.isFalse) {
-                                  vdController.updateTheQnNum(
-                                      vdController.questionNumber.value);
-                                  vdController.nextQuestion();
-                                  vdController.countDownController
+                                //controller.countDownController.restart(duration: controller.duration.value);
+                                if (controller.isLastQuestion.isFalse) {
+                                  controller.updateTheQnNum(
+                                      controller.questionNumber.value);
+                                  controller.nextQuestion();
+                                  controller.countDownController
                                       .restart(duration: duration);
                                 } else {
-                                  vdController.countDownController.reset();
+                                  controller.countDownController.reset();
                                 }
                               },
                             );
@@ -148,12 +144,12 @@ class VDBody extends StatelessWidget {
 
                     PageView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      controller: vdController.pageController,
-                      onPageChanged: vdController.updateTheQnNum,
-                      itemCount: vdController.questions.length,
+                      controller: controller.pageController,
+                      onPageChanged: controller.updateTheQnNum,
+                      itemCount: controller.questions.length,
                       itemBuilder: (context, index) {
                         QuizQuestion quizQuestion =
-                            vdController.questions[index];
+                            controller.questions[index];
 
                         return QuestionCard(quizQuestion);
                       },
@@ -209,12 +205,12 @@ class VDBody extends StatelessWidget {
                   Obx(
                     () => Text.rich(
                       TextSpan(
-                        text: "Question ${vdController.questionNumber.value}",
+                        text: "Question ${controller.questionNumber.value}",
                         style: AppThemes.buttonFont
                             .copyWith(color: AppThemes.DEEP_ORANGE),
                         children: [
                           TextSpan(
-                            text: "/${vdController.questions.length}",
+                            text: "/${controller.questions.length}",
                             style: AppThemes.buttonFont
                                 .copyWith(color: AppThemes.DEEP_ORANGE),
                           ),
@@ -227,7 +223,7 @@ class VDBody extends StatelessWidget {
                     margin: const EdgeInsets.all(5),
                     child: Obx(
                       () => Text(
-                        "${vdController.quizQuestionsList[vdController.questionNumber.value - 1].question}",
+                        "${controller.quizQuestionsList[controller.questionNumber.value - 1].question}",
                         style: AppThemes.normalBlackFont.copyWith(fontSize: 12),
                       ),
                     ),
@@ -270,14 +266,14 @@ class VDBody extends StatelessWidget {
                   fillColor: AppThemes.DEEP_ORANGE,
                   onStart: () {
                     debugPrint('Circular started');
-                    //vdController.obtainDuration(vdController.questionNumber-1);
+                    //controller.obtainDuration(controller.questionNumber-1);
                   },
                   onComplete: () {
-                    //vdController.countDownController.restart(duration: vdController.duration.value);
-                    vdController
-                        .updateTheQnNum(vdController.questionNumber.value);
-                    vdController.nextQuestion();
-                    vdController.countDownController.restart(duration: 15);
+                    //controller.countDownController.restart(duration: controller.duration.value);
+                    controller
+                        .updateTheQnNum(controller.questionNumber.value);
+                    controller.nextQuestion();
+                    controller.countDownController.restart(duration: 15);
                   },
                 ),
               ),
@@ -293,11 +289,11 @@ class VDBody extends StatelessWidget {
         right: 0,
         child: PageView.builder(
           physics: NeverScrollableScrollPhysics(),
-          controller: vdController.pageController,
-          onPageChanged: vdController.updateTheQnNum,
-          itemCount: vdController.questions.length,
+          controller: controller.pageController,
+          onPageChanged: controller.updateTheQnNum,
+          itemCount: controller.questions.length,
           itemBuilder: (context, index) {
-            QuizQuestion quizQuestion = vdController.questions[index];
+            QuizQuestion quizQuestion = controller.questions[index];
 
             return QuestionCard(quizQuestion);
           },
@@ -307,7 +303,7 @@ class VDBody extends StatelessWidget {
   );
 }*/
 
-class QuestionCard extends StatelessWidget {
+class QuestionCard extends GetView<VDController> {
   //const QuestionCard({Key? key}) : super(key: key);
   QuestionCard(this.quizQuestion);
 
@@ -315,7 +311,7 @@ class QuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //vdController.setCardQuestion(quizQuestion.question!);
+    //controller.setCardQuestion(quizQuestion.question!);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
       child: Column(
@@ -328,7 +324,7 @@ class QuestionCard extends StatelessWidget {
             (index) => Options(
               quizQuestion.options![index],
               index,
-              () => vdController.checkAns(
+              () => controller.checkAns(
                   quizQuestion, index, quizQuestion.correctAnswer!),
             ),
           ),
@@ -337,7 +333,7 @@ class QuestionCard extends StatelessWidget {
 
           /// Review and Submit buttons
           Obx(
-            () => vdController.isLastQuestion.value
+            () => controller.isLastQuestion.value
                 ? btnReviewSubmit()
                 : Container(),
           ),
@@ -379,7 +375,7 @@ class QuestionCard extends StatelessWidget {
               labelText: 'Submit',
               textStyle: AppThemes.buttonFont,
               onPressed: () async {
-                await vdController
+                await controller
                     .createScoreBoard()
                     .then((value) => Get.off(() => ScoreBoardUI()));
               },
@@ -424,12 +420,12 @@ class QuestionCard extends StatelessWidget {
                     Obx(
                       () => Text.rich(
                         TextSpan(
-                          text: "Question ${vdController.questionNumber.value}",
+                          text: "Question ${controller.questionNumber.value}",
                           style: AppThemes.buttonFont
                               .copyWith(color: AppThemes.DEEP_ORANGE),
                           children: [
                             TextSpan(
-                              text: "/${vdController.questions.length}",
+                              text: "/${controller.questions.length}",
                               style: AppThemes.buttonFont
                                   .copyWith(color: AppThemes.DEEP_ORANGE),
                             ),
@@ -442,7 +438,7 @@ class QuestionCard extends StatelessWidget {
                       margin: const EdgeInsets.all(5),
                       child: Obx(
                         () => Text(
-                          "${vdController.quizQuestionsList[vdController.questionNumber.value - 1].question}",
+                          "${controller.quizQuestionsList[controller.questionNumber.value - 1].question}",
                           style:
                               AppThemes.normalBlackFont.copyWith(fontSize: 12),
                         ),
@@ -456,11 +452,11 @@ class QuestionCard extends StatelessWidget {
         ),
         PageView.builder(
           physics: NeverScrollableScrollPhysics(),
-          controller: vdController.pageController,
-          onPageChanged: vdController.updateTheQnNum,
-          itemCount: vdController.questions.length,
+          controller: controller.pageController,
+          onPageChanged: controller.updateTheQnNum,
+          itemCount: controller.questions.length,
           itemBuilder: (context, index) {
-            QuizQuestion quizQuestion = vdController.questions[index];
+            QuizQuestion quizQuestion = controller.questions[index];
 
             return QuestionCard(quizQuestion);
           },
@@ -491,13 +487,13 @@ class QuestionCard extends StatelessWidget {
               fillColor: AppThemes.DEEP_ORANGE,
               onStart: () {
                 debugPrint('Circular started');
-                //vdController.obtainDuration(vdController.questionNumber-1);
+                //controller.obtainDuration(controller.questionNumber-1);
               },
               onComplete: () {
-                //vdController.countDownController.restart(duration: vdController.duration.value);
-                vdController.updateTheQnNum(vdController.questionNumber.value);
-                vdController.nextQuestion();
-                vdController.countDownController.restart(duration: 5);
+                //controller.countDownController.restart(duration: controller.duration.value);
+                controller.updateTheQnNum(controller.questionNumber.value);
+                controller.nextQuestion();
+                controller.countDownController.restart(duration: 5);
               },
             ),
           ),
@@ -507,7 +503,7 @@ class QuestionCard extends StatelessWidget {
   }*/
 }
 
-class Options extends StatelessWidget {
+class Options extends GetView<VDController> {
   final String? text;
   final int? index;
   final VoidCallback? press;
@@ -525,12 +521,12 @@ class Options extends StatelessWidget {
     return Obx(
       () {
         Color getRightAnswerColor() {
-          if (vdController.isAnswered.isTrue) {
-            //print('Correct answered:  ${vdController.correctAns}');
-            if (index == vdController.correctAns) {
+          if (controller.isAnswered.isTrue) {
+            //print('Correct answered:  ${controller.correctAns}');
+            if (index == controller.correctAns) {
               return rightColor;
-            } else if (index == vdController.selectedAns &&
-                vdController.selectedAns != vdController.correctAns) {
+            } else if (index == controller.selectedAns &&
+                controller.selectedAns != controller.correctAns) {
               return wrongColor;
             }
           } else {

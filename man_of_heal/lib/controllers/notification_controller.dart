@@ -6,19 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:man_of_heal/controllers/auth_controller.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/main.dart';
-import 'package:man_of_heal/models/notification_model.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/admin_qa_list_ui.dart';
-import 'package:man_of_heal/ui/labs/widgets/lab_instruction_ui.dart';
-import 'package:man_of_heal/ui/notifications/enum_notification.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/qa_list_ui.dart';
-import 'package:man_of_heal/ui/student/pages/vignette_dissection/instructions_page.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class NotificationController extends GetxController {
-  static NotificationController instance = Get.find();
+  //static NotificationController instance = Get.find();
 
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'Man_Of_Heal0002', // id
@@ -263,9 +258,9 @@ class NotificationController extends GetxController {
 
   Future<void> addNotificationsToDB(NotificationModel model) async {
     var docRef = firebaseFirestore
-        .collection(AuthController.USERS)
+        .collection(USERS)
         .doc(model.receiverId)
-        .collection(AuthController.userNotification)
+        .collection(USER_NOTIFICATION)
         .doc();
     model.uID = docRef.id;
     model.sentTime = Timestamp.now();
@@ -277,9 +272,9 @@ class NotificationController extends GetxController {
   Future<void> updateNotificationIsRead(NotificationModel model) async {
     model.isRead = true;
     await firebaseFirestore
-        .collection(AuthController.USERS)
+        .collection(USERS)
         .doc(model.receiverId!.trim())
-        .collection(AuthController.userNotification)
+        .collection(USER_NOTIFICATION)
         .doc(model.uID)
         .set({
       NotificationModel.nIsRead: true
@@ -293,9 +288,9 @@ class NotificationController extends GetxController {
         : firebaseAuth.currentUser?.uid;
     print("GetNotificationList()");
     return firebaseFirestore
-        .collection(AuthController.USERS)
+        .collection(USERS)
         .doc(uid)
-        .collection(AuthController.userNotification)
+        .collection(USER_NOTIFICATION)
         .orderBy(NotificationModel.nSentTime, descending: true)
         .snapshots()
         .map((event) => event.docs
@@ -307,9 +302,9 @@ class NotificationController extends GetxController {
 
   Future<void> deleteNotification(NotificationModel model) async {
     await firebaseFirestore
-        .collection(AuthController.USERS)
+        .collection(USERS)
         .doc(model.receiverId!.trim())
-        .collection(AuthController.userNotification)
+        .collection(USER_NOTIFICATION)
         .doc(model.uID)
         .delete()
         .whenComplete(() => print("Notification: delete"));

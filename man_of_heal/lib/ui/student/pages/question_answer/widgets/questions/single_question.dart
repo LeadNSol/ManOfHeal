@@ -2,17 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/widgets/ask_question_ui.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/svgs.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-import 'single_question_details.dart';
-
-class SingleQAWidget extends StatelessWidget {
+class SingleQAWidget extends GetView<QAController> {
   final TextEditingController? questionController = TextEditingController();
   final TextEditingController? answerController = TextEditingController();
 
@@ -159,20 +154,13 @@ class SingleQAWidget extends StatelessWidget {
                             Container(
                               width: 100,
                               child: PrimaryButton(
-                                buttonStyle: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20.0, vertical: 10.0),
-                                  primary: AppThemes.DEEP_ORANGE,
-                                  shape: StadiumBorder(),
-                                ),
                                 labelText: 'Yes',
                                 textStyle: GoogleFonts.poppins(
                                     color: AppThemes.white,
                                     fontWeight: FontWeight.w600),
                                 onPressed: () {
                                   questionModel!.isDeleted = true;
-                                  qaController
-                                      .updateQuestionById(questionModel);
+                                  controller.updateQuestionById(questionModel);
 
                                   Get.back();
                                 },
@@ -181,12 +169,6 @@ class SingleQAWidget extends StatelessWidget {
                             Container(
                               width: 100,
                               child: PrimaryButton(
-                                  buttonStyle: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 10.0),
-                                    primary: AppThemes.DEEP_ORANGE,
-                                    shape: StadiumBorder(),
-                                  ),
                                   labelText: 'No',
                                   textStyle: GoogleFonts.poppins(
                                       color: AppThemes.white,
@@ -209,42 +191,28 @@ class SingleQAWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              qaController.questionController.text = questionModel!.question!;
-              categoryController.setSelectedCategory(questionModel!.category!);
+              controller.questionController.text = questionModel!.question!;
+              controller.categoryController!
+                  .setSelectedCategory(questionModel!.category!);
 
-              /// showing Question asking dialog
-             /* Get.defaultDialog(
-                  title: "Update Question",
-                  titleStyle: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                  content: AskQuestionUI(
-                    callingFor: "edit",
-                    questionModel: questionModel,
-                  ));*/
-
-              Get.bottomSheet(AskQuestionUI( callingFor: "edit",
-                questionModel: questionModel,),
+              Get.bottomSheet(
+                AskQuestionUI(
+                  callingFor: "edit",
+                  questionModel: questionModel,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15)),
                 ),
-                backgroundColor: Colors.white,);
+                backgroundColor: Colors.white,
+              );
             },
             child: Image.asset(
               "assets/icons/edit_icon.png",
               width: 17,
             ),
           ),
-
-          /*IconButton(
-              onPressed: () {
-                questionModel!.isDeleted = true;
-                qaController.deleteQuestionById(questionModel);
-              },
-              icon: Icon(Icons.delete_rounded))*/
         ],
       ),
     );

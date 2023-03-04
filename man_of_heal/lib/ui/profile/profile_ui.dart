@@ -3,22 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/models/profile_avatars.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/student/pages/subscription/subscription_ui.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-import '../../controllers/controllers_base.dart';
-import '../components/primary_button.dart';
-
-
-class ProfileUI extends StatelessWidget {
+class ProfileUI extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -152,7 +142,7 @@ class ProfileUI extends StatelessWidget {
                         FormVerticalSpace(
                           height: 10,
                         ),
-                        subscriptionController.subsFirebase?.studentId == null
+                        controller.getSubsModel()?.studentId == null
                             ? InkWell(
                                 onTap: () => Get.to(() => SubscriptionUI()),
                                 child: Text(
@@ -165,17 +155,15 @@ class ProfileUI extends StatelessWidget {
                                 ),
                               )
                             : Text(
-                                "${subscriptionController.subsFirebase!.planName!} Member \n "
-                                "Days left: ${subscriptionController.getSubscriptionExpiry() > 0 ? subscriptionController.getSubscriptionExpiry() : "Expired"}",
+                                "${controller.getSubsModel()!.planName!} Member \n "
+                                "Days left: ${controller.getSubscriptionExpiry() > 0 ? controller.getSubscriptionExpiry() : "Expired"}",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                     color: AppThemes.PREMIUM_OPTION_COLOR,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
                               ),
-                        FormVerticalSpace(
-                          height: 15,
-                        ),
+                        FormVerticalSpace(height: 15),
                       ],
                     ),
                   ),
@@ -206,13 +194,6 @@ class ProfileUI extends StatelessWidget {
                   width: 290,
                   height: 45,
                   child: PrimaryButton(
-                    buttonStyle: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        primary: AppThemes.DEEP_ORANGE,
-                        shape: StadiumBorder(),
-                        textStyle: GoogleFonts.poppins(
-                            fontSize: 16, fontWeight: FontWeight.w400)),
                     onPressed: () {
                       // authController.disposeGetXControllers();
                       authController.signOut();
@@ -248,9 +229,9 @@ class ProfileUI extends StatelessWidget {
 
   void getBuildNumber() {
     AppConstant.getBuildNumber().then((value) {
-      debugPrint("Version: ${value.version+"-"+value.buildNumber}");
+      debugPrint("Version: ${value.version + "-" + value.buildNumber}");
 
-      appVersion.value = "${value.version+"-"+value.buildNumber}";
+      appVersion.value = "${value.version + "-" + value.buildNumber}";
     });
   }
 
@@ -325,7 +306,7 @@ class ProfileUI extends StatelessWidget {
                       ),
                       TextSpan(
                           text:
-                              " ${feedBackController.netAdminRating.value.toStringAsFixed(1)}",
+                              " ${controller.getAdminRating().toStringAsFixed(1)}",
                           style: AppThemes.normalBlack45Font)
                     ],
                   ),
@@ -409,12 +390,6 @@ class ProfileUI extends StatelessWidget {
           ),
         ),
         confirm: PrimaryButton(
-            buttonStyle: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                primary: AppThemes.DEEP_ORANGE,
-                shape: StadiumBorder(),
-                textStyle: GoogleFonts.poppins(
-                    fontSize: 16, fontWeight: FontWeight.w400)),
             labelText: "Update",
             onPressed: () async {
               if (_formKey.currentState!.validate()) {

@@ -2,21 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AnswerDetails extends StatelessWidget {
+class AnswerDetails extends GetView<QAController> {
   final QuestionModel? questionModel;
 
   AnswerDetails(this.questionModel);
@@ -78,7 +69,7 @@ class AnswerDetails extends StatelessWidget {
                           border: Border.all(
                               color: AppThemes.DEEP_ORANGE.withOpacity(0.5))),
                       child: Text(
-                        '${categoryController.getCategoryById(questionModel!.category)}',
+                        '${controller.categoryController!.getCategoryById(questionModel!.category)}',
                         style: AppThemes.normalBlackFont
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -171,7 +162,8 @@ class AnswerDetails extends StatelessWidget {
     UserModel? userModel =
         authController.getAdminFromListById(model.answerMap!.adminID!.trim());
 
-    feedBackController.fetchCurrentAdminFeedBack(userModel: userModel);
+    controller.feedBackController!
+        .fetchCurrentAdminFeedBack(userModel: userModel);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -206,7 +198,8 @@ class AnswerDetails extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                          text: " ${feedBackController.netAdminRating.value}",
+                          text:
+                              " ${controller.feedBackController!.netAdminRating.value}",
                           style: AppThemes.normalBlack45Font)
                     ],
                   ),
@@ -218,7 +211,8 @@ class AnswerDetails extends StatelessWidget {
         if (authController.admin.isFalse)
           Obx(
             () => Visibility(
-              visible: feedBackController.haveCurrentUserInList.isFalse,
+              visible:
+                  controller.feedBackController!.haveCurrentUserInList.isFalse,
               child: Expanded(
                 flex: 2,
                 child: Container(
@@ -234,7 +228,7 @@ class AnswerDetails extends StatelessWidget {
                     textStyle: AppThemes.buttonFont.copyWith(fontSize: 11),
                     onPressed: () {
                       //authController.deleteUserById(userModel);
-                      feedBackController.rating(0);
+                      controller.feedBackController!.rating(0);
                       showRatingBottomSheet(userModel);
                       //Get.back();
                     },
@@ -275,7 +269,7 @@ class AnswerDetails extends StatelessWidget {
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   onRatingUpdate: (value) {
-                    feedBackController.rating.value = value;
+                    controller.feedBackController!.rating.value = value;
                   },
                   ratingWidget: RatingWidget(
                     full: Image.asset(
@@ -298,14 +292,12 @@ class AnswerDetails extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Obx(
                   () => Text(
-                    "Ratings: ${feedBackController.rating.value}",
+                    "Ratings: ${controller.feedBackController!.rating.value}",
                     style: AppThemes.normalBlackFont,
                   ),
                 ),
               ),
-              FormVerticalSpace(
-                height: 25
-              ),
+              FormVerticalSpace(height: 25),
               Form(
                 key: _formKey,
                 child: Column(
@@ -313,7 +305,8 @@ class AnswerDetails extends StatelessWidget {
                     Container(
                       height: 150,
                       child: FormInputFieldWithIcon(
-                        controller: feedBackController.remarksController,
+                        controller:
+                            controller.feedBackController!.remarksController,
                         iconPrefix: Icons.feedback_outlined,
                         labelText: 'Remarks',
                         maxLines: 3,
@@ -351,11 +344,12 @@ class AnswerDetails extends StatelessWidget {
                           textStyle: AppThemes.buttonFont,
                           onPressed: () {
                             if (_formKey.currentState!.validate() &&
-                                feedBackController.rating.value > 0) {
+                                controller.feedBackController!.rating.value >
+                                    0) {
                               SystemChannels.textInput.invokeMethod(
                                   'TextInput.hide'); //to hide the keyboard - if any
-                              feedBackController.createFeedBack(
-                                  questionModel!, userModel);
+                              controller.feedBackController!
+                                  .createFeedBack(questionModel!, userModel);
                               Get.back();
                               //print('added');
                             } else

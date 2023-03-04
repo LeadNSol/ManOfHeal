@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AddLabUI extends StatelessWidget {
+class AddLabUI extends GetView<LabController> {
   @override
   Widget build(BuildContext context) {
     return body(context);
@@ -29,7 +27,7 @@ class AddLabUI extends StatelessWidget {
               Align(alignment:Alignment.topCenter,child: Text("Add Lab", style: AppThemes.dialogTitleHeader,)),
               FormVerticalSpace(height: 10,),
               FormInputFieldWithIcon(
-                controller: labController.titleController,
+                controller: controller.titleController,
                 iconPrefix: Icons.title_outlined,
                 labelText: 'Title',
                 maxLines: 1,
@@ -42,7 +40,7 @@ class AddLabUI extends StatelessWidget {
               ),
               FormVerticalSpace(height: 10,),
               FormInputFieldWithIcon(
-                controller: labController.shortDescController,
+                controller: controller.shortDescController,
                 iconPrefix: Icons.description_outlined,
                 labelText: 'Short Description',
                 maxLines: 2,
@@ -56,7 +54,7 @@ class AddLabUI extends StatelessWidget {
               ),
               FormVerticalSpace(height: 10,),
               FormInputFieldWithIcon(
-                controller: labController.longDescController,
+                controller: controller.longDescController,
                 iconPrefix: Icons.list_alt_outlined,
                 labelText: 'Long Description',
                 maxLines: 10,
@@ -80,7 +78,7 @@ class AddLabUI extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         SystemChannels.textInput.invokeMethod(
                             'TextInput.hide'); //to hide the keyboard - if any
-                        labController.createLab();
+                        controller.createLab();
                         Get.back();
                         //print('added');
                       }

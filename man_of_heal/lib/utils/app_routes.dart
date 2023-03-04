@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:man_of_heal/bindings/export_bindings.dart';
+import 'package:man_of_heal/bindings/profile_binding.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 
 class AppRoutes {
@@ -10,17 +12,32 @@ class AppRoutes {
   static const welcomeRoute = "/welcome";
   static const forgotPasswordRoute = "/forgotPassword";
   static const profileRoute = "/profile";
+  static const stdDashboard = '/student-dashboard';
+  static const adminDashboard = '/admin-dashboard';
+  static const adminVignetteD = '/admin-vd';
+  static const stdVignetteD = '/std-vd';
 
   static final routes = [
     GetPage(name: initRoute, page: () => SplashUI()), //binding: AuthBinding()
-    GetPage(name: '/welcome', page: () => WelcomeBackUI()),
+
+    GetPage(
+        name: welcomeRoute,
+        page: () => WelcomeBackUI(),
+        binding: AppInitBindings()),
+
     GetPage(name: '/signIn', page: () => SignInUI()),
     GetPage(name: '/signup', page: () => SignUpUI()),
     GetPage(name: '/forgotPassword', page: () => ForgotPassword()),
-    GetPage(name: '/profile', page: () => ProfileUI()),
-    GetPage(name: '/AdminDashboard', page: () => AdminDashboardUI()),
-    GetPage(name: '/StudentDashboard', page: () => StudentDashboardUI()),
-    GetPage(name: '/vignette', page: () => AdminVignetteDissectionUI(), ),
+    GetPage(name: profileRoute, page: () => ProfileUI(), binding: ProfileBinding()),
+    GetPage(name: adminDashboard, page: () => AdminDashboardUI(), binding: AdminHomeBinding()),
+    GetPage(
+        name: stdDashboard,
+        page: () => StudentDashboardUI(),
+        binding: StdHomeBinding()),
+    GetPage(
+      name: adminVignetteD,
+      page: () => AdminVignetteDissectionUI(),
+    ),
     GetPage(name: '/admin-qa', page: () => AdminQuestionAnswerList()),
     GetPage(name: '/question-answer', page: () => QuestionAnswerList()),
     GetPage(name: '/lab-value', page: () => LabsUI()),

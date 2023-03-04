@@ -1,5 +1,9 @@
+import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 
+AuthController authController = Get.find();
+
+/*
 AuthController authController = AuthController.instance;
 
 QAController qaController = QAController.instance; //Get.find<QAController>();
@@ -23,3 +27,4 @@ NotificationController notificationController = NotificationController.instance;
 FeedBackController feedBackController = FeedBackController.instance;
 
 CategoryController categoryController = CategoryController.instance;
+*/

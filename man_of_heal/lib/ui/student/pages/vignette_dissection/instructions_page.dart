@@ -3,19 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/student/pages/vignette_dissection/widgets/leader_board_ui.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-import 'vignette_dissection_ui.dart';
-
-class QuizInstructionsScreen extends StatelessWidget {
+class QuizInstructionsScreen extends GetView<VDController> {
   final instructionList = [
     "1 mark award for correct answer and no mark for incorrect answer.",
     "Tap on option to select the correct answer.",
@@ -124,7 +116,7 @@ class QuizInstructionsScreen extends StatelessWidget {
                               buildQuestionMarkSvg(),
                               Obx(
                                 () => Text(
-                                  '${vdController.quizQuestionsList.length} Questions',
+                                  '${controller.quizQuestionsList.length} Questions',
                                   style: GoogleFonts.poppins(
                                     fontSize: 12.0.sp,
                                     fontWeight: FontWeight.w600,
@@ -176,7 +168,7 @@ class QuizInstructionsScreen extends StatelessWidget {
                               buildTimerSvg(),
                               Obx(
                                 () => Text(
-                                  '${vdController.duration.value} Mints',
+                                  '${controller.duration.value} Mints',
                                   style: GoogleFonts.poppins(
                                     fontSize: 12.0.sp,
                                     fontWeight: FontWeight.w600,
@@ -218,25 +210,25 @@ class QuizInstructionsScreen extends StatelessWidget {
                       labelText: 'Start quiz',
                       textStyle: AppThemes.buttonFont,
                       onPressed: () async {
-                        if(vdController.quizID.value != "") {
-                          await vdController.findUserAttemptedQuiz();
-                          vdController.resetAllValues();
-                          if (vdController.hasAlreadyAttemptTheQuiz.value) {
+                        if (controller.quizID.value != "") {
+                          await controller.findUserAttemptedQuiz();
+                          controller.resetAllValues();
+                          if (controller.hasAlreadyAttemptTheQuiz.value) {
                             Get.to(() => LeaderBoardUI());
                             AppConstant.displayNormalSnackBar("Attempt Alert!",
                                 "You have already Attempt the previous Quiz!");
                           } else {
                             Get.to(() => VignetteDissectionUI());
                           }
-                        }else{
-                          AppConstant.displayNormalSnackBar("Quiz Alert", "No Quiz is uploaded yet!");
+                        } else {
+                          AppConstant.displayNormalSnackBar(
+                              "Quiz Alert", "No Quiz is uploaded yet!");
                         }
                       },
                     ),
                   ),
                 ),
                 SizedBox(height: 20.0.sp),
-
               ],
             ),
           ),

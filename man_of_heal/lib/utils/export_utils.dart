@@ -4,3 +4,4 @@ export 'AppConstant.dart';
 export 'firebase.dart';
 export 'svgs.dart';
 export 'validator.dart';
+export 'strings.dart';

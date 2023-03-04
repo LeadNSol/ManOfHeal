@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AddQuestionUI extends StatelessWidget {
+class AddQuestionUI extends GetView<AdminVdController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
 
@@ -40,7 +37,7 @@ class AddQuestionUI extends StatelessWidget {
 
   Widget bodyContent(context) {
     //init values for drop down in list
-    adminVdController.initDropDown();
+    controller.initDropDown();
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(10),
@@ -53,7 +50,7 @@ class AddQuestionUI extends StatelessWidget {
             children: [
               /// question body
               FormInputFieldWithIcon(
-                controller: adminVdController.quizQuestionController,
+                controller: controller.quizQuestionController,
                 iconPrefix: Icons.quiz,
                 labelText: 'Question',
                 maxLines: 5,
@@ -84,7 +81,7 @@ class AddQuestionUI extends StatelessWidget {
                     width: 80,
                     child: PrimaryButton(
                       buttonStyle: ElevatedButton.styleFrom(
-                        primary: AppThemes.blackPearl,
+                        backgroundColor: AppThemes.blackPearl,
                         shape: StadiumBorder(),
                       ),
                       labelText: 'Add',
@@ -99,7 +96,7 @@ class AddQuestionUI extends StatelessWidget {
                               children: [
                                 FormInputFieldWithIcon(
                                   controller:
-                                      adminVdController.optionsController,
+                                      controller.optionsController,
                                   iconPrefix: Icons.text_fields,
                                   labelText: 'Option',
                                   maxLines: 1,
@@ -119,12 +116,6 @@ class AddQuestionUI extends StatelessWidget {
                                   child: Container(
                                     width: 150,
                                     child: PrimaryButton(
-                                      buttonStyle: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.0, vertical: 10.0),
-                                        primary: AppThemes.DEEP_ORANGE,
-                                        shape: StadiumBorder(),
-                                      ),
                                       labelText: 'Add Option',
                                       textStyle: AppThemes.buttonFont,
                                       onPressed: () {
@@ -132,8 +123,8 @@ class AddQuestionUI extends StatelessWidget {
                                             .validate()) {
                                           SystemChannels.textInput.invokeMethod(
                                               'TextInput.hide'); //to hide the keyboard - if any
-                                          adminVdController.addOptions();
-                                          adminVdController.clearControllers();
+                                          controller.addOptions();
+                                          controller.clearControllers();
                                           Get.back();
                                           //print('added');
                                         }
@@ -158,7 +149,7 @@ class AddQuestionUI extends StatelessWidget {
                   child: ListView(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
-                    children: adminVdController.optionList
+                    children: controller.optionList
                         .map((element) => Container(
                               margin: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
@@ -194,9 +185,9 @@ class AddQuestionUI extends StatelessWidget {
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          adminVdController.optionList
+                                          controller.optionList
                                               .remove(element);
-                                          adminVdController.initDropDown();
+                                          controller.initDropDown();
                                         },
                                         icon: Icon(
                                           Icons.close,
@@ -226,22 +217,22 @@ class AddQuestionUI extends StatelessWidget {
                   child: DropdownButton(
                     isExpanded: true,
                     style: AppThemes.normalBlackFont,
-                    hint: Text('${adminVdController.option.value}'),
+                    hint: Text('${controller.option.value}'),
                     onChanged: (newValue) {
-                      adminVdController.setOption(newValue);
-                      int index = adminVdController.optionList.indexOf(newValue);
+                      controller.setOption(newValue);
+                      int index = controller.optionList.indexOf(newValue);
                       print('Selected Index: $index');
-                      adminVdController.setCorrectIndex(index);
-                      print('Correct Selected Index: ${adminVdController.correctIndex}');
+                      controller.setCorrectIndex(index);
+                      print('Correct Selected Index: ${controller.correctIndex}');
                     },
-                    items: adminVdController.optionList.map((element) {
-                      print('Option Value: ${adminVdController.option.value}');
+                    items: controller.optionList.map((element) {
+                      print('Option Value: ${controller.option.value}');
                       return DropdownMenuItem(
                         child: Text(element),
                         value: element,
                       );
                     }).toList(),
-                    value: adminVdController.option.value,
+                    value: controller.option.value,
                   ),
                 ),
               ),
@@ -256,12 +247,12 @@ class AddQuestionUI extends StatelessWidget {
                     textStyle: AppThemes.buttonFont,
                     onPressed: () {
                       if (_formKey.currentState!.validate() &&
-                          adminVdController.option.value !=
+                          controller.option.value !=
                               AppConstant.CHOOSE_OPTION) {
                         SystemChannels.textInput.invokeMethod(
                             'TextInput.hide'); //to hide the keyboard - if any
                         //labController.createLab();
-                        adminVdController.createQuestion(quizModel);
+                        controller.createQuestion(quizModel);
                         Get.back();
                         //print('added');
                       }

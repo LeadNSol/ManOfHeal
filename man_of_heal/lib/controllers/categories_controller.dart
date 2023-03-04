@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/category_model.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class CategoryController extends GetxController {
-  static CategoryController instance = Get.find();
+  /* final QAController? qaController;
+  CategoryController(this.qaController);*/
 
-  static const CATEGORIES = "categories";
-  static const CHOOSE_CATEGORY = "Choose Category";
-  TextEditingController categoryController = new TextEditingController();
+  TextEditingController categoryTitleController = new TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   var categoriesList = <CategoryModel>[].obs;
@@ -34,9 +30,10 @@ class CategoryController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-   initData();
+    initData();
   }
-  void initData(){
+
+  void initData() {
     categoriesList.bindStream(getAllCategories());
 
     ever(categoriesList, handleCategoriesDropDown);
@@ -47,7 +44,6 @@ class CategoryController extends GetxController {
   }
 
   String getCategoryById(String? uId) {
-
     if (categoriesList.isNotEmpty) {
       for (CategoryModel category in categoriesList) {
         if (category.cUID == uId || category.category == uId) {
@@ -63,7 +59,7 @@ class CategoryController extends GetxController {
 
     CategoryModel _newCategory = CategoryModel(
         cUID: _uuid,
-        category: categoryController.text,
+        category: categoryTitleController.text,
         isDeleted: false,
         createdBy: firebaseAuth.currentUser!.uid,
         createdDate: Timestamp.now());
@@ -73,7 +69,7 @@ class CategoryController extends GetxController {
         .doc(_uuid)
         .set(_newCategory.toJson())
         .then((value) => {
-              categoryController.clear(),
+              categoryTitleController.clear(),
               Get.back(),
               AppConstant.displaySuccessSnackBar(
                   "Category alert!", 'Category was added!')
@@ -100,8 +96,8 @@ class CategoryController extends GetxController {
   }
 
   Future<void> deleteCategory(CategoryModel category) async {
-    bool? isCategoryFound = false;
-    for (QuestionModel element in qaController.allQAList) {
+    /*bool? isCategoryFound = false;
+    for (QuestionModel element in qaController!.allQAList) {
       if (element.category!.contains(category.category!)) {
         isCategoryFound = true;
         break;
@@ -112,11 +108,28 @@ class CategoryController extends GetxController {
       AppConstant.displaySnackBar("Deletion Warning!",
           "Category: ${category.category} Already in use!");
       return;
-    }
+    }*/
+
     await firebaseFirestore
-        .collection(CATEGORIES)
-        .doc(category.cUID!)
-        .update(category.toJson())
-        .whenComplete(() => {print("Category is updated!"), Get.back()});
+        .collection(QA_COLLECTION)
+        .where(QuestionModel.CATEGORY, isEqualTo: category.cUID)
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((doc) async {
+        //doc.data()['${QuestionModel.CATEGORY}'] == category.cUID
+        if (doc.exists) {
+          Get.back();
+          AppConstant.displaySnackBar("Deletion Warning!",
+              "Category: ${category.category} Already in use!");
+          return;
+        } else {
+          await firebaseFirestore
+              .collection(CATEGORIES)
+              .doc(category.cUID!)
+              .update(category.toJson())
+              .whenComplete(() => {print("Category is updated!"), Get.back()});
+        }
+      });
+    });
   }
 }

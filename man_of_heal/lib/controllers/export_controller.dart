@@ -10,3 +10,5 @@ export 'notification_controller.dart';
 export 'qa_controller.dart';
 export 'subscription_controller.dart';
 export 'vd_controller.dart';
+export 'controllers_base.dart';
+export 'profile_controller.dart';

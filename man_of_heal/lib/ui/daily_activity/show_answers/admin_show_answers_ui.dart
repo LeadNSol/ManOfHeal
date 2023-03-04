@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/student_answer_model.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/not_found_data_widget.dart';
-import 'package:man_of_heal/ui/daily_activity/widgets/qod_single_answer_list_items.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminShowAnswersUI extends StatelessWidget {
+class AdminShowAnswersUI extends GetView<DailyActivityController> {
   const AdminShowAnswersUI({Key? key}) : super(key: key);
 
   @override
@@ -43,9 +41,9 @@ class AdminShowAnswersUI extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
           child: TextField(
             cursorColor: AppThemes.DEEP_ORANGE,
-            controller: dailyActivityController.searchController,
+            controller: controller.searchController,
             onChanged: (search) => {
-              dailyActivityController.handleAdminSearch(search.toLowerCase())
+              controller.handleAdminSearch(search.toLowerCase())
             },
             textInputAction: TextInputAction.search,
             decoration: new InputDecoration(
@@ -77,12 +75,12 @@ class AdminShowAnswersUI extends StatelessWidget {
           height: 10,
         ),
         Obx(
-          () => dailyActivityController.searchAnswersList.isNotEmpty
+          () => controller.searchAnswersList.isNotEmpty
               ? _buildSTDAnswerListView(
-              dailyActivityController.searchAnswersList)
-              : dailyActivityController.allStudentsAnswers.isNotEmpty
+              controller.searchAnswersList)
+              : controller.allStudentsAnswers.isNotEmpty
                   ? _buildSTDAnswerListView(
-                      dailyActivityController.allStudentsAnswers)
+                      controller.allStudentsAnswers)
               : NoDataFound(),
         ),
       ],

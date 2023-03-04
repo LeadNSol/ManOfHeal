@@ -1,4 +1,3 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,17 +5,12 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/daily_activity_model.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/daily_activity/widgets/show_give_answer_widgets.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class DailyActivityUI extends StatelessWidget {
+class DailyActivityUI extends GetView<DailyActivityController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,7 +26,7 @@ class DailyActivityUI extends StatelessWidget {
     var qod = AppConstant.loremIpsum.obs;
     var tod = "DVT".obs;
     var dailyActivityModel = DailyActivityModel().obs;
-    dailyActivityController
+    controller
         .getDailyActivityByDate(Timestamp.fromDate(_currentSelectedDate.value))
         .then((DailyActivityModel model) => {
               dailyActivityModel.value = model,
@@ -78,7 +72,8 @@ class DailyActivityUI extends StatelessWidget {
 
               /// Calendar container
               CustomContainer(
-                height: AppConstant.getScreenHeight(context) * (kIsWeb? 0.6:0.45),
+                height: AppConstant.getScreenHeight(context) *
+                    (kIsWeb ? 0.6 : 0.45),
                 margin: EdgeInsets.only(
                   left: 17.0,
                   right: 17.0,
@@ -91,9 +86,8 @@ class DailyActivityUI extends StatelessWidget {
                       //print('CalendarDate: $date');
 
                       _currentSelectedDate.value = date;
-                      dailyActivityController
-                          .setCurrentDate(Timestamp.fromDate(date));
-                      dailyActivityController
+                      controller.setCurrentDate(Timestamp.fromDate(date));
+                      controller
                           .getDailyActivityByDate(Timestamp.fromDate(date))
                           .then((DailyActivityModel model) {
                         dailyActivityModel.value = model;
@@ -107,8 +101,9 @@ class DailyActivityUI extends StatelessWidget {
                       });
                     },
                     weekDayMargin: const EdgeInsets.symmetric(vertical: 1),
-                    headerMargin: EdgeInsets.symmetric(vertical: kIsWeb?2:16),
-                    dayPadding: kIsWeb?1:2,
+                    headerMargin:
+                        EdgeInsets.symmetric(vertical: kIsWeb ? 2 : 16),
+                    dayPadding: kIsWeb ? 1 : 2,
                     thisMonthDayBorderColor: Colors.transparent,
                     weekFormat: false,
                     pageScrollPhysics: const NeverScrollableScrollPhysics(),
@@ -221,11 +216,12 @@ class DailyActivityUI extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Align(
-                          alignment: Alignment.centerRight,
-                          child: ShowGiveAnswerButtons(
-                            showAnswerForCurrentDate: false,
-                            activityModel: dailyActivityModel.value,
-                          ),)
+                        alignment: Alignment.centerRight,
+                        child: ShowGiveAnswerButtons(
+                          showAnswerForCurrentDate: false,
+                          activityModel: dailyActivityModel.value,
+                        ),
+                      )
                     ],
                   ),
                 ),

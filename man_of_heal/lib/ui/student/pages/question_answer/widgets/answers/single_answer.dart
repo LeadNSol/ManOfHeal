@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/widgets/answers/single_answer_details.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class SingleAnswerWidget extends StatelessWidget {
+class SingleAnswerWidget extends GetView<QAController> {
   final QuestionModel? questionModel;
 
   SingleAnswerWidget(this.questionModel);
@@ -83,7 +81,7 @@ class SingleAnswerWidget extends StatelessWidget {
       children: [
         InkWell(
           onTap: () async {
-            await qaController.updateFavQuestionById(questionModel);
+            await controller.updateFavQuestionById(questionModel);
           },
           child: Icon(
             !questionModel.isFav!
@@ -98,7 +96,7 @@ class SingleAnswerWidget extends StatelessWidget {
         ),
         InkWell(
           onTap: () =>
-              qaController.copyToClipBoard(questionModel.answerMap!.answer!),
+              controller.copyToClipBoard(questionModel.answerMap!.answer!),
           child: Image.asset(
             "assets/icons/copy_icon.png",
             width: 15,

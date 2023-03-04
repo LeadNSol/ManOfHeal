@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/ui/admin/pages/vignette_dissection/widgets/add_question_ui.dart';
-import 'package:man_of_heal/ui/admin/pages/vignette_dissection/widgets/quiz_view_ui.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class QuizQuestionsUI extends StatelessWidget {
+class QuizQuestionsUI extends GetView<AdminVdController> {
   final QuizModel? quizModel;
 
   const QuizQuestionsUI({Key? key, this.quizModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    adminVdController.bindQuizQuestionList(quizModel);
+    controller.bindQuizQuestionList(quizModel);
     return Scaffold(
       backgroundColor: AppThemes.blackPearl,
       body: bodyContent(context),
@@ -88,11 +84,11 @@ class QuizQuestionsUI extends StatelessWidget {
                   child: Obx(
                     () => ListView.builder(
                       shrinkWrap: true,
-                      itemCount: adminVdController.quizQuestionsList.length,
+                      itemCount: controller.quizQuestionsList.length,
                       itemBuilder: (context, index) {
                         QuizQuestion question =
-                            adminVdController.quizQuestionsList[index];
-                        //print('quizQuestions: ${adminVdController.quizQuestionsList.length}');
+                            controller.quizQuestionsList[index];
+                        //print('quizQuestions: ${controller.quizQuestionsList.length}');
                         return singleQuestionItem(context, question, index);
                       },
                     ),
@@ -109,7 +105,7 @@ class QuizQuestionsUI extends StatelessWidget {
   Widget singleQuestionItem(context, question, index) {
     return InkWell(
       onTap: () {
-        adminVdController.updatePageNumber(index);
+        controller.updatePageNumber(index);
         Get.to(() => QuizViewUI(question: question, pageIndex: index));
       },
       child: Container(

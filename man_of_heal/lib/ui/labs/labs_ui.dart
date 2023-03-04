@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/labs/add_lab/add_lab_ui.dart';
-import 'package:man_of_heal/ui/labs/widgets/single_lab_widget.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class LabsUI extends StatelessWidget {
+class LabsUI extends GetView<LabController> {
   //var isVisible = false.obs;
 
   @override
@@ -47,18 +43,7 @@ class LabsUI extends StatelessWidget {
                   ),
                   backgroundColor: Colors.white,
                 );
-                //Get.to(()=>AddLabUI());
-              /*  String weekDay = DateFormat('EEEE').format(DateTime.now());
-                if (weekDay.toLowerCase() == "monday" ||
-                    weekDay.toLowerCase() == "thursday")
-                  Get.defaultDialog(
-                    title: 'Add Lab',
-                    titleStyle: AppThemes.dialogTitleHeader,
-                    content: AddLabUI(),
-                  );
-                else
-                  AppConstant.displaySnackBar("Warning", "You can plug Lab information only on Monday and Thursday!");
-*/              },
+                },
               child: Container(
                 width: 60,
                 height: 60,
@@ -85,8 +70,8 @@ class LabsUI extends StatelessWidget {
   }
 
   Widget _body() {
-    print('Lab Length: ${labController.labList.length}');
-    if (labController.labList.isNotEmpty && labController.labList.length > 0) {
+    print('Lab Length: ${controller.labList.length}');
+    if (controller.labList.isNotEmpty && controller.labList.length > 0) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,9 +89,9 @@ class LabsUI extends StatelessWidget {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                itemCount: labController.labList.length,
+                itemCount: controller.labList.length,
                 itemBuilder: (context, index) {
-                  return SingleLabWidget(labController.labList[index]);
+                  return SingleLabWidget(controller.labList[index]);
                 },
               ),
             ),

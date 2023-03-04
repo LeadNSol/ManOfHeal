@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/category_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/not_found_data_widget.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/svgs.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class CategoriesUI extends StatelessWidget {
+class CategoriesUI extends GetView<CategoryController> {
   const CategoriesUI({Key? key}) : super(key: key);
 
   @override
@@ -49,12 +41,12 @@ class CategoriesUI extends StatelessWidget {
             content: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Form(
-                key: categoryController.formKey,
+                key: controller.formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FormInputFieldWithIcon(
-                      controller: categoryController.categoryController,
+                      controller: controller.categoryTitleController,
                       iconPrefix: Icons.title,
                       labelText: 'Category title',
                       autofocus: false,
@@ -76,10 +68,10 @@ class CategoriesUI extends StatelessWidget {
                 labelText: 'Add',
                 textStyle: AppThemes.buttonFont,
                 onPressed: () async {
-                  if (categoryController.formKey.currentState!.validate()) {
+                  if (controller.formKey.currentState!.validate()) {
                     SystemChannels.textInput.invokeMethod(
                         'TextInput.hide'); //to hide the keyboard - if any
-                    await categoryController.createCategory();
+                    await controller.createCategory();
                   }
                 },
               ),
@@ -108,14 +100,13 @@ class CategoriesUI extends StatelessWidget {
   }
 
   Widget _body(context) {
-
     return Obx(
-      () => categoryController.categoriesList.isEmpty
+      () => controller.categoriesList.isEmpty
           ? NoDataFound()
           : ListView.builder(
-              itemCount: categoryController.categoriesList.length,
+              itemCount: controller.categoriesList.length,
               itemBuilder: (_, index) {
-                CategoryModel model = categoryController.categoriesList[index];
+                CategoryModel model = controller.categoriesList[index];
                 return SingleCategoryItem(model: model);
               },
             ),
@@ -123,7 +114,7 @@ class CategoriesUI extends StatelessWidget {
   }
 }
 
-class SingleCategoryItem extends StatelessWidget {
+class SingleCategoryItem extends GetView<CategoryController> {
   SingleCategoryItem({Key? key, this.model}) : super(key: key);
   final CategoryModel? model;
 
@@ -233,7 +224,7 @@ class SingleCategoryItem extends StatelessWidget {
                     textStyle: AppThemes.buttonFont,
                     onPressed: () {
                       model.isDeleted = true;
-                      categoryController.deleteCategory(model);
+                      controller.deleteCategory(model);
                     },
                   ),
                 ),
@@ -243,7 +234,7 @@ class SingleCategoryItem extends StatelessWidget {
                       buttonStyle: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                        primary: AppThemes.DEEP_ORANGE,
+                        backgroundColor: AppThemes.DEEP_ORANGE,
                         shape: StadiumBorder(),
                       ),
                       labelText: 'No',

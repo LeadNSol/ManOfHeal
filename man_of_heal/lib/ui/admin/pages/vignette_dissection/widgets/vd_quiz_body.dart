@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/ui/admin/pages/vignette_dissection/widgets/quiz_questions_ui.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class VDQuizReview extends StatelessWidget {
+class VDQuizReview extends GetView<AdminVdController> {
   VDQuizReview({Key? key}) : super(key: key);
 
   //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -90,9 +85,9 @@ class VDQuizReview extends StatelessWidget {
                       //primary: false,
                       physics: const AlwaysScrollableScrollPhysics(),
                       //padding: EdgeInsets.zero,
-                      itemCount: adminVdController.quizList.length,
+                      itemCount: controller.quizList.length,
                       itemBuilder: (context, index) {
-                        QuizModel quizModel = adminVdController.quizList[index];
+                        QuizModel quizModel = controller.quizList[index];
 
                         return SingleQuizItem(quizModel: quizModel,);
                       },

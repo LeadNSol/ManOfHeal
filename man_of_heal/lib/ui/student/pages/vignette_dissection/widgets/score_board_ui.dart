@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
-class ScoreBoardUI extends StatelessWidget {
+
+class ScoreBoardUI extends GetView<VDController> {
   //const ScoreBoardUI({Key? key}) : super(key: key);
 
   @override
@@ -43,12 +44,12 @@ class ScoreBoardUI extends StatelessWidget {
   }
 
   Widget body(context) {
-    var noOfQuestions = vdController.quizQuestionsList.length;
-    var wrong =
-        noOfQuestions - vdController.numOfCorrectAns;
-    var yourScore = vdController.numOfCorrectAns * 10;
+    var noOfQuestions = controller.quizQuestionsList.length;
+    var wrong = noOfQuestions - controller.numOfCorrectAns;
+    var yourScore = controller.numOfCorrectAns * 10;
 
-    var completion = ((wrong + vdController.numOfCorrectAns) * 100)/noOfQuestions;
+    var completion =
+        ((wrong + controller.numOfCorrectAns) * 100) / noOfQuestions;
 
     print('Completion: $completion');
     return LayoutBuilder(builder: (context, constraints) {
@@ -130,7 +131,7 @@ class ScoreBoardUI extends StatelessWidget {
                         //crossAxisAlignment: CrossAxisAlignment.st,
                         children: [
                           Row(
-                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
                                 flex: 2,
@@ -140,14 +141,16 @@ class ScoreBoardUI extends StatelessWidget {
                                   "Completion",
                                 ),
                               ),
-                              SizedBox(width: 30,),
+                              SizedBox(
+                                width: 30,
+                              ),
                               Expanded(
                                 flex: 2,
                                 child: cardWidget(
                                     AppThemes.blackPearl,
-                                    vdController.quizQuestionsList.length < 10
-                                        ? "0${vdController.quizQuestionsList.length}"
-                                        : vdController.quizQuestionsList.length,
+                                    controller.quizQuestionsList.length < 10
+                                        ? "0${controller.quizQuestionsList.length}"
+                                        : controller.quizQuestionsList.length,
                                     "Total Questions"),
                               ),
                             ],
@@ -161,12 +164,14 @@ class ScoreBoardUI extends StatelessWidget {
                                 flex: 2,
                                 child: cardWidget(
                                     AppThemes.rightAnswerColor,
-                                    vdController.numOfCorrectAns < 10
-                                        ? "0${vdController.numOfCorrectAns}"
-                                        : vdController.numOfCorrectAns,
+                                    controller.numOfCorrectAns < 10
+                                        ? "0${controller.numOfCorrectAns}"
+                                        : controller.numOfCorrectAns,
                                     "Correct"),
                               ),
-                              SizedBox(width: 30,),
+                              SizedBox(
+                                width: 30,
+                              ),
                               Expanded(
                                 flex: 2,
                                 child: cardWidget(AppThemes.DEEP_ORANGE,
@@ -182,7 +187,7 @@ class ScoreBoardUI extends StatelessWidget {
 
                 Container(
                   alignment: Alignment.center,
-                 // margin: const EdgeInsets.only(left: 17,right: 17),
+                  // margin: const EdgeInsets.only(left: 17,right: 17),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -194,7 +199,7 @@ class ScoreBoardUI extends StatelessWidget {
                           "Home",
                         ),
                       ),
-                     // SizedBox(width: 55,),
+                      // SizedBox(width: 55,),
                       Expanded(
                         child: bottomActionIcon(
                           () => Get.to(ReviewUI()),
@@ -205,7 +210,7 @@ class ScoreBoardUI extends StatelessWidget {
                       //SizedBox(width: 50,),
                       Expanded(
                         child: bottomActionIcon(
-                          () => Get.to(()=>LeaderBoardUI()),
+                          () => Get.to(() => LeaderBoardUI()),
                           "score_leader_board_icon.svg",
                           "Leader Board",
                         ),

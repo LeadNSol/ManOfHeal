@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/student_answer_model.dart';
-import 'package:man_of_heal/ui/components/not_found_data_widget.dart';
-import 'package:man_of_heal/ui/daily_activity/widgets/qod_single_answer_list_items.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class StudentAnswerUI extends StatelessWidget {
+class StudentAnswerUI extends GetView<DailyActivityController> {
   const StudentAnswerUI({Key? key}) : super(key: key);
 
   @override
@@ -40,16 +39,16 @@ class StudentAnswerUI extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Obx(
-          () => dailyActivityController.currentStdAnswerList.isNotEmpty
+          () => controller.currentStdAnswerList.isNotEmpty
               ?
               Expanded(
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount:
-                          dailyActivityController.currentStdAnswerList.length,
+                          controller.currentStdAnswerList.length,
                       itemBuilder: (context, index) {
                         StdAnswerModel answerModel =
-                            dailyActivityController.currentStdAnswerList[index];
+                            controller.currentStdAnswerList[index];
                         return SingleAnswerListItems(stdModel: answerModel);
                       }),
                 )

@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/student_subscription_model.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/not_found_data_widget.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminStdSubscriptionUI extends StatelessWidget {
+class AdminStdSubscriptionUI extends GetView<SubscriptionController> {
   const AdminStdSubscriptionUI({Key? key}) : super(key: key);
 
   @override
@@ -46,9 +42,9 @@ class AdminStdSubscriptionUI extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
           child: TextField(
             cursorColor: AppThemes.DEEP_ORANGE,
-            controller: subscriptionController.searchController,
+            controller: controller.searchController,
             onChanged: (search) =>
-                {subscriptionController.handleSearch(search)},
+                {controller.handleSearch(search)},
             textInputAction: TextInputAction.search,
             decoration: new InputDecoration(
                 contentPadding: EdgeInsets.all(12.0),
@@ -79,15 +75,15 @@ class AdminStdSubscriptionUI extends StatelessWidget {
           height: 10,
         ),
         Obx(
-          () => subscriptionController.stdSubscriptionList.isNotEmpty
-              ? subscriptionController.searchList.isNotEmpty
+          () => controller.stdSubscriptionList.isNotEmpty
+              ? controller.searchList.isNotEmpty
                   ? Expanded(
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: subscriptionController.searchList.length,
+                          itemCount: controller.searchList.length,
                           itemBuilder: (context, index) {
                             StudentSubscription? stdSubsModel =
-                                subscriptionController.searchList[index];
+                                controller.searchList[index];
                             return SingleSubscriptionItem(
                                 stdModel: stdSubsModel);
                           }),
@@ -96,10 +92,10 @@ class AdminStdSubscriptionUI extends StatelessWidget {
                       child: ListView.builder(
                           shrinkWrap: true,
                           itemCount:
-                              subscriptionController.stdSubscriptionList.length,
+                              controller.stdSubscriptionList.length,
                           itemBuilder: (context, index) {
                             StudentSubscription? stdSubsModel =
-                                subscriptionController
+                                controller
                                     .stdSubscriptionList[index];
                             return SingleSubscriptionItem(
                                 stdModel: stdSubsModel);
@@ -112,7 +108,7 @@ class AdminStdSubscriptionUI extends StatelessWidget {
   }
 }
 
-class SingleSubscriptionItem extends StatelessWidget {
+class SingleSubscriptionItem extends GetView<SubscriptionController> {
   const SingleSubscriptionItem({Key? key, this.stdModel}) : super(key: key);
   final StudentSubscription? stdModel;
 
@@ -170,7 +166,6 @@ class SingleSubscriptionItem extends StatelessWidget {
   }
 
   Widget _textWidget(title, value) {
-    bool isEmail = false;
     if(title.toString().toLowerCase().contains("email") && value.toString().length > 20) {
       print("Email Length: ${value.toString().length}");
 

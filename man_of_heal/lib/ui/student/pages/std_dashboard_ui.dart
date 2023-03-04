@@ -5,28 +5,12 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/daily_activity/daily_activity_screen.dart';
-import 'package:man_of_heal/ui/labs/widgets/lab_instruction_ui.dart';
-import 'package:man_of_heal/ui/notifications/widgets/notification_badge_ui.dart';
-import 'package:man_of_heal/ui/profile/profile_ui.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-import 'vignette_dissection/instructions_page.dart';
-
-class StudentDashboardUI extends StatefulWidget {
-  const StudentDashboardUI({Key? key}) : super(key: key);
-
-  @override
-  State<StudentDashboardUI> createState() => _StudentDashboardUIState();
-}
-
-class _StudentDashboardUIState extends State<StudentDashboardUI> {
+class StudentDashboardUI extends GetView<LandingPageController> {
   @override
   Widget build(BuildContext context) {
     if (authController.userModel!.isTrailFinished != null &&
@@ -133,7 +117,8 @@ class _StudentDashboardUIState extends State<StudentDashboardUI> {
         ),
 
         ///QOQ and TOD
-        Obx(
+        QodAndTodUI(),
+        /*Obx(
           ()=> CustomContainer(
             margin: const EdgeInsets.only(top: 120, left: 15, right: 15),
             height: kIsWeb ? 120 : 150,
@@ -181,7 +166,7 @@ class _StudentDashboardUIState extends State<StudentDashboardUI> {
               ),
             ),
           ),
-        ),
+        ),*/
 
         Container(
           margin: EdgeInsets.only(
@@ -198,7 +183,7 @@ class _StudentDashboardUIState extends State<StudentDashboardUI> {
                 children: [
                   customDashboardItems(
                       context,
-                      () => landingPageController.setStudentPage(1),
+                      () => controller.setStudentPage(1),
                       "assets/icons/questions_icon.svg",
                       "Questions"),
                   SizedBox(
@@ -265,7 +250,6 @@ class _StudentDashboardUIState extends State<StudentDashboardUI> {
     );
   }
 
-
   showTrailNotifyDialog(context) {
     if (!Get.isDialogOpen!)
       Get.defaultDialog(
@@ -323,23 +307,6 @@ class _StudentDashboardUIState extends State<StudentDashboardUI> {
           ],
         ),
       ),
-    );
-  }
-
-  //Top card item
-  Widget customRichText(TextTheme textTheme, title, subtitle) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: textTheme.headline6!.copyWith(color: AppThemes.DEEP_ORANGE),
-        ),
-        Text(
-          subtitle,
-          style: textTheme.subtitle2!.copyWith(fontWeight: FontWeight.w400),
-        )
-      ],
     );
   }
 }

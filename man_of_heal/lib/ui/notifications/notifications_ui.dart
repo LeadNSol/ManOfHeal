@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/notification_model.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
 
-class NotificationUI extends StatelessWidget {
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
+
+class NotificationUI extends GetView<NotificationController> {
   const NotificationUI({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +30,7 @@ class NotificationUI extends StatelessWidget {
         ),
       ),
       body: Obx(
-        () => notificationController.notificationList.isEmpty
+        () => controller.notificationList.isEmpty
             ? Center(
                 child: Text(
                   "No Notification received yet?",
@@ -40,14 +39,14 @@ class NotificationUI extends StatelessWidget {
               )
             : ListView.builder(
                 shrinkWrap: true,
-                itemCount: notificationController.notificationList.length,
+                itemCount: controller.notificationList.length,
                 itemBuilder: (_, index) {
                   NotificationModel model =
-                      notificationController.notificationList[index];
+                      controller.notificationList[index];
                   return CustomContainer(
                     isNotificationBody: model.isRead!=null? !model.isRead! : false,
                     child: ListTile(
-                      onTap: () => notificationController
+                      onTap: () => controller
                           .updateNotificationIsRead(model),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +75,7 @@ class NotificationUI extends StatelessWidget {
                       ),
                       trailing: InkWell(
                         onTap: () =>
-                            {notificationController.deleteNotification(model)},
+                            {controller.deleteNotification(model)},
                         child: Icon(
                           Icons.delete,
                           color: AppThemes.DEEP_ORANGE,

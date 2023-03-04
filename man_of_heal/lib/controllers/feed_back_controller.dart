@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/auth_controller.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/feedback_model.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class FeedBackController extends GetxController {
-  static FeedBackController instance = Get.find();
+  final AuthController? authController;
+  final NotificationController? notificationController;
 
-  static const userFeedBackCollections = "feed_backs";
+  FeedBackController(
+      {required this.authController, required this.notificationController});
 
   var remarksController = TextEditingController();
   var rating = 0.0.obs;
@@ -20,10 +18,15 @@ class FeedBackController extends GetxController {
   var currentAdminFeedBackList = <FeedbackModel>[].obs;
 
   //var isOverFlowVisible = false.obs;
-  //TODO: get admin total rating
+  final isSeeMoreClicked = false.obs;
+
+
+
+
+  //TDO: get admin total rating
   var netAdminRating = 0.0.obs;
 
-  //TODO: checkCurrent Student User in FeedBack List
+  //TDO: checkCurrent Student User in FeedBack List
   var haveCurrentUserInList = false.obs;
 
   @override
@@ -41,8 +44,8 @@ class FeedBackController extends GetxController {
   void handleAdminData(List<FeedbackModel> list) {
     String? uid = firebaseAuth.currentUser != null
         ? firebaseAuth.currentUser!.uid
-        : authController.userModel != null
-            ? authController.userModel!.uid!
+        : authController!.userModel != null
+            ? authController!.userModel!.uid!
             : "";
     debugPrint("geUserFeedback(): List ${list.length}");
     double totalRating = 0.0;
@@ -51,7 +54,6 @@ class FeedBackController extends GetxController {
     list.forEach((element) {
       if (element.ratings != null) totalRating += element.ratings!;
       if (element.studentId! == uid) {
-        debugPrint("geUserFeedback(): innwe ${uid}");
         isStudentRatedAdmin = true;
       }
     });
@@ -69,11 +71,10 @@ class FeedBackController extends GetxController {
         ? userModel.uid
         : firebaseAuth.currentUser?.uid != null
             ? firebaseAuth.currentUser!.uid
-            : authController.userModel!.uid!;
+            : authController!.userModel!.uid!;
 
-    debugPrint("geUserFeedback(): $uid");
     return firebaseFirestore
-        .collection(AuthController.USERS)
+        .collection(USERS)
         .doc(uid)
         .collection(userFeedBackCollections)
         .snapshots()
@@ -85,8 +86,8 @@ class FeedBackController extends GetxController {
 
   Future<void> createFeedBack(
       QuestionModel questionModel, UserModel userModel) async {
-    var ref = await firebaseFirestore
-        .collection(AuthController.USERS)
+    var ref = firebaseFirestore
+        .collection(USERS)
         .doc(userModel.uid!)
         .collection(userFeedBackCollections);
 
@@ -103,5 +104,15 @@ class FeedBackController extends GetxController {
           "You're feedback is Successfully submitted against Instructor: ${userModel.name}!");
       remarksController.clear();
     });
+  }
+
+  UserModel? getFeedbackUser(String? studentId) {
+    return authController!.getUserFromListById(studentId!);
+  }
+
+  @override
+  void onClose() {
+    // TDO: implement onClose
+    super.onClose();
   }
 }

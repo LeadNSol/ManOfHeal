@@ -4,17 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/categories_controller.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AskQuestionUI extends StatelessWidget {
+class AskQuestionUI extends GetView<QAController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final String? callingFor;
@@ -25,10 +20,11 @@ class AskQuestionUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (callingFor != "edit" &&
-        subscriptionController.subsFirebase != null &&
-        subscriptionController.subsFirebase!.noOfAskedQuestion != null &&
-        subscriptionController.subsFirebase!.noOfAskedQuestion! <= 0)
-      return _countDownTimerBody();
+        controller.subscriptionController!.subsFirebase != null &&
+        controller.subscriptionController!.subsFirebase!.noOfAskedQuestion !=
+            null &&
+        controller.subscriptionController!.subsFirebase!.noOfAskedQuestion! <=
+            0) return _countDownTimerBody();
 
     return _formBody();
   }
@@ -47,20 +43,16 @@ class AskQuestionUI extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FormVerticalSpace(
-                height: 5,
-              ),
+              FormVerticalSpace(height: 5),
               Text(
                 "${callingFor == "edit" ? "Update" : "Ask"} Question",
                 style: AppThemes.headerTitleBlackFont,
               ),
-              FormVerticalSpace(
-                height: 10,
-              ),
+              FormVerticalSpace(height: 10),
               callingFor == "edit"
                   ? Text('')
                   : Text(
-                      'Questions Left: ${subscriptionController.subsFirebase?.noOfAskedQuestion != null ? subscriptionController.subsFirebase?.noOfAskedQuestion! : "onTrials"}',
+                      'Questions Left: ${controller.subscriptionController?.subsFirebase?.noOfAskedQuestion != null ? controller.subscriptionController!.subsFirebase?.noOfAskedQuestion! : "onTrials"}',
                       style: AppThemes.normalORANGEFont,
                     ),
 
@@ -79,13 +71,14 @@ class AskQuestionUI extends StatelessWidget {
                   child: DropdownButton(
                     isExpanded: true,
                     style: AppThemes.normalBlackFont,
-                    hint: Text('${categoryController.selectedCategory.value}'),
+                    hint: Text(
+                        '${controller.categoryController!.selectedCategory.value}'),
                     onChanged: (newValue) {
-                      categoryController
+                      controller.categoryController!
                           .setSelectedCategory(newValue as String);
                     },
-                    items:
-                        categoryController.categoriesList.map((categoryModel) {
+                    items: controller.categoryController!.categoriesList
+                        .map((categoryModel) {
                       String category = categoryModel.category!;
                       return DropdownMenuItem(
                         child: Text(
@@ -94,7 +87,8 @@ class AskQuestionUI extends StatelessWidget {
                         value: category,
                       );
                     }).toList(),
-                    value: categoryController.selectedCategory.value,
+                    value:
+                        controller.categoryController!.selectedCategory.value,
                   ),
                 ),
               ),
@@ -105,7 +99,7 @@ class AskQuestionUI extends StatelessWidget {
               Container(
                 height: 200,
                 child: FormInputFieldWithIcon(
-                  controller: qaController.questionController,
+                  controller: controller.questionController,
                   iconPrefix: Icons.question_answer_outlined,
                   labelText: 'Question Body',
                   maxLines: 4,
@@ -141,37 +135,30 @@ class AskQuestionUI extends StatelessWidget {
                       )
                     : Text(""),
               ),
-              FormVerticalSpace(
-                height: 5,
-              ),
+              FormVerticalSpace(height: 5),
               Container(
                 width: 200,
                 child: PrimaryButton(
-                  buttonStyle: ElevatedButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    primary: AppThemes.DEEP_ORANGE,
-                    shape: StadiumBorder(),
-                  ),
                   labelText: callingFor == "edit" ? "Update" : "Submit",
                   onPressed: () async {
                     // if (_formKey.currentState!.validate()) {
                     SystemChannels.textInput.invokeMethod('TextInput.hide');
                     if (callingFor == "edit") {
                       questionModel!.question =
-                          qaController.questionController.text;
+                          controller.questionController.text;
                       questionModel!.category =
-                          categoryController.selectedCategory.value;
+                          controller.categoryController!.selectedCategory.value;
                       questionModel!.qModifiedDate = Timestamp.now();
 
-                      qaController.updateQuestionById(questionModel!);
+                      controller.updateQuestionById(questionModel!);
                       Get.back();
                       error.value = false;
-                    } else if (categoryController.selectedCategory.value
+                    } else if (controller
+                            .categoryController!.selectedCategory.value
                             .toLowerCase() !=
-                        CategoryController.CHOOSE_CATEGORY.toLowerCase()) {
+                        CHOOSE_CATEGORY.toLowerCase()) {
                       if (_formKey.currentState!.validate()) {
-                        qaController.createQuestion();
+                        controller.createQuestion();
                         error.value = false;
                         errorMessage.value = "";
                         Get.back();
@@ -199,7 +186,7 @@ class AskQuestionUI extends StatelessWidget {
     print("_countDownTimerBody()");
     // var isNextQuestionTimeNotOver = true.obs;
     int endTime = AppConstant.getSecondsFromNowOnwardDate(
-        subscriptionController.subsFirebase?.nextQuestionAt!);
+        controller.subscriptionController!.subsFirebase?.nextQuestionAt!);
 
     return Column(
       //mainAxisAlignment: MainAxisAlignment.center,
@@ -226,10 +213,10 @@ class AskQuestionUI extends StatelessWidget {
                 widgetBuilder: (context, CurrentRemainingTime? time) {
                   //print(time.toString());
                   if (time == null) {
-                    subscriptionController
+                    controller.subscriptionController!
                         .updateSubscriptionOnNextQuestionTimerEnds();
                     return Text(
-                      'You got ${subscriptionController.subsFirebase?.questionQuota} Questions\n'
+                      'You got ${controller.subscriptionController!.subsFirebase?.questionQuota} Questions\n'
                       'Close the dialog',
                       textAlign: TextAlign.center,
                       style: AppThemes.normalORANGEFont,

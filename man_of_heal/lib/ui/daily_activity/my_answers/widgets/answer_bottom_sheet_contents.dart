@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
+import 'package:man_of_heal/controllers/daily_activity_controller.dart';
 import 'package:man_of_heal/models/daily_activity_model.dart';
 import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
-class AnswerBottomSheetContents extends StatelessWidget {
+class AnswerBottomSheetContents extends GetView<DailyActivityController> {
   const AnswerBottomSheetContents({Key? key, this.dailyActivityModel,}) : super(key: key);
   final DailyActivityModel? dailyActivityModel;
 
@@ -41,7 +43,7 @@ class AnswerBottomSheetContents extends StatelessWidget {
             Container(
               height: 150,
               child: FormInputFieldWithIcon(
-                controller: dailyActivityController.studentAnswerController,
+                controller: controller.studentAnswerController,
                 iconPrefix: Icons.note,
                 labelText: 'Answer body',
                 isExpanded: true,
@@ -69,7 +71,7 @@ class AnswerBottomSheetContents extends StatelessWidget {
                   labelText: 'Submit',
                   textStyle: AppThemes.buttonFont,
                   onPressed: () async {
-                    await dailyActivityController.createStudentAnswer(dailyActivityModel!);
+                    await controller.createStudentAnswer(dailyActivityModel!);
                   },
                 ),
               ),

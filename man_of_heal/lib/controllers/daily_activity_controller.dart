@@ -1,17 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/daily_activity_model.dart';
-import 'package:man_of_heal/models/notification_model.dart';
-import 'package:man_of_heal/models/student_answer_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/notifications/enum_notification.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class DailyActivityController extends GetxController {
-  static DailyActivityController instance = Get.find();
+  //static DailyActivityController instance = Get.find();
+
+  final AuthController? authController;
+  final NotificationController? notificationController;
+  final FeedBackController? feedbackController;
+
+  DailyActivityController(
+      {this.authController,
+      this.notificationController,
+      this.feedbackController});
 
   static const DAILY_ACTIVITY = "daily_activity";
   static const studentAnswersCollection = "studentAnswers";
@@ -94,7 +99,7 @@ class DailyActivityController extends GetxController {
     if (list.isNotEmpty) {
       for (var value in list) {
         print("HandleAllStudents: " + value.studentId!);
-        for (UserModel model in authController.usersList) {
+        for (UserModel model in authController!.usersList) {
           if (model.uid!.contains(value.studentId!)) {
             studentsInUserList.add(model);
           }
@@ -125,8 +130,8 @@ class DailyActivityController extends GetxController {
 
   createStudentAnswer(DailyActivityModel? model) async {
     if (model != null && model.daUID != null) {
-      String userID = authController.userModel!.uid!;
-      var colSubRef = await firebaseFirestore
+      String userID = authController!.userModel!.uid!;
+      var colSubRef = firebaseFirestore
           .collection(DAILY_ACTIVITY)
           .doc(model.daUID!)
           .collection(studentAnswersCollection);
@@ -155,7 +160,7 @@ class DailyActivityController extends GetxController {
         .doc(date)
         .collection(studentAnswersCollection)
         .where(StdAnswerModel.answerBY,
-            isEqualTo: authController.userModel!.uid)
+            isEqualTo: authController!.userModel!.uid)
         .snapshots()
         .map((event) => event.docs
             .map((e) =>
@@ -164,10 +169,9 @@ class DailyActivityController extends GetxController {
   }
 
   bool? checkIfStdGiveAnswer() {
-
     if (currentStdAnswerList.isNotEmpty) {
       for (StdAnswerModel answerModel in currentStdAnswerList) {
-        if (answerModel.answerBy!.contains(authController.userModel!.uid!)) {
+        if (answerModel.answerBy!.contains(authController!.userModel!.uid!)) {
           return true;
         }
       }
@@ -223,7 +227,7 @@ class DailyActivityController extends GetxController {
   }
 
   void sendNotificationToStudent(DailyActivityModel model) async {
-    UserModel sender = authController.userModel!;
+    UserModel sender = authController!.userModel!;
     print(
         "Notifications: Sender name: ${sender.name}, Token: ${sender.userToken}");
 
@@ -238,7 +242,7 @@ class DailyActivityController extends GetxController {
         receiverToken: "daily_activity"
         //receiverId: questionModel.studentId,
         );
-    notificationController.sendPushNotification(model);
+    notificationController?.sendPushNotification(model);
     //notificationController.addNotificationsToDB(model);
   }
 
@@ -279,7 +283,6 @@ class DailyActivityController extends GetxController {
 
     stdAnswerModel.close();
     _dailyActivityModel.close();
-
   }
 
   @override

@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/admin_vd_controller.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/qa_controller.dart';
-import 'package:man_of_heal/controllers/subscription_controller.dart';
-import 'package:man_of_heal/ui/admin/pages/manage_categories/categories_ui.dart';
-import 'package:man_of_heal/ui/components/double_back_press_on_exit.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends GetView<LandingPageController> {
   @override
   Widget build(BuildContext context) {
-    _initControllers();
+    //_initControllers();
     return Obx(
       () => SafeArea(
         child: DoubleBackPressToExit(
           child: Scaffold(
             extendBody: true,
-            body: landingPageController.currentAdminPage,
+            body: controller.currentAdminPage,
             bottomNavigationBar: _bottomCircularNotchedBar(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
@@ -63,7 +59,7 @@ class AdminHome extends StatelessWidget {
     Get.put(FeedBackController());*/
     //Get.put(SubscriptionController());
    //Get.put(QAController());
-    Get.put(AdminVdController());
+   // Get.put(AdminVdController());
   }
 
   _bottomCircularNotchedBar() {
@@ -77,7 +73,7 @@ class AdminHome extends StatelessWidget {
       shape: CircularNotchedRectangle(),
       child: Obx(
         () => BottomNavigationBar(
-          currentIndex: landingPageController.adminTabIndex.value,
+          currentIndex: controller.adminTabIndex.value,
           selectedItemColor: AppThemes.DEEP_ORANGE,
           unselectedItemColor: _inactiveColor,
           selectedLabelStyle: GoogleFonts.poppins(
@@ -99,7 +95,7 @@ class AdminHome extends StatelessWidget {
   }
 
   onTapped(int index) {
-    landingPageController.setAdminPage(index);
+    controller.setAdminPage(index);
     // if (index == 1) landingPageController.setCalledFor("Answered");
   }
 }

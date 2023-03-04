@@ -3,16 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/auth/forgot_password_ui.dart';
-import 'package:man_of_heal/ui/auth/sign_up_ui.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_password_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/label_button.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class SignInUI extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -56,7 +49,7 @@ class SignInUI extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
+                      signInText,
                       style: GoogleFonts.montserrat(
                           fontSize: 13, color: AppThemes.blackPearl),
                     ),
@@ -153,7 +146,8 @@ class SignInUI extends StatelessWidget {
             shape: BoxShape.circle,
             color: AppThemes.rightAnswerColor,
           ),
-          child: Center(child: Icon(Icons.check, size: 30, color: AppThemes.white)));
+          child: Center(
+              child: Icon(Icons.check, size: 30, color: AppThemes.white)));
     return Container(
       width: 300,
       child: PrimaryButton(

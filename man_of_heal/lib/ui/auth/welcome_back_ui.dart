@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/auth/sign_up_ui.dart';
-import 'package:man_of_heal/ui/auth/sign_in_ui.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class WelcomeBackUI extends StatelessWidget {
+class WelcomeBackUI extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +22,7 @@ class WelcomeBackUI extends StatelessWidget {
                     //LogoGraphicHeader(),
                     Align(
                       alignment: Alignment.center,
-                      child: SvgPicture.asset("assets/icons/logo.svg",width: 150,)
+                      child: buildLogo(),
                     ),
                     FormVerticalSpace(
                       height: 50,
@@ -43,9 +38,8 @@ class WelcomeBackUI extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do',
-                      style: GoogleFonts.poppins(
-                          color: AppThemes.blackPearl, fontSize: 13),
+                      welcomeText,
+                      style: AppThemes.normalBlackFont,
                     ),
                     FormVerticalSpace(
                       height: 30,
@@ -57,19 +51,14 @@ class WelcomeBackUI extends StatelessWidget {
                           hasIcon: true,
                           icon: "google_icon.svg",
                           labelText: 'Sign In with Google',
-                          textStyle: GoogleFonts.poppins(
-                              color: AppThemes.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
+                          textStyle: AppThemes.buttonFont,
                           onPressed: () async {
-                            await authController.singInWithGoogle();
+                            await controller.singInWithGoogle();
                           },
                         ),
                       ),
                     ),
-                    FormVerticalSpace(
-                      height: 10,
-                    ),
+                    FormVerticalSpace(height: 10),
                     Center(
                       child: Container(
                         width: 300,
@@ -77,49 +66,29 @@ class WelcomeBackUI extends StatelessWidget {
                           hasIcon: true,
                           icon: "email_welcome_icon.svg",
                           labelText: 'Sign In with Email',
-                          textStyle: GoogleFonts.poppins(
-                              color: AppThemes.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600),
+                          textStyle: AppThemes.buttonFont,
                           onPressed: () async {
-                            authController.isSignedInWithGoogle.value = false;
+                            controller.isSignedInWithGoogle.value = false;
                             Get.to(() => SignInUI());
                           },
                         ),
                       ),
                     ),
-                    FormVerticalSpace(
-                      height: 80,
-                    ),
+                    FormVerticalSpace(height: 80),
                     Center(
                       child: InkWell(
                         onTap: () => Get.to(() => SignUpUI()),
                         child: Column(
                           children: [
                             Text("Don't have an Account?",
-                                style: GoogleFonts.poppins(
-                                    color: AppThemes.blackPearl,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold)),
+                                style: AppThemes.normalBlackFont),
                             Text(
                               "Sign up here",
-                              style: GoogleFonts.poppins(
-                                  color: AppThemes.DEEP_ORANGE,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold),
+                              style: AppThemes.normalORANGEFont,
                             ),
                           ],
                         ),
                       ),
-
-                      /*LabelButton(
-                        labelText: "Don't have an Account?",
-                        textStyle: _textTheme.bodyText1!
-                            .copyWith(color: AppThemes.blackPearl),
-                        onPressed: () {
-                          Get.to(()=>SignUpUI());
-                        },
-                      )*/
                     ),
                   ],
                 ),

@@ -1,24 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/notification_model.dart';
-import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/notifications/enum_notification.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class AdminVdController extends GetxController {
-  static AdminVdController instance = Get.find();
-  static const QUIZ_COLLECTION = "quiz_collection";
-  static const QUIZ_QUESTION_COLLECTION = "quiz_question_collection";
+  //static AdminVdController instance = Get.find();
+
+  final NotificationController? notificationController;
+  final AuthController? authController;
+
+  AdminVdController(this.notificationController, this.authController);
+
+
 
   TextEditingController quizQuestionController = new TextEditingController();
   TextEditingController optionsController = new TextEditingController();
   TextEditingController quizTitleController = new TextEditingController();
   TextEditingController quizDescriptionController = new TextEditingController();
-
 
   var quizList = <QuizModel>[].obs;
 
@@ -32,7 +33,9 @@ class AdminVdController extends GetxController {
 
   var pageNumber = 0.obs;
   var isLastPage = false.obs;
-  late PageController pageController; // = PageController();
+  late PageController pageController;
+
+  // = PageController();
 
   void updatePageNumber(int value) {
     pageNumber.value = value;
@@ -58,15 +61,7 @@ class AdminVdController extends GetxController {
   }
 
   @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    //option.value = optionList.length > 0 ? optionList[0] : "";
-  }
-
-  @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
     quizList.bindStream(getQuiz());
 
@@ -164,7 +159,7 @@ class AdminVdController extends GetxController {
   }
 
   void sendNotificationToStudent(QuizModel model) async {
-    UserModel sender = authController.userModel!;
+    UserModel sender = authController!.userModel!;
     print(
         "Notifications: Sender name: ${sender.name}, Token: ${sender.userToken}");
 
@@ -179,7 +174,7 @@ class AdminVdController extends GetxController {
         receiverToken: "Quiz"
         //receiverId: questionModel.studentId,
         );
-    notificationController.sendPushNotification(model);
+    notificationController?.sendPushNotification(model);
     //notificationController.addNotificationsToDB(model);
   }
 

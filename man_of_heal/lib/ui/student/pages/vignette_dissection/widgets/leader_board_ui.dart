@@ -2,14 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/score_model.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class LeaderBoardUI extends StatelessWidget {
+
+class LeaderBoardUI extends GetView<VDController> {
   @override
   Widget build(BuildContext context) {
     //otherList.sort((a, b) => a['score'],);
@@ -28,7 +27,7 @@ class LeaderBoardUI extends StatelessWidget {
     var otherList = <ScoreModel>[].obs;
     top3List.clear();
     otherList.clear();
-    otherList.addAll(vdController.leaderboardList);
+    otherList.addAll(controller.leaderboardList);
 
     if (otherList.length > 1) {
       int length = otherList.length == 2 ? 2 : 3;
@@ -185,7 +184,7 @@ class LeaderBoardUI extends StatelessWidget {
               height: 5,
             ),
             Text(
-              vdController.getUserName(scoreModel.userId!.trim()),
+              controller.getUserName(scoreModel.userId!.trim()),
               softWrap: true,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -213,11 +212,11 @@ class LeaderBoardUI extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           backgroundImage:
-              NetworkImage(vdController.getPhotoUrl(model.userId!.trim())),
+              NetworkImage(controller.getPhotoUrl(model.userId!.trim())),
         ),
         title: Text(
           //model.userId !=null ? model.userId! : "",
-          vdController.getUserName(model.userId!.trim()),
+          controller.getUserName(model.userId!.trim()),
           style: AppThemes.normalBlackFont,
         ),
 

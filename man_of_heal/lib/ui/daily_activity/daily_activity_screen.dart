@@ -3,18 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/daily_activity/daily_activity_ui.dart';
-import 'package:man_of_heal/ui/daily_activity/widgets/show_give_answer_widgets.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class DailyActivityScreen extends StatelessWidget {
+class DailyActivityScreen extends GetView<DailyActivityController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -80,7 +73,7 @@ class DailyActivityScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           child: SvgPicture.asset(
                             "assets/icons/calendar_icon.svg",
-                            color: Colors.white,
+                            colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
                           ),
                         ),
                       ),
@@ -112,7 +105,7 @@ class DailyActivityScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                                '${dailyActivityController.model!.termOfDay!.isNotEmpty ? dailyActivityController.model!.termOfDay : AppConstant.noTODFound}',
+                                '${controller.model!.termOfDay!.isNotEmpty ? controller.model!.termOfDay : AppConstant.noTODFound}',
                                 style: AppThemes.header4),
                           ),
                         ),
@@ -145,7 +138,7 @@ class DailyActivityScreen extends StatelessWidget {
                         () => Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            '${dailyActivityController.model!.qOfDay!.isNotEmpty ? dailyActivityController.model!.qOfDay : AppConstant.noTODFound}',
+                            '${controller.model!.qOfDay!.isNotEmpty ? controller.model!.qOfDay : AppConstant.noTODFound}',
                             style: AppThemes.header4,
                           ),
                         ),
@@ -157,7 +150,7 @@ class DailyActivityScreen extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: ShowGiveAnswerButtons(
                           showAnswerForCurrentDate: true,
-                          activityModel: dailyActivityController.model!,
+                          activityModel: controller.model!,
                         ),
                       )
                     ],
@@ -226,7 +219,7 @@ class DailyActivityScreen extends StatelessWidget {
               ),
               FormVerticalSpace(),
               FormInputFieldWithIcon(
-                controller: dailyActivityController.termOfDayController,
+                controller: controller.termOfDayController,
                 iconPrefix: Icons.text_snippet_outlined,
                 labelText: 'Term of the Day',
                 maxLines: 1,
@@ -242,7 +235,7 @@ class DailyActivityScreen extends StatelessWidget {
               Container(
                 height: 150,
                 child: FormInputFieldWithIcon(
-                  controller: dailyActivityController.qOfDayController,
+                  controller: controller.qOfDayController,
                   iconPrefix: Icons.note,
                   labelText: 'Question of the Day',
                   isExpanded: true,
@@ -267,7 +260,7 @@ class DailyActivityScreen extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         SystemChannels.textInput.invokeMethod(
                             'TextInput.hide'); //to hide the keyboard - if any
-                        dailyActivityController.addDailyActivity();
+                        controller.addDailyActivity();
                         Get.back();
                         //print('added');
                       }

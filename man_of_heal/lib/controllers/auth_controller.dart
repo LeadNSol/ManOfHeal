@@ -5,34 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/qa_controller.dart';
-import 'package:man_of_heal/controllers/subscription_controller.dart';
-import 'package:man_of_heal/controllers/vd_controller.dart';
-import 'package:man_of_heal/models/profile_avatars.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/ui/admin/admin_home.dart';
-import 'package:man_of_heal/ui/auth/welcome_back_ui.dart';
-import 'package:man_of_heal/ui/notifications/enum_notification.dart';
-import 'package:man_of_heal/ui/student/std_home.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  static const USERS = "users";
-  static const String ADMIN = "admins";
-  static const String PROFILE_AVATARS = "profile_avatars";
-  static const userNotification = "notifications";
-  static const String DEFAULT_IMAGE_URL =
-      "https://cdn-icons-png.flaticon.com/128/3011/3011270.png";
-
-  static const TRIAL_DIALOG = "TrialDialog";
-
-  //this will get the initialized obj of AuthController and will shared app wise.
-  static AuthController instance = Get.find();
 
   var editTextFieldController = TextEditingController();
 
@@ -95,7 +75,7 @@ class AuthController extends GetxController
     animationController = AnimationController(
       vsync: this,
       //duration: Duration(seconds: 2),
-    );//..forward();
+    ); //..forward();
     /*animationController.addListener(() {
       if (animationController.status == AnimationStatus.completed) {
         Get.offNamed('/welcome');
@@ -181,17 +161,19 @@ class AuthController extends GetxController
 
     if (_firebaseUser == null) {
       print('Send to sign in');
-      Get.offAll(() => WelcomeBackUI());
+      //Get.offAll(() => WelcomeBackUI());
+      Get.offAllNamed(AppRoutes.welcomeRoute);
     } else {
       //TODO: re-init required data when auth changed
-      reInit();
+      //reInit();
 
       if (admin.value) {
         if (!kIsWeb) {
           FirebaseMessaging.instance
               .subscribeToTopic(NotificationEnum.qa_admin.name);
         }
-        Get.offAll(() => AdminHome());
+       // Get.offAll(() => AdminHome());
+        Get.offAllNamed(AppRoutes.adminDashboard);
       } else {
         if (!kIsWeb) {
           FirebaseMessaging.instance
@@ -201,12 +183,13 @@ class AuthController extends GetxController
           FirebaseMessaging.instance
               .subscribeToTopic(NotificationEnum.daily_activity.name);
         }
-        Get.offAll(() => StudentHome());
+        //Get.offAll(() => StudentHome());
+        Get.offAllNamed(AppRoutes.stdDashboard);
       }
     }
   }
 
-  void reInit() {
+  /* void reInit() {
     subscriptionController.initSubscription();
     qaController.initQA();
     notificationController.initData();
@@ -214,7 +197,7 @@ class AuthController extends GetxController
     if (Get.isRegistered<VDController>()) {
       vdController.initData();
     }
-  }
+  }*/
 
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
@@ -337,27 +320,6 @@ class AuthController extends GetxController
         _createUserFirestore(newGoogleUser, user.user!);
       }
     });
-  }
-
-  _clearControllers() {
-    nameController.clear();
-    emailController.clear();
-    passwordController.clear();
-    phoneController.clear();
-    degreeProgramController.clear();
-    addressController.clear();
-
-    firebaseUser.value = null;
-  }
-
-  _disposeControllers() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    phoneController.dispose();
-    animationController.dispose();
-    degreeProgramController.dispose();
-    addressController.dispose();
   }
 
   // User registration using email and password
@@ -555,17 +517,25 @@ class AuthController extends GetxController
     });
   }
 
-  disposeGetXControllers() {
-    //authController.dispose();
-    // subscriptionController.dispose();
-    //qaController.dispose();
-    dailyActivityController.dispose();
-    labController.dispose();
-    notificationController.dispose();
-    categoryController.dispose();
-    feedBackController.dispose();
-    landingPageController.dispose();
-    customTabsController.dispose();
+  _clearControllers() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    phoneController.clear();
+    degreeProgramController.clear();
+    addressController.clear();
+
+    firebaseUser.value = null;
+  }
+
+  _disposeControllers() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    phoneController.dispose();
+    animationController.dispose();
+    degreeProgramController.dispose();
+    addressController.dispose();
   }
 
   void deleteGetXControllers() {
@@ -576,7 +546,6 @@ class AuthController extends GetxController
   // Sign out
   Future<void> signOut() async {
     _clearControllers();
-    qaController.qaList.clear();
     sharedPref!.remove(TRIAL_DIALOG);
     _googleSignIn?.signOut();
     return await firebaseAuth.signOut();

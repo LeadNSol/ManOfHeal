@@ -4,21 +4,12 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/admin_vd_controller.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/quiz_attempts_model.dart';
-import 'package:man_of_heal/models/quiz_model.dart';
-import 'package:man_of_heal/models/quiz_review_model.dart';
-import 'package:man_of_heal/models/score_model.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class VDController extends GetxController {
-  static VDController instance = Get.find<VDController>();
-
-  static const SCORE_BOARD_COLLECTION = "score_board_collection";
-  static const QUIZ_ATTEMPTS_COLLECTION = "quiz_attempts";
-
   var quizID = "".obs;
 
   PageController pageController = PageController();
@@ -46,9 +37,9 @@ class VDController extends GetxController {
 
   Stream<List<QuizQuestion>> getQuizQuestions(String? quizID) {
     return firebaseFirestore
-        .collection(AdminVdController.QUIZ_COLLECTION)
+        .collection(QUIZ_COLLECTION)
         .doc(quizID)
-        .collection(AdminVdController.QUIZ_QUESTION_COLLECTION)
+        .collection(QUIZ_QUESTION_COLLECTION)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => QuizQuestion.fromMap(e.data())).toList());
@@ -56,7 +47,7 @@ class VDController extends GetxController {
 
   Future<QuizModel> getActiveQuiz() {
     return firebaseFirestore
-        .collection(AdminVdController.QUIZ_COLLECTION)
+        .collection(QUIZ_COLLECTION)
         .where(QuizModel.IS_ACTIVE, isEqualTo: true)
         .limit(1)
         .get()
@@ -79,7 +70,7 @@ class VDController extends GetxController {
 
   Future<void> findUserAttemptedQuiz() async {
     return await firebaseFirestore
-        .collection(AdminVdController.QUIZ_COLLECTION)
+        .collection(QUIZ_COLLECTION)
         .doc(quizID.value)
         .collection(QUIZ_ATTEMPTS_COLLECTION)
         .where(QuizAttemptsModel.STUDENT_ID,
@@ -128,7 +119,7 @@ class VDController extends GetxController {
 
   Future<void> postQuizAttempt(QuizAttemptsModel model) async {
     var ref = firebaseFirestore
-        .collection(AdminVdController.QUIZ_COLLECTION)
+        .collection(QUIZ_COLLECTION)
         .doc(model.quizId!)
         .collection(QUIZ_ATTEMPTS_COLLECTION);
 

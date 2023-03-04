@@ -4,20 +4,12 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/header_widget.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class InProgressQuestionDetails extends StatelessWidget {
+class InProgressQuestionDetails extends GetView<QAController> {
   final QuestionModel questionModel;
 
   InProgressQuestionDetails(this.questionModel);
@@ -78,8 +70,7 @@ class InProgressQuestionDetails extends StatelessWidget {
                               color: AppThemes.DEEP_ORANGE.withOpacity(0.7)),
                         );
                       }
-                      return Text(
-                          '${AppConstant.getFormattedTime(time)}',
+                      return Text('${AppConstant.getFormattedTime(time)}',
                           style: GoogleFonts.poppins(
                               fontSize: 63,
                               color: AppThemes.DEEP_ORANGE.withOpacity(0.7)));
@@ -116,13 +107,12 @@ class InProgressQuestionDetails extends StatelessWidget {
                           border: Border.all(
                               color: AppThemes.DEEP_ORANGE.withOpacity(0.5))),
                       child: Text(
-                        '${categoryController.getCategoryById(questionModel.category)}',
+                        '${controller.categoryController!.getCategoryById(questionModel.category)}',
                         style: GoogleFonts.poppins(
                             fontSize: 9, fontWeight: FontWeight.w600),
                       ),
                     ),
                     FormVerticalSpace(),
-
                     _answerButton(),
                     FormVerticalSpace(),
                     _footerWidget(),
@@ -195,7 +185,7 @@ class InProgressQuestionDetails extends StatelessWidget {
   _answerButton() {
     return Obx(
       () => Center(
-        child: qaController.ansStatusQuesModel.value.isSomeoneAnswering!
+        child: controller.ansStatusQuesModel.value.isSomeoneAnswering!
             ? Text(
                 "Someone is already working...",
                 style: AppThemes.buttonFont
@@ -207,7 +197,7 @@ class InProgressQuestionDetails extends StatelessWidget {
                   buttonStyle: ElevatedButton.styleFrom(
                     padding:
                         EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                    primary: AppThemes.DEEP_ORANGE,
+                    backgroundColor: AppThemes.DEEP_ORANGE,
                     shape: StadiumBorder(),
                   ),
                   labelText: 'Answer',
@@ -216,8 +206,7 @@ class InProgressQuestionDetails extends StatelessWidget {
                     //qaController.getAnsweringStatus(questionModel.qID!);
 
                     questionModel.isSomeoneAnswering = true;
-                    qaController
-                        .updateQuestionStatusWhenAnswering(questionModel);
+                    controller.updateQuestionStatusWhenAnswering(questionModel);
 
                     Get.bottomSheet(
                       AnswerUI(questionModel),
@@ -238,7 +227,7 @@ class InProgressQuestionDetails extends StatelessWidget {
   }
 }
 
-class AnswerUI extends StatelessWidget {
+class AnswerUI extends GetView<QAController> {
   //const AnswerUI({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final QuestionModel questionModel;
@@ -266,7 +255,7 @@ class AnswerUI extends StatelessWidget {
                   left: 20, right: 20, top: 10, bottom: 10),
               height: 200,
               child: FormInputFieldWithIcon(
-                controller: qaController.dialogAnswerController!,
+                controller: controller.dialogAnswerController!,
                 iconPrefix: Icons.question_answer_outlined,
                 labelText: 'Answer Body',
                 maxLines: 5,
@@ -286,7 +275,7 @@ class AnswerUI extends StatelessWidget {
                 validator: Validator().notEmpty,
                 onChanged: (value) => null,
                 onSaved: (value) => null,
-                //qaController.questionController.text = value!,
+                //controller.questionController.text = value!,
               ),
             ),
             FormVerticalSpace(),
@@ -310,7 +299,7 @@ class AnswerUI extends StatelessWidget {
                           SystemChannels.textInput
                               .invokeMethod('TextInput.hide');
                           questionModel.isSomeoneAnswering = false;
-                          qaController
+                          controller
                               .updateQuestionStatusWhenAnswering(questionModel);
                           Get.back();
                         }),
@@ -321,7 +310,7 @@ class AnswerUI extends StatelessWidget {
                         buttonStyle: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5.0),
-                          primary: AppThemes.DEEP_ORANGE,
+                          backgroundColor: AppThemes.DEEP_ORANGE,
                           shape: StadiumBorder(),
                         ),
                         labelText: "Submit",
@@ -330,7 +319,7 @@ class AnswerUI extends StatelessWidget {
                             SystemChannels.textInput
                                 .invokeMethod('TextInput.hide');
                             Get.back();
-                            qaController.answerTheQuestionById(questionModel);
+                            controller.answerTheQuestionById(questionModel);
                           }
                         }),
                   ),

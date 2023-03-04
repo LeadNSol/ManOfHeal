@@ -20,12 +20,7 @@ class LandingPageController extends GetxController {
 
   List<Widget> adminPages = [
     AdminDashboardUI(),
-    //AdminShowAnswersUI(),
-    //AdminVignetteDissection(),
     AdminQuestionAnswerList(),
-    //QuestionAnswerList(),
-    //AdminLabValueExplanation(),
-    //ProfileUI()
   ];
 
   Widget get currentAdminPage => adminPages[adminTabIndex.value];
@@ -33,9 +28,6 @@ class LandingPageController extends GetxController {
   List<Widget> studentPages = [
     StudentDashboardUI(),
     QuestionAnswerList(),
-    //MyAnswerUI()
-    //LabsUI(),
-    //ProfileUI()
   ];
 
   Widget get currentStudentPage => studentPages[studentTabIndex.value];

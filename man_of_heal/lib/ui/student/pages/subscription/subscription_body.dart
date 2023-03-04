@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/subscription_model.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
 
-class SubscriptionBody extends StatelessWidget {
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
+import 'package:man_of_heal/models/export_models.dart';
+
+class SubscriptionBody extends GetView<SubscriptionController> {
   @override
   Widget build(BuildContext context) {
     /// btn state default
@@ -30,9 +29,9 @@ class SubscriptionBody extends StatelessWidget {
             ),
 
             PageView.builder(
-              controller: subscriptionController.pageController,
-              onPageChanged: subscriptionController.updatePageInfo,
-              itemCount: subscriptionController.onBoardingPages.length,
+              controller: controller.pageController,
+              onPageChanged: controller.updatePageInfo,
+              itemCount: controller.onBoardingPages.length,
               itemBuilder: (context, index) => Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -57,8 +56,7 @@ class SubscriptionBody extends StatelessWidget {
                   SizedBox(height: 80),
                   RichText(
                     text: TextSpan(
-                      text:
-                          '\$${subscriptionController.onBoardingPages[index].price!} ',
+                      text: '\$${controller.onBoardingPages[index].price!} ',
                       style: AppThemes.header1.copyWith(fontSize: 51.82),
                       children: [
                         TextSpan(
@@ -72,8 +70,7 @@ class SubscriptionBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      subscriptionController
-                          .onBoardingPages[index].description!,
+                      controller.onBoardingPages[index].description!,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(
                         fontSize: 13,
@@ -90,15 +87,14 @@ class SubscriptionBody extends StatelessWidget {
               left: 20,
               child: Row(
                 children: List.generate(
-                  subscriptionController.onBoardingPages.length,
+                  controller.onBoardingPages.length,
                   (index) => Obx(() {
                     return Container(
                       margin: const EdgeInsets.all(4),
                       width: 12,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: subscriptionController.selectedPageIndex.value ==
-                                index
+                        color: controller.selectedPageIndex.value == index
                             ? Colors.black
                             : Color(0xff707070),
                         shape: BoxShape.circle,
@@ -160,19 +156,17 @@ class SubscriptionBody extends StatelessWidget {
           onPressed: () {
             // calling for 0 --- new, 1--- Renew
             if (!kIsWeb) {
-              Subscription subscription = subscriptionController.subsFirebase!;
+              Subscription subscription = controller.subsFirebase!;
               if (subscription.paymentId != null) {
                 if (Timestamp.now().compareTo(subscription.expiresAt!) <= 0) {
                   AppConstant.displaySuccessSnackBar(
                       "Subscription Alert!", "You have already Purchased");
                 } else {
                   // calling for 0 --- new, 1--- Renew
-                  subscriptionController.makePayment(
-                      subscriptionController.planPrice, 0);
+                  controller.makePayment(controller.planPrice, 0);
                 }
               } else {
-                subscriptionController.makePayment(
-                    subscriptionController.planPrice, 0);
+                controller.makePayment(controller.planPrice, 0);
               }
             }
           }),

@@ -9,9 +9,37 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/android/app/build.gradle" afterDir="false" />
+    <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="Bugs were fixed, trial period, daily activity answer section were added">
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/auth_middle_ware.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/daily_activity_binding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/export_bindings.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/profile_binding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/qa_bindings.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/std_home_bindings.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feed_backs/single_feedback_list_items.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/bindings/init_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/init_binding.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/categories_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/categories_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/controllers_base.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/controllers_base.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/custom_tabs_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/custom_tabs_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/export_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/export_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/feed_back_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/feed_back_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/lab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/lab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/notification_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/notification_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/subscription_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/subscription_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/admin_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/admin_home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feed_backs/feed_back_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feed_backs/feed_back_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/manage_categories/categories_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/manage_categories/categories_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_qa_list_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_qa_list_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/AppConstant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/AppConstant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,24 +97,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DEBUGGABLE_DEVICE" value="huawei-mar_lx2-TRJDU19409002519" />
-    <property name="DEBUGGABLE_PROCESS" value="com.leadn.man_of_heal" />
-    <property name="DEBUGGER_ID" value="Java" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="SHOW_ALL_PROCESSES" value="true" />
-    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../AndroidProject/BikeTrackingSystem/BikeTrackingApp" />
-    <property name="settings.editor.selected.configurable" value="emulator" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\assets\icons" />

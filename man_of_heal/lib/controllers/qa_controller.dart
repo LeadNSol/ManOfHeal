@@ -2,19 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/notification_model.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/models/subscription_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/notifications/enum_notification.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class QAController extends GetxController {
-  static QAController instance = Get.find();
+  //static QAController instance = Get.find();
 
-  static const QA_COLLECTION = "questions_answers";
+  final CategoryController? categoryController;
+  final SubscriptionController? subscriptionController;
+  final LandingPageController? landingController;
+  final NotificationController? notificationController;
+  final FeedBackController? feedBackController;
+
+  QAController(
+      {this.categoryController,
+      this.subscriptionController,
+      this.landingController,
+      this.notificationController,
+      this.feedBackController});
 
   final TextEditingController? dialogAnswerController = TextEditingController();
   final TextEditingController? answerController = TextEditingController();
@@ -47,12 +54,12 @@ class QAController extends GetxController {
 
     ever(allQAList, handleAdminAllQAList);
 
-    ever(categoryController.categoriesList, populateSearchFilterDropDown);
+    ever(categoryController!.categoriesList, populateSearchFilterDropDown);
   }
 
   var answerList = <QuestionModel>[].obs;
   var questionsList = <QuestionModel>[].obs;
-  var searchList =  <QuestionModel>[].obs;
+  var searchList = <QuestionModel>[].obs;
 
   var notFoundListItems = "".obs;
 
@@ -116,7 +123,7 @@ class QAController extends GetxController {
     for (QuestionModel model in answerList) {
       if (model.answerMap != null) {
         if (dropDownValue != CHOOSE_CATEGORY.toLowerCase()) {
-          String category = categoryController.getCategoryById(model.category);
+          String category = categoryController!.getCategoryById(model.category);
           if (dropDownValue.contains(category.toLowerCase())) {
             if (search.isEmpty) {
               searchList.add(model);
@@ -131,7 +138,7 @@ class QAController extends GetxController {
         }
       }
     }
-  searchList.refresh();
+    searchList.refresh();
   }
 
   var inProgressQList = <QuestionModel>[].obs;
@@ -162,7 +169,7 @@ class QAController extends GetxController {
     for (QuestionModel model in completedQAList) {
       if (model.answerMap != null) {
         if (dropDownValue != CHOOSE_CATEGORY.toLowerCase()) {
-          String category = categoryController.getCategoryById(model.category);
+          String category = categoryController!.getCategoryById(model.category);
           if (dropDownValue.contains(category.toLowerCase())) {
             if (search.isEmpty) {
               adminSearchList.add(model);
@@ -193,7 +200,7 @@ class QAController extends GetxController {
 
     QuestionModel _newQuestion = QuestionModel(
         qID: _uuid,
-        category: categoryController.selectedCategoryUID.value.toString(),
+        category: categoryController!.selectedCategoryUID.value.toString(),
         //to get from spinner
         question: questionController.text,
         studentId: firebaseAuth.currentUser!.uid,
@@ -213,26 +220,26 @@ class QAController extends GetxController {
               print('question was posted'),
               if (authController.userModel!.isTrailFinished!)
                 _updateSubscription(_currentTimeStamp),
-              landingPageController.setStudentPage(1),
+              landingController!.setStudentPage(1),
               sendNotificationToAdmin(_newQuestion),
               //update(),
             });
   }
 
   void _updateSubscription(Timestamp questionCreatedTime) async {
-    if (!subscriptionController.subsFirebase.isBlank!) {
+    if (!subscriptionController!.subsFirebase.isBlank!) {
       DateTime? _currentTimeDate = DateTime.now();
       Timestamp? _nextQuestionCycle =
           Timestamp.fromDate(_currentTimeDate.add(new Duration(minutes: 5)));
       //Timestamp.fromDate(_currentTimeDate.add(new Duration(hours: 72)));
 
-      Subscription subscription = subscriptionController.subsFirebase!;
+      Subscription subscription = subscriptionController!.subsFirebase!;
       subscription.noOfAskedQuestion = subscription.noOfAskedQuestion! - 1;
       subscription.nextQuestionAt = _nextQuestionCycle;
       subscription.questionCreatedAt = questionCreatedTime;
 
       await firebaseFirestore
-          .collection(subscriptionController.subscriptionCollection)
+          .collection(SUBSCRIPTION_COLLECTION)
           .doc(firebaseAuth.currentUser!.uid)
           .update(subscription.toJson())
           .then((value) => {
@@ -286,8 +293,8 @@ class QAController extends GetxController {
         isRead: false,
         receiverId: questionModel.studentId,
       );
-      notificationController.sendPushNotification(model);
-      notificationController.addNotificationsToDB(model);
+      notificationController?.sendPushNotification(model);
+      notificationController?.addNotificationsToDB(model);
     });
   }
 
@@ -300,7 +307,7 @@ class QAController extends GetxController {
         type: NotificationEnum.qa_admin.name,
         isTopicBased: true,
         receiverToken: "Topics");
-    notificationController.sendPushNotification(model);
+    notificationController?.sendPushNotification(model);
   }
 
   void updateAnswerOfTheQuestionById(questionModel) {

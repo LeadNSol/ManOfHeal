@@ -7,31 +7,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/bindings/init_binding.dart';
-import 'package:man_of_heal/controllers/auth_controller.dart';
-import 'package:man_of_heal/controllers/categories_controller.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/custom_tabs_controller.dart';
-import 'package:man_of_heal/controllers/daily_activity_controller.dart';
-import 'package:man_of_heal/controllers/feed_back_controller.dart';
-import 'package:man_of_heal/controllers/lab_controller.dart';
-import 'package:man_of_heal/controllers/landing_page_controller.dart';
-import 'package:man_of_heal/controllers/notification_controller.dart';
-import 'package:man_of_heal/controllers/qa_controller.dart';
-import 'package:man_of_heal/controllers/subscription_controller.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_routes.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage? message) async {
   Firebase.initializeApp();
   print('Handling a background message ${message!.messageId}');
   print(message.data);
 
-  notificationController.showNotification(message);
+  findOrInit.showNotification(message);
 }
 
-Future<void> putControllersToGet() async {}
+NotificationController get findOrInit {
+  try {
+    return Get.find();
+  } catch (e) {
+    debugPrint(">>>>AuthMiddleWare: $e");
+    Get.put<NotificationController>(NotificationController());
+    return Get.find();
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,25 +43,28 @@ void main() async {
   }
   await firebaseInitialization.then((value) {
     //making app wise access for the controller
-    Get.put(AuthController());
-    Get.put(LandingPageController());
-    Get.put(CustomTabsController());
+    //Get.put(AuthController());
+    //Get.put(LandingPageController());
 
-    Get.put(NotificationController());
-    Get.put(CategoryController());
-    Get.put(SubscriptionController());
-    Get.put(LabController());
-    Get.put(DailyActivityController());
-    Get.put(QAController());
-    Get.put(FeedBackController());
+    // Get.put(CustomTabsController());
+
+    //Get.put(NotificationController());
+
+    //Get.put(CategoryController());
+    //Get.put(SubscriptionController());
+    //Get.put(LabController());
+
+    //Get.put(DailyActivityController());
+    // Get.put(QAController());
+    //Get.put(FeedBackController());
   });
 
   //
   //  Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
-    await notificationController.createAndroidNotificationChannel();
-    await notificationController.updateIOSNotificationOptions();
+    await Get.find<NotificationController>().createAndroidNotificationChannel();
+    await Get.find<NotificationController>().updateIOSNotificationOptions();
   }
   runApp(ManOfHeal());
 }
@@ -105,9 +103,8 @@ class ManOfHeal extends StatelessWidget {
         darkTheme: AppThemes.darkTheme,
         themeMode: ThemeMode.system,
 
-        initialRoute: "/",
+        initialRoute: AppRoutes.initRoute,
         getPages: AppRoutes.routes,
-
         initialBinding: AppInitBindings(),
 
         //home: SignInUI(),

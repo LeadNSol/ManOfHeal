@@ -2,19 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/student_answer_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/circular_avatar.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class QODAnswerDetails extends StatelessWidget {
+class QODAnswerDetails extends GetView<DailyActivityController> {
   const QODAnswerDetails({Key? key}) : super(key: key);
 
   @override
@@ -30,7 +23,7 @@ class QODAnswerDetails extends StatelessWidget {
   }
 
   Widget answerBody(BuildContext context) {
-    StdAnswerModel? stdAnswerModel = dailyActivityController.stdAnswerModel.value;
+    StdAnswerModel? stdAnswerModel = controller.stdAnswerModel.value;
     return Stack(
       children: [
         Positioned(
@@ -137,7 +130,7 @@ class QODAnswerDetails extends StatelessWidget {
             itemCount: 5,
             itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
             onRatingUpdate: (value) {
-              feedBackController.rating.value = value;
+              controller.feedbackController!.rating.value = value;
             },
             ratingWidget: RatingWidget(
               full: Image.asset(
@@ -162,7 +155,7 @@ class QODAnswerDetails extends StatelessWidget {
           alignment: Alignment.center,
           child: Obx(
             () => Text(
-              "Ratings: ${feedBackController.rating.value}",
+              "Ratings: ${controller.feedbackController!.rating.value}",
               style: AppThemes.normalBlackFont,
             ),
           ),
@@ -179,13 +172,13 @@ class QODAnswerDetails extends StatelessWidget {
               labelText: 'Submit',
               textStyle: AppThemes.buttonFont,
               onPressed: () {
-                if (feedBackController.rating.value > 0) {
-                 StdAnswerModel? stdAnswerModel = dailyActivityController.stdAnswerModel.value;
+                if (controller.feedbackController!.rating.value > 0) {
+                 StdAnswerModel? stdAnswerModel = controller.stdAnswerModel.value;
                   stdAnswerModel.answerRating =
-                      feedBackController.rating.value.toString();
+                      controller.feedbackController!.rating.value.toString();
                   stdAnswerModel.checkBy = authController.userModel!.uid;
                   stdAnswerModel.checkingDate = Timestamp.now();
-                  dailyActivityController.updateStudentAnswer(stdAnswerModel);
+                  controller.updateStudentAnswer(stdAnswerModel);
                   //Get.back();
                   //print('added');
                 } else
@@ -203,7 +196,7 @@ class QODAnswerDetails extends StatelessWidget {
     UserModel? userModel =
         authController.getAdminFromListById(model.checkBy!.trim());
 
-    feedBackController.fetchCurrentAdminFeedBack(userModel: userModel);
+    controller.feedbackController!.fetchCurrentAdminFeedBack(userModel: userModel);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -237,7 +230,7 @@ class QODAnswerDetails extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                        text: " ${feedBackController.netAdminRating.value}",
+                        text: " ${controller.feedbackController!.netAdminRating.value}",
                         style: AppThemes.normalBlack45Font)
                   ],
                 ),
@@ -250,7 +243,7 @@ class QODAnswerDetails extends StatelessWidget {
   }
 
   Widget _footerAdmin() {
-    StdAnswerModel? stdAnswerModel = dailyActivityController.stdAnswerModel.value;
+    StdAnswerModel? stdAnswerModel = controller.stdAnswerModel.value;
     return Obx(
      ()=> Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,7 +278,7 @@ class QODAnswerDetails extends StatelessWidget {
   }
 
   Widget _footerStudent() {
-    StdAnswerModel? stdAnswerModel = dailyActivityController.stdAnswerModel.value;
+    StdAnswerModel? stdAnswerModel = controller.stdAnswerModel.value;
     return Obx(
       ()=> Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,7 +315,7 @@ class QODAnswerDetails extends StatelessWidget {
   }
 
   statusAtFooter() {
-    StdAnswerModel? stdAnswerModel = dailyActivityController.stdAnswerModel.value;
+    StdAnswerModel? stdAnswerModel = controller.stdAnswerModel.value;
     return
      RichText(
         text: TextSpan(

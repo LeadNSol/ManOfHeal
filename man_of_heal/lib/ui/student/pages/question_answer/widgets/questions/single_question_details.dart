@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/components/black_rounded_container.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/custom_header_row.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class QuestionDetails extends StatelessWidget {
+class QuestionDetails extends GetView<QAController> {
   final QuestionModel? questionModel;
   final int index;
 
@@ -83,11 +80,6 @@ class QuestionDetails extends StatelessWidget {
                               color: AppThemes.DEEP_ORANGE.withOpacity(0.7)));
                     },
                   ),
-
-                  /* Text(
-                              "71:51:00",
-                              style: ),
-                            ),*/
                 ),
               ),
 
@@ -113,7 +105,7 @@ class QuestionDetails extends StatelessWidget {
                           border: Border.all(
                               color: AppThemes.DEEP_ORANGE.withOpacity(0.5))),
                       child: Text(
-                        '${categoryController.getCategoryById(questionModel!.category)}',
+                        '${controller.categoryController!.getCategoryById(questionModel!.category)}',
                         style: GoogleFonts.poppins(
                             fontSize: 9, fontWeight: FontWeight.w600),
                       ),

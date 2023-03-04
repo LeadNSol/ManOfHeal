@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/quiz_review_model.dart';
+import 'package:get/get.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-
-class ReviewUI extends StatelessWidget {
-
+class ReviewUI extends GetView<VDController> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppThemes.BG_COLOR,
       body: Stack(
@@ -31,9 +29,7 @@ class ReviewUI extends StatelessWidget {
             right: 10,
             child: Column(
               children: [
-                FormVerticalSpace(
-                  height: 40,
-                ),
+                FormVerticalSpace(height: 40),
 
                 /// Header Row title, back icon, and profile icon
                 CustomHeaderRow(title: "Quiz Review", hasProfileIcon: true),
@@ -43,13 +39,13 @@ class ReviewUI extends StatelessWidget {
                   height: AppConstant.getScreenHeight(context) * 0.65,
                   child: PageView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    controller: vdController.pageReviewQuizController,
+                    controller: controller.pageReviewQuizController,
                     //onPageChanged: adminVdController.updatePageNumber,
-                    itemCount: vdController.quizReviewList.length,
+                    itemCount: controller.quizReviewList.length,
                     itemBuilder: (context, index) {
                       //int jumpToIndex = adminVdController.pageNumber.value;
                       QuizReviewModel reviewModel =
-                      vdController.quizReviewList[index];
+                          controller.quizReviewList[index];
 
                       return pageViewQuestionBody(context, reviewModel, index);
                     },
@@ -112,11 +108,8 @@ class ReviewUI extends StatelessWidget {
 
           ...List.generate(
             reviewModel.quizQuestion!.options!.length,
-                (i) => StdOptionsUI(
-                reviewModel.quizQuestion!.options![i],
-                i,
-                reviewModel
-            ),
+            (i) => StdOptionsUI(
+                reviewModel.quizQuestion!.options![i], i, reviewModel),
           ),
           //FormVerticalSpace(height: 100,),
         ],
@@ -133,7 +126,7 @@ class ReviewUI extends StatelessWidget {
           quarterTurns: 2,
           child: IconButton(
             onPressed: () {
-              vdController.pageReviewQuizController.previousPage(
+              controller.pageReviewQuizController.previousPage(
                   duration: Duration(milliseconds: 600), curve: Curves.easeOut);
             },
             icon: Icon(
@@ -146,11 +139,8 @@ class ReviewUI extends StatelessWidget {
         ///Next
         IconButton(
             onPressed: () {
-
-              vdController.pageReviewQuizController.nextPage(
-                  duration: Duration(milliseconds: 600),
-                  curve: Curves.easeIn);
-
+              controller.pageReviewQuizController.nextPage(
+                  duration: Duration(milliseconds: 600), curve: Curves.easeIn);
             },
             icon: Icon(
               Icons.play_arrow,
@@ -182,10 +172,9 @@ class StdOptionsUI extends StatelessWidget {
       if (index == reviewModel!.correctIndex!) {
         return rightColor;
       }
-      if(index ==  reviewModel!.selectedIndex){
+      if (index == reviewModel!.selectedIndex) {
         return wrongColor;
       }
-
 
       return defaultColor;
     }
@@ -224,10 +213,10 @@ class StdOptionsUI extends StatelessWidget {
               child: getRightAnswerColor() == defaultColor
                   ? null
                   : Icon(
-                getRightAnswerIcon(),
-                size: 16,
-                color: AppThemes.white,
-              ),
+                      getRightAnswerIcon(),
+                      size: 16,
+                      color: AppThemes.white,
+                    ),
             )
           ],
         ),

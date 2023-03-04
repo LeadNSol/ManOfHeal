@@ -6,18 +6,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as Http;
 import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/on_boarding_info.dart';
-import 'package:man_of_heal/models/student_subscription_model.dart';
-import 'package:man_of_heal/models/subscription_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/firebase.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class SubscriptionController extends GetxController {
-  static SubscriptionController instance = Get.find();
-
-  var subscriptionCollection = "subscriptions";
-
   late Map<String, dynamic>? paymentIntentData;
 
   Rxn<Subscription>? _subsFirebase = Rxn<Subscription>();
@@ -32,8 +24,8 @@ class SubscriptionController extends GetxController {
 
   var selectedPageIndex = 0.obs;
   var isQuestionQuotaIsFinished = false.obs;
-  var _planPrice = '20'.obs;
-  var _planName = "Standard".obs;
+  var _planPrice = ''.obs;
+  var _planName = "".obs;
   var _questionsCanAsk = 1.obs;
 
   String get planPrice => _planPrice.value;
@@ -64,16 +56,15 @@ class SubscriptionController extends GetxController {
     OnBoardingInfo(
         planName: "Standard",
         imageAsset: "subscription_1_icon.svg",
-        price: '99',
+        price: STANDARD_PLAN_PRICE.toString(),
         noOfQuestions: 2,
-        description:
-            'Now you can pick this basic plan right from your mobile.'),
+        description: standardPlanText),
     OnBoardingInfo(
         planName: "Premium",
         imageAsset: "subscription_2_icon.svg",
-        price: '179.99',
+        price: PREMIUM_PLAN_PRICE.toString(),
         noOfQuestions: 4,
-        description: 'We are maintain safety and We will keep your data safe.'),
+        description: premiumPlanText),
   ];
 
   var subscriptionList = <Subscription>[].obs;
@@ -93,7 +84,7 @@ class SubscriptionController extends GetxController {
     //handleStudentData(subscriptionList);
   }
 
-  initSubscription(){
+  initSubscription() {
     //subscriptionList.clear();
     _subsFirebase?.bindStream(_getCurrentUserSubscription());
     subscriptionList.bindStream(getAllSubscriptions());
@@ -104,8 +95,10 @@ class SubscriptionController extends GetxController {
     stdSubscriptionList.clear();
     if (list.isNotEmpty) {
       for (Subscription subscription in list) {
-        UserModel? userStudent = authController.getUserFromListById(subscription.studentId!);
-        StudentSubscription studentSubscription = StudentSubscription(subscription, userStudent);
+        UserModel? userStudent =
+            authController.getUserFromListById(subscription.studentId!);
+        StudentSubscription studentSubscription =
+            StudentSubscription(subscription, userStudent);
         stdSubscriptionList.add(studentSubscription);
       }
     } else
@@ -136,7 +129,7 @@ class SubscriptionController extends GetxController {
 
   createSubscription(String paymentId) async {
     CollectionReference colRef =
-        firebaseFirestore.collection(subscriptionCollection);
+        firebaseFirestore.collection(SUBSCRIPTION_COLLECTION);
 
     Subscription subscription = Subscription(
       planName: planName,
@@ -155,7 +148,7 @@ class SubscriptionController extends GetxController {
         .doc(firebaseAuth.currentUser!.uid)
         .set(subscription.toJson(), SetOptions(merge: true))
         .then((value) {
-          authController.setBtnState(2);
+      authController.setBtnState(2);
       print('Subscription $planName was subscribed!.');
       _subsFirebase?.bindStream(_getCurrentUserSubscription());
       AppConstant.displaySuccessSnackBar("Success", "Paid Successfully");
@@ -171,15 +164,14 @@ class SubscriptionController extends GetxController {
     model.status = Status.Renewed.name;
 
     await firebaseFirestore
-        .collection(subscriptionCollection)
+        .collection(SUBSCRIPTION_COLLECTION)
         .doc(model.studentId)
         .set(model.toJson(), SetOptions(merge: true))
-        .whenComplete(() =>
-    {
-      AppConstant.displaySuccessSnackBar(
-          "Success", "Your Plan is Renewed Successfully"),
-      authController.setBtnState(2)
-    });
+        .whenComplete(() => {
+              AppConstant.displaySuccessSnackBar(
+                  "Success", "Your Plan is Renewed Successfully"),
+              authController.setBtnState(2)
+            });
   }
 
   Future<void> upgradeSubscription(String paymentId) async {
@@ -196,7 +188,7 @@ class SubscriptionController extends GetxController {
     debugPrint("Subscription: $uid");
 
     return firebaseFirestore
-        .collection(subscriptionCollection)
+        .collection(SUBSCRIPTION_COLLECTION)
         .doc(uid)
         .snapshots()
         .map((snapshot) {
@@ -209,7 +201,7 @@ class SubscriptionController extends GetxController {
 
   Stream<List<Subscription>> getAllSubscriptions() {
     return firebaseFirestore
-        .collection(subscriptionCollection)
+        .collection(SUBSCRIPTION_COLLECTION)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((e) {
               if (e.exists)
@@ -225,7 +217,7 @@ class SubscriptionController extends GetxController {
     subsFirebase?.status = Status.Recycled.name;
 
     await firebaseFirestore
-        .collection(subscriptionCollection)
+        .collection(SUBSCRIPTION_COLLECTION)
         .doc(firebaseAuth.currentUser!.uid)
         .update(subsFirebase!.toJson())
         .then((value) => print('subscription noOfQuestion updated'));
@@ -233,7 +225,7 @@ class SubscriptionController extends GetxController {
 
   Future<Subscription> checkUserSubscriptionById() async {
     return await firebaseFirestore
-        .collection(subscriptionCollection)
+        .collection(SUBSCRIPTION_COLLECTION)
         .doc(firebaseAuth.currentUser!.uid)
         .get()
         .then((DocumentSnapshot snapshot) {
@@ -313,7 +305,7 @@ class SubscriptionController extends GetxController {
           });
       print('Create Intent response ===> ${response.body.toString()}');
       var json = jsonDecode(response.body);
-      if (json["error"]!=null) {
+      if (json["error"] != null) {
         authController.setBtnState(0);
         AppConstant.displaySnackBar(
             "Payment Error", "${json["error"]["message"]}");
@@ -339,7 +331,7 @@ class SubscriptionController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
+    // TDO: implement onClose
     super.onClose();
   }
 }

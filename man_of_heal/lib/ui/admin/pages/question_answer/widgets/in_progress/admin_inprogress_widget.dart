@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/qa_model.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/header_widget.dart';
-import 'package:man_of_heal/ui/admin/pages/question_answer/widgets/in_progress/in_progress_details_widget.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
 
-class AdminInProgressQuestions extends StatelessWidget {
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
+
+class AdminInProgressQuestions extends GetView<QAController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => ListView.builder(
-          itemCount: qaController.inProgressQList.length,
+          itemCount: controller.inProgressQList.length,
           itemBuilder: (context, index) {
-            QuestionModel questionModel = qaController.inProgressQList[index];
+            QuestionModel questionModel = controller.inProgressQList[index];
             return SingleQuestionUI(questionModel);
           }),
     );

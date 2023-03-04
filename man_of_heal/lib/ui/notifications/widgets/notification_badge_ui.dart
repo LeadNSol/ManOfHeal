@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/notifications/notifications_ui.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
 
-class NotificationBadgeUI extends StatelessWidget {
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
+
+class NotificationBadgeUI extends GetView<NotificationController> {
   const NotificationBadgeUI({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +16,7 @@ class NotificationBadgeUI extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            notificationController.notificationCount.value = 0;
+            controller.notificationCount.value = 0;
             Get.to(() => NotificationUI());
           },
           child: Icon(
@@ -25,7 +26,7 @@ class NotificationBadgeUI extends StatelessWidget {
           ),
         ),
         Obx(
-          () => notificationController.notificationCount.value > 0
+          () => controller.notificationCount.value > 0
               ? Positioned(
                   top: 3,
                   right: 1,
@@ -37,7 +38,7 @@ class NotificationBadgeUI extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        '${notificationController.notificationCount.value}',
+                        '${controller.notificationCount.value}',
                         style: AppThemes.normalBlackFont
                             .copyWith(color: Colors.white),
                       ),

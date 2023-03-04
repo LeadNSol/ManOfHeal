@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/feedback_model.dart';
-import 'package:man_of_heal/models/user_model.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/not_found_data_widget.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/admin/pages/feed_backs/single_feedback_list_items.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class FeedBackUI extends StatelessWidget {
+class FeedBackUI extends GetView<FeedBackController> {
   const FeedBackUI({Key? key}) : super(key: key);
 
   @override
@@ -38,28 +37,28 @@ class FeedBackUI extends StatelessWidget {
 
   Widget body(context) {
     return Obx(
-      () => feedBackController.currentAdminFeedBackList.isEmpty
+      () => controller.currentAdminFeedBackList.isEmpty
           ? NoDataFound()
           : ListView.builder(
               shrinkWrap: true,
-              itemCount: feedBackController.currentAdminFeedBackList.length,
+              itemCount: controller.currentAdminFeedBackList.length,
               itemBuilder: (_, index) {
                 FeedbackModel model =
-                    feedBackController.currentAdminFeedBackList[index];
-                return SingleFeedBackItem(model);
+                    controller.currentAdminFeedBackList[index];
+                return SingleFeedbackListItem(model: model);
               },
             ),
     );
   }
 
-  Widget SingleFeedBackItem(FeedbackModel model) {
+  Widget singleFeedBackItem(FeedbackModel model) {
     final UserModel? userModel =
         authController.getUserFromListById(model.studentId!);
-    final  isOverFlowVisible = false.obs;
+    final isSeeMoreClicked = false.obs;
 
     return CustomContainer(
       child: ListTile(
-        onTap: () => isOverFlowVisible.value = !isOverFlowVisible.value,
+        onTap: () => isSeeMoreClicked.value = !isSeeMoreClicked.value,
         leading: CircleAvatar(
           backgroundImage: NetworkImage(userModel!.photoUrl!),
         ),
@@ -89,8 +88,7 @@ class FeedBackUI extends StatelessWidget {
             Obx(() => Text(
                   "${model.remarks!}",
                   style: AppThemes.normalBlack45Font,
-                  maxLines:
-                      isOverFlowVisible.isTrue ? model.remarks!.length : 2,
+                  maxLines: isSeeMoreClicked.isTrue ? model.remarks!.length : 2,
                   overflow: TextOverflow.ellipsis,
                 )),
           ],

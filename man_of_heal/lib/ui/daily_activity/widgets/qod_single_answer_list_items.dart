@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/models/student_answer_model.dart';
-import 'package:man_of_heal/ui/components/custom_container.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/daily_activity/widgets/qod_answer_details.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/svgs.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class SingleAnswerListItems extends StatelessWidget {
+class SingleAnswerListItems extends GetView<DailyActivityController> {
   const SingleAnswerListItems({
     Key? key,
     this.stdModel,
@@ -25,7 +20,7 @@ class SingleAnswerListItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        dailyActivityController.stdAnswerModel(stdModel);
+        controller.stdAnswerModel(stdModel);
         Get.to(() => QODAnswerDetails());
       },
       child: CustomContainer(
@@ -117,16 +112,10 @@ class SingleAnswerListItems extends StatelessWidget {
                                 Container(
                                   width: 100,
                                   child: PrimaryButton(
-                                    buttonStyle: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0, vertical: 10.0),
-                                      primary: AppThemes.DEEP_ORANGE,
-                                      shape: StadiumBorder(),
-                                    ),
                                     labelText: 'Yes',
                                     textStyle: AppThemes.buttonFont,
                                     onPressed: () async {
-                                      await dailyActivityController
+                                      await controller
                                           .deleteStudentAnswerById(model);
                                       Get.back();
                                     },
@@ -135,12 +124,6 @@ class SingleAnswerListItems extends StatelessWidget {
                                 Container(
                                   width: 100,
                                   child: PrimaryButton(
-                                      buttonStyle: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.0, vertical: 10.0),
-                                        primary: AppThemes.DEEP_ORANGE,
-                                        shape: StadiumBorder(),
-                                      ),
                                       labelText: 'No',
                                       textStyle: AppThemes.buttonFont,
                                       onPressed: () => Get.back()),

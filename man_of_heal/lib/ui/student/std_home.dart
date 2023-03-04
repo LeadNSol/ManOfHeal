@@ -3,29 +3,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/qa_controller.dart';
-import 'package:man_of_heal/controllers/subscription_controller.dart';
-import 'package:man_of_heal/controllers/vd_controller.dart';
-import 'package:man_of_heal/models/subscription_model.dart';
-import 'package:man_of_heal/ui/components/double_back_press_on_exit.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/student/pages/question_answer/widgets/ask_question_ui.dart';
-import 'package:man_of_heal/ui/student/pages/subscription/subscription_ui.dart';
-import 'package:man_of_heal/utils/AppConstant.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
-class StudentHome extends StatelessWidget {
+class StudentHome extends GetView<LandingPageController> {
   @override
   Widget build(BuildContext context) {
-    _initControllers();
+    //_initControllers();
+    final subscriptionController = Get.find();
     return Obx(
       () => SafeArea(
         child: DoubleBackPressToExit(
           child: Scaffold(
             extendBody: true,
             resizeToAvoidBottomInset: false,
-            body: landingPageController.currentStudentPage,
+            body: controller.currentStudentPage,
             bottomNavigationBar: _bottomCircularNotchedBar(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
@@ -34,7 +28,7 @@ class StudentHome extends StatelessWidget {
                 if (authController.userModel!.isTrailFinished!) {
                   Subscription? subscription =
                       subscriptionController.subsFirebase!;
-                  if (subscription.paymentId != null) {
+                  if (subscription!.paymentId != null) {
                     if (Timestamp.now().compareTo(subscription.expiresAt!) >
                         0) {
                       displayBottomSheet(subscription);
@@ -74,7 +68,7 @@ class StudentHome extends StatelessWidget {
   }
 
   showQuestionBottomSheet() {
-    qaController.questionController.clear();
+    //qaController.questionController.clear();
     Get.bottomSheet(
       AskQuestionUI(callingFor: "new"),
       shape: RoundedRectangleBorder(
@@ -88,11 +82,11 @@ class StudentHome extends StatelessWidget {
   /// controller that required user ID's
   /// and common for both users,
   ///
-  _initControllers() {
+  /*_initControllers() {
     Get.put(SubscriptionController());
     Get.put(QAController());
     Get.put(VDController());
-  }
+  }*/
 
   _bottomCircularNotchedBar() {
     final _inactiveColor = Colors.grey;
@@ -105,7 +99,7 @@ class StudentHome extends StatelessWidget {
       shape: CircularNotchedRectangle(),
       child: Obx(
         () => BottomNavigationBar(
-          currentIndex: landingPageController.studentTabIndex.value,
+          currentIndex: controller.studentTabIndex.value,
           selectedItemColor: AppThemes.DEEP_ORANGE,
           selectedLabelStyle: GoogleFonts.poppins(
             fontWeight: FontWeight.w500,
@@ -127,11 +121,12 @@ class StudentHome extends StatelessWidget {
   }
 
   onTapped(int index) {
-    landingPageController.setStudentPage(index);
+    controller.setStudentPage(index);
     //if (index == 1) landingPageController.setCalledFor("Answered");
   }
 
   void displayBottomSheet(Subscription subscription) {
+    final subscriptionController = Get.find();
     Get.bottomSheet(
       Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 20),
@@ -194,7 +189,7 @@ class StudentHome extends StatelessWidget {
                       buttonStyle: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 8.0),
-                        primary: AppThemes.rightAnswerColor,
+                        backgroundColor: AppThemes.rightAnswerColor,
                         shape: StadiumBorder(),
                       ),
                       labelText: 'Upgrade',
