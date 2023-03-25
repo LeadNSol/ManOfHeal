@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
 
-import '../controllers/export_controller.dart';
+
 
 class DailyActivityBinding extends Bindings {
   @override
   void dependencies() {
     // TOO: implement dependencies
     Get.lazyPut(() => FeedBackController(
-        authController: Get.find(), notificationController: Get.find()));
+        authController: findOrInitAuth, notificationController:findOrInitNotification));
 
     Get.lazyPut(() => DailyActivityController(
-        authController: Get.find(),
-        notificationController: Get.find(),
-        feedbackController: Get.find()));
+        notificationController: findOrInitNotification,
+        feedbackController: findOrInitFeedBack));
   }
 }

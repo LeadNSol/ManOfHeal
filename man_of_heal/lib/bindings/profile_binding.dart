@@ -6,11 +6,11 @@ class ProfileBinding extends Bindings {
   void dependencies() {
     // TDO: implement dependencies
 
-    Get.lazyPut(() => AuthController());
+    //Get.lazyPut(() => AuthController());
     Get.lazyPut(() => SubscriptionController());
     Get.lazyPut(() => FeedBackController(
         authController: Get.find(), notificationController: Get.find()));
     Get.lazyPut(() => ProfileController(
-        subscriptionController: Get.find(), feedBackController: Get.find()));
+        subscriptionController: Get.find<SubscriptionController>(), feedBackController: findOrInitFeedBack));
   }
 }

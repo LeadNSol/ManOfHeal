@@ -16,31 +16,44 @@ class AppRoutes {
   static const adminDashboard = '/admin-dashboard';
   static const adminVignetteD = '/admin-vd';
   static const stdVignetteD = '/std-vd';
+  static const adminQAList = '/admin-qaList';
+  static const stdQAList = '/std-qaList';
+  static const labsRoute = '/labsValue';
 
   static final routes = [
-    GetPage(name: initRoute, page: () => SplashUI()), //binding: AuthBinding()
+    GetPage(
+        name: initRoute, page: () => SplashUI()),
+    //binding: AuthBinding()
 
     GetPage(
         name: welcomeRoute,
-        page: () => WelcomeBackUI(),
-        binding: AppInitBindings()),
+        page: () => WelcomeBackUI(), binding: AuthBinding()),
 
-    GetPage(name: '/signIn', page: () => SignInUI()),
-    GetPage(name: '/signup', page: () => SignUpUI()),
+    GetPage(name: '/signIn', page: () => SignInUI(), binding: AuthBinding()),
+    GetPage(name: '/signup', page: () => SignUpUI(), binding: AuthBinding()),
     GetPage(name: '/forgotPassword', page: () => ForgotPassword()),
-    GetPage(name: profileRoute, page: () => ProfileUI(), binding: ProfileBinding()),
-    GetPage(name: adminDashboard, page: () => AdminDashboardUI(), binding: AdminHomeBinding()),
+    GetPage(
+        name: profileRoute, page: () => ProfileUI(), binding: ProfileBinding()),
+    GetPage(
+        name: adminDashboard,
+        page: () => AdminHome(),
+        bindings: [
+         // AuthBinding(),
+          DashboardBinding(),
+        ]),
     GetPage(
         name: stdDashboard,
-        page: () => StudentDashboardUI(),
-        binding: StdHomeBinding()),
+        page: () => StudentHome(),
+        binding: DashboardBinding()),
     GetPage(
       name: adminVignetteD,
       page: () => AdminVignetteDissectionUI(),
+      binding: DashboardBinding()
+
     ),
-    GetPage(name: '/admin-qa', page: () => AdminQuestionAnswerList()),
-    GetPage(name: '/question-answer', page: () => QuestionAnswerList()),
-    GetPage(name: '/lab-value', page: () => LabsUI()),
+    GetPage(name: adminQAList, page: () => AdminQuestionAnswerList(), binding: DashboardBinding()),
+    GetPage(name: stdQAList, page: () => QuestionAnswerList()),
+    GetPage(name: labsRoute, page: () => LabsUI(), binding: DashboardBinding()),
   ];
 
 /*//Admin routes

@@ -46,7 +46,7 @@ dependencies:
   countdown_progress_indicator: ^0.1.2
 
   #Google Sign in
-  google_sign_in: ^5.4.2
+  google_sign_in: ^6.0.2
 
   #Flutter count down timer, used in Questions or answer details
   flutter_countdown_timer: ^4.1.0
@@ -62,7 +62,7 @@ dependencies:
   flutter_calendar_carousel: ^2.4.0
   #stripe with dio for http requests
 
-  flutter_stripe: ^8.0.0+1
+  flutter_stripe: ^9.0.0+1
   #flutter_stripe_web: ^1.0.0
 
   http: ^0.13.5
@@ -79,7 +79,7 @@ dependencies:
   shared_preferences: ^2.0.15
 
   package_info_plus: ^3.0.3
-  flutter_launcher_icons: ^0.11.0
+  flutter_launcher_icons: ^0.12.0
 
 
   #restart app

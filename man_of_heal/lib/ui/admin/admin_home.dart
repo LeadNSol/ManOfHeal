@@ -47,20 +47,6 @@ class AdminHome extends GetView<LandingPageController> {
     );
   }
 
-  /// controller that required user ID's
-  /// and common for both users,
-  ///
-  _initControllers() {
-    print(" _initControllers()");
-
-    /* Get.put(CategoryController());
-    Get.put(LabController());
-    Get.put(DailyActivityController());
-    Get.put(FeedBackController());*/
-    //Get.put(SubscriptionController());
-   //Get.put(QAController());
-   // Get.put(AdminVdController());
-  }
 
   _bottomCircularNotchedBar() {
     final _inactiveColor = Colors.grey;

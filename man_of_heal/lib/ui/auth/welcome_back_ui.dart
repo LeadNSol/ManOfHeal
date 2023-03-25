@@ -5,7 +5,7 @@ import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class WelcomeBackUI extends GetView<AuthController> {
+class WelcomeBackUI extends GetView {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,7 +53,7 @@ class WelcomeBackUI extends GetView<AuthController> {
                           labelText: 'Sign In with Google',
                           textStyle: AppThemes.buttonFont,
                           onPressed: () async {
-                            await controller.singInWithGoogle();
+                            await authController.singInWithGoogle();
                           },
                         ),
                       ),
@@ -68,8 +68,8 @@ class WelcomeBackUI extends GetView<AuthController> {
                           labelText: 'Sign In with Email',
                           textStyle: AppThemes.buttonFont,
                           onPressed: () async {
-                            controller.isSignedInWithGoogle.value = false;
-                            Get.to(() => SignInUI());
+                            authController.isSignedInWithGoogle.value = false;
+                            Get.toNamed(AppRoutes.signInRoute);
                           },
                         ),
                       ),
@@ -77,7 +77,7 @@ class WelcomeBackUI extends GetView<AuthController> {
                     FormVerticalSpace(height: 80),
                     Center(
                       child: InkWell(
-                        onTap: () => Get.to(() => SignUpUI()),
+                        onTap: () => Get.toNamed(AppRoutes.signUpRoute),
                         child: Column(
                           children: [
                             Text("Don't have an Account?",

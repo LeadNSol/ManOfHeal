@@ -7,24 +7,25 @@ import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/notifications/enum_notification.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class LabController extends GetxController {
+class LabController extends GetxController with StateMixin {
 
 
   final AuthController? authController;
   final NotificationController? notificationController;
-  LabController(this.authController, this.notificationController);
+  LabController({this.authController, this.notificationController});
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController shortDescController = TextEditingController();
   final TextEditingController longDescController = TextEditingController();
 
-  var labList = <LabModel>[].obs;
+  //var labList = <LabModel>[].obs;
 
 
   @override
   void onReady() {
     super.onReady();
-    labList.bindStream(getLabData());
+    getLabDataNew();
+    //labList.bindStream(getLabData());
     if (authController!.admin.isFalse)
       FirebaseMessaging.instance
           .subscribeToTopic(NotificationEnum.labs.name)
@@ -38,6 +39,25 @@ class LabController extends GetxController {
         .snapshots()
         .map((snaps) =>
             snaps.docs.map((query) => LabModel.fromMap(query.data())).toList());
+  }
+
+  getLabDataNew()async{
+   final colRef =   firebaseFirestore
+        .collection(LAB_COLLECTION)
+        .orderBy(LabModel.CREATED_DATE, descending: true);
+   try {
+     var querySnap = await colRef.get();
+
+     if (querySnap.docs.isNotEmpty) {
+
+       change(querySnap.docs.map((query) => LabModel.fromMap(query.data())).toList(), status: RxStatus.success());
+     } else {
+       change(null, status: RxStatus.empty());
+     }
+   } catch (e) {
+     change(null, status: RxStatus.error('Error fetching Labs $e'));
+   }
+
   }
 
   Future<void> createLab() async {
@@ -60,7 +80,9 @@ class LabController extends GetxController {
           (value) => {
             _clearControllers(),
             print("Lab was added"),
+            getLabDataNew(),
             sendNotificationToStudent(labModel),
+
           },
         );
   }

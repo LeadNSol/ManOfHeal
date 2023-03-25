@@ -47,9 +47,7 @@ class ProfileUI extends GetView<ProfileController> {
                 hasProfileIcon: false,
                 isAdmin: authController.admin.value,
               ),
-              FormVerticalSpace(
-                height: 120,
-              ),
+              FormVerticalSpace(height: 120),
 
               ///profile pic & name & subscription for students
               Column(
@@ -125,9 +123,7 @@ class ProfileUI extends GetView<ProfileController> {
                       ),
                     ],
                   ),
-                  FormVerticalSpace(
-                    height: 5,
-                  ),
+                  FormVerticalSpace(height: 5),
                   _nameAndRatingWidget(context),
                   FormVerticalSpace(
                     height: 15,

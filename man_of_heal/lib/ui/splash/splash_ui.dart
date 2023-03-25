@@ -34,11 +34,8 @@ class SplashUI extends StatelessWidget {
                     }),
                     /* Lottie.network(
                   'https://raw.githubusercontent.com/xvrh/lottie-flutter/master/example/assets/Mobilo/A.json')*/
-
                   ),
-            SizedBox(
-              height: 40,
-            ),
+            SizedBox(height: 40),
             // CircularProgressIndicator()
           ],
         ),

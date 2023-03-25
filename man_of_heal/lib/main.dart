@@ -15,18 +15,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage? message) async {
   print('Handling a background message ${message!.messageId}');
   print(message.data);
 
-  findOrInit.showNotification(message);
+  findOrInitNotification.showNotification(message);
 }
 
-NotificationController get findOrInit {
-  try {
-    return Get.find();
-  } catch (e) {
-    debugPrint(">>>>AuthMiddleWare: $e");
-    Get.put<NotificationController>(NotificationController());
-    return Get.find();
-  }
-}
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,8 +55,8 @@ void main() async {
   //  Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
-    await Get.find<NotificationController>().createAndroidNotificationChannel();
-    await Get.find<NotificationController>().updateIOSNotificationOptions();
+    await findOrInitNotification.createAndroidNotificationChannel();
+    await findOrInitNotification.updateIOSNotificationOptions();
   }
   runApp(ManOfHeal());
 }
@@ -74,22 +66,6 @@ class ManOfHeal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*  if (kIsWeb) {
-      return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        //disabling demo label
-        title: 'Man Of Heal',
-
-        //theme: AppThemes.lightTheme,
-        darkTheme: AppThemes.darkTheme,
-        //themeMode: ThemeMode.system,
-        // themeMode: ThemeMode.system,
-
-        initialRoute: "/",
-        getPages: AppRoutes.routes,
-        //home: SignInUI(),
-      );
-    }*/
     return ScreenUtilInit(
       //designSize: Size(360, 700),
       minTextAdapt: true,

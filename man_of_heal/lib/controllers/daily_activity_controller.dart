@@ -9,12 +9,12 @@ import 'package:man_of_heal/utils/export_utils.dart';
 class DailyActivityController extends GetxController {
   //static DailyActivityController instance = Get.find();
 
-  final AuthController? authController;
+
   final NotificationController? notificationController;
   final FeedBackController? feedbackController;
 
   DailyActivityController(
-      {this.authController,
+      {
       this.notificationController,
       this.feedbackController});
 

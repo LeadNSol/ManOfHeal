@@ -12,7 +12,7 @@ class AdminVdController extends GetxController {
   final NotificationController? notificationController;
   final AuthController? authController;
 
-  AdminVdController(this.notificationController, this.authController);
+  AdminVdController({this.notificationController, this.authController});
 
 
 

@@ -11,8 +11,8 @@ class CustomTabsController extends GetxController {
 
   var selectedPage = 0.obs;
 
-  late PageController pageController;
-  late PageController adminSubsPageController;
+   PageController pageController = PageController();
+   PageController adminSubsPageController = PageController();
 
   var searchIconVisibility = false.obs;
   var pageTitle = "Questions".obs;
@@ -67,14 +67,14 @@ class CustomTabsController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    pageController = PageController();
+   // pageController = PageController();
     super.onInit();
   }
 
   @override
   void onReady() {
     // TODO: implement onReady
-    pageController = PageController();
+   // pageController = PageController();
     /*landingPageController.calledFor.value == "Questions"
         ? onPageChange(0)
         : onPageChange(1);*/

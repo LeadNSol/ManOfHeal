@@ -41,7 +41,7 @@ class CustomHeaderRow extends StatelessWidget {
         hasProfileIcon!
             ? Expanded(
                 child: InkWell(
-                  onTap: () => Get.to(() => ProfileUI()),
+                  onTap: () => Get.toNamed(AppRoutes.profileRoute),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(

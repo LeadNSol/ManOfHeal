@@ -86,12 +86,12 @@ class StudentDashboardUI extends GetView<LandingPageController> {
                   ),
                   NotificationBadgeUI(),
                   SizedBox(
-                    width: 5,
+                    width: 5
                   ),
                   //profile icon
                   InkWell(
                     onTap: () {
-                      Get.to(() => ProfileUI());
+                      Get.toNamed(AppRoutes.profileRoute);
                     },
                     child: Container(
                       height: 50,

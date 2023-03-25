@@ -190,7 +190,7 @@ class QuizViewUI extends GetView<AdminVdController> {
             labelText: 'Review',
             textStyle: AppThemes.buttonFont,
             onPressed: () {
-              Get.off(() => AdminVignetteDissectionUI());
+              Get.offNamed(AppRoutes.adminVignetteD);
             },
           ),
         ),

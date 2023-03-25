@@ -92,6 +92,8 @@ class AuthController extends GetxController
     firebaseUser.bindStream(firebaseAuth.userChanges());
     ever(firebaseUser, handleAuthChanged);
 
+
+
     profileAvatarsList.bindStream(getProfileAvatars());
     usersList.bindStream(getAllUsers());
 
@@ -162,18 +164,14 @@ class AuthController extends GetxController
     if (_firebaseUser == null) {
       print('Send to sign in');
       //Get.offAll(() => WelcomeBackUI());
-      Get.offAllNamed(AppRoutes.welcomeRoute);
+      Get.offNamed(AppRoutes.welcomeRoute);
     } else {
-      //TODO: re-init required data when auth changed
-      //reInit();
-
       if (admin.value) {
         if (!kIsWeb) {
           FirebaseMessaging.instance
               .subscribeToTopic(NotificationEnum.qa_admin.name);
         }
-       // Get.offAll(() => AdminHome());
-        Get.offAllNamed(AppRoutes.adminDashboard);
+        Get.offNamed(AppRoutes.adminDashboard);
       } else {
         if (!kIsWeb) {
           FirebaseMessaging.instance
@@ -184,21 +182,10 @@ class AuthController extends GetxController
               .subscribeToTopic(NotificationEnum.daily_activity.name);
         }
         //Get.offAll(() => StudentHome());
-        Get.offAllNamed(AppRoutes.stdDashboard);
+        Get.offNamed(AppRoutes.stdDashboard);
       }
     }
   }
-
-  /* void reInit() {
-    subscriptionController.initSubscription();
-    qaController.initQA();
-    notificationController.initData();
-    feedBackController.fetchCurrentAdminFeedBack();
-    if (Get.isRegistered<VDController>()) {
-      vdController.initData();
-    }
-  }*/
-
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
     var uid = firebaseUser.value != null ? firebaseUser.value?.uid : null;

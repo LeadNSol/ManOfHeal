@@ -72,7 +72,8 @@ class AdminDashboardUI extends GetView<LandingPageController> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => ProfileUI());
+                      //Get.to(() => ProfileUI());
+                      Get.toNamed(AppRoutes.profileRoute);
                     },
                     child: Container(
                       height: 50,
@@ -140,7 +141,7 @@ class AdminDashboardUI extends GetView<LandingPageController> {
                   ),
                   customDashboardItems(
                       context,
-                      () => Get.to(() => AdminVignetteDissectionUI()),
+                      () => Get.toNamed(AppRoutes.adminVignetteD),
                       "assets/icons/quiz_icon.svg",
                       "Quiz"),
                 ],
