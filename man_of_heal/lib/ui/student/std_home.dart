@@ -12,7 +12,7 @@ class StudentHome extends GetView<LandingPageController> {
   @override
   Widget build(BuildContext context) {
     //_initControllers();
-    final subscriptionController = Get.find();
+    final subscriptionController = Get.find<SubscriptionController>();
     return Obx(
       () => SafeArea(
         child: DoubleBackPressToExit(
@@ -28,7 +28,7 @@ class StudentHome extends GetView<LandingPageController> {
                 if (authController.userModel!.isTrailFinished!) {
                   Subscription? subscription =
                       subscriptionController.subsFirebase!;
-                  if (subscription!.paymentId != null) {
+                  if (subscription.paymentId != null) {
                     if (Timestamp.now().compareTo(subscription.expiresAt!) >
                         0) {
                       displayBottomSheet(subscription);

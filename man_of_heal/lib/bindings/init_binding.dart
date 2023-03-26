@@ -7,6 +7,6 @@ class AppInitBindings extends Bindings {
     Get.put(LandingPageController(), permanent: true);
     Get.put(AuthController(), permanent: true);
 
-    Get.put(CategoryController());
+
   }
 }

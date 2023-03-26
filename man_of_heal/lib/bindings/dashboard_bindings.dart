@@ -6,10 +6,10 @@ class DashboardBinding extends Bindings {
   void dependencies() {
     // TDO: implement dependencies
     //Get.lazyPut(() => AuthController());
+    Get.put(SubscriptionController());
+    Get.put(CategoryController());
 
     Get.lazyPut(() => CustomTabsController(findOrInitAuth));
-    Get.lazyPut(() => SubscriptionController());
-
 
     Get.lazyPut(() => FeedBackController(
         authController: findOrInitAuth,
@@ -31,5 +31,6 @@ class DashboardBinding extends Bindings {
         notificationController: findOrInitNotification));
 
     Get.lazyPut(() => AdminVdController(authController: findOrInitAuth, notificationController: findOrInitNotification));
+    Get.lazyPut(() => VDController());
   }
 }

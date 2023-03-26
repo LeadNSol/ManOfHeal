@@ -29,9 +29,9 @@ class AppRoutes {
         name: welcomeRoute,
         page: () => WelcomeBackUI(), binding: AuthBinding()),
 
-    GetPage(name: '/signIn', page: () => SignInUI(), binding: AuthBinding()),
-    GetPage(name: '/signup', page: () => SignUpUI(), binding: AuthBinding()),
-    GetPage(name: '/forgotPassword', page: () => ForgotPassword()),
+    GetPage(name: signInRoute, page: () => SignInUI(), binding: AuthBinding()),
+    GetPage(name: signUpRoute, page: () => SignUpUI(), binding: AuthBinding()),
+    GetPage(name: forgotPasswordRoute, page: () => ForgotPassword()),
     GetPage(
         name: profileRoute, page: () => ProfileUI(), binding: ProfileBinding()),
     GetPage(

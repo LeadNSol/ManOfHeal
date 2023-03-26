@@ -525,10 +525,6 @@ class AuthController extends GetxController
     addressController.dispose();
   }
 
-  void deleteGetXControllers() {
-    Get.delete<SubscriptionController>();
-    Get.delete<QAController>();
-  }
 
   // Sign out
   Future<void> signOut() async {

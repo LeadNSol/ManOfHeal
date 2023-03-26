@@ -31,7 +31,7 @@ void main() async {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.grey[300]!));
+        SystemUiOverlayStyle(statusBarColor: Colors.grey[100]!));
   }
   await firebaseInitialization.then((value) {
     //making app wise access for the controller

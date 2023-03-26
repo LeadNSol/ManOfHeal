@@ -17,7 +17,7 @@ class ProfileController extends GetxController {
  // var subscriptionModel = Subscription().obs;
 
   Subscription? getSubsModel(){
-    return subscriptionController!.subsFirebase!;
+    return subscriptionController?.subsFirebase;
   }
 
   int getSubscriptionExpiry(){

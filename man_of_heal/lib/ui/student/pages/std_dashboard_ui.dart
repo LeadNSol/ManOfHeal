@@ -71,23 +71,18 @@ class StudentDashboardUI extends GetView<LandingPageController> {
                         Text('Welcome ${authController.userModel!.name}',
                             style: GoogleFonts.montserrat(
                                 fontSize: 10, color: Colors.white)),
-                        FormVerticalSpace(
-                          height: 5,
-                        ),
-                        Obx(
-                          () => authController.userModel!.trialExpiryDate !=
-                                      null &&
-                                  authController.userModel!.isTrailFinished!
-                              ? Container()
-                              : trailPeriodCounter(AppThemes.white, 13),
-                        ),
+                        FormVerticalSpace(height: 5),
+                        Obx(() => ((authController.userModel?.isTrailFinished ??
+                                    false) &&
+                                authController.userModel?.trialExpiryDate !=
+                                    null)
+                            ? trailPeriodCounter(AppThemes.white, 13)
+                            : Container()),
                       ],
                     ),
                   ),
                   NotificationBadgeUI(),
-                  SizedBox(
-                    width: 5
-                  ),
+                  SizedBox(width: 5),
                   //profile icon
                   InkWell(
                     onTap: () {

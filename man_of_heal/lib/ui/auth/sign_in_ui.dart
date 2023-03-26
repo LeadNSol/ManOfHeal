@@ -99,7 +99,7 @@ class SignInUI extends StatelessWidget {
                     FormVerticalSpace(),
                     Center(
                       child: InkWell(
-                        onTap: () => Get.to(() => SignUpUI()),
+                        onTap: () => Get.toNamed(AppRoutes.signUpRoute),
                         child: Column(
                           children: [
                             Text("Don't have an Account?",
