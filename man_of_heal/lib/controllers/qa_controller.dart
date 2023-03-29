@@ -446,7 +446,7 @@ class QAController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
+    // TOD: implement onClose
     _clearControllers();
 
     super.onClose();

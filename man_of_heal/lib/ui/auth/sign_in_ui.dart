@@ -153,7 +153,7 @@ class SignInUI extends StatelessWidget {
       child: PrimaryButton(
           buttonStyle: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            primary: AppThemes.DEEP_ORANGE,
+            backgroundColor: AppThemes.DEEP_ORANGE,
             shape: StadiumBorder(),
           ),
           labelText: 'SIGN IN',

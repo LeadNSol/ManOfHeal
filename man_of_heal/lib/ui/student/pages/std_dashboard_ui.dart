@@ -15,6 +15,7 @@ class StudentDashboardUI extends GetView<LandingPageController> {
   Widget build(BuildContext context) {
     if (authController.userModel!.isTrailFinished != null &&
         !authController.userModel!.isTrailFinished!) {
+      //Future.delayed(Duration.zero, () => showTrailNotifyDialog(context));
       if (authController.isTrailDialogFirstTimeOpen() != null &&
           !authController.isTrailDialogFirstTimeOpen()) {
         Future.delayed(Duration.zero, () => showTrailNotifyDialog(context));
@@ -72,8 +73,7 @@ class StudentDashboardUI extends GetView<LandingPageController> {
                             style: GoogleFonts.montserrat(
                                 fontSize: 10, color: Colors.white)),
                         FormVerticalSpace(height: 5),
-                        Obx(() => ((authController.userModel?.isTrailFinished ??
-                                    false) &&
+                        Obx(() => ((!authController.userModel!.isTrailFinished!) &&
                                 authController.userModel?.trialExpiryDate !=
                                     null)
                             ? trailPeriodCounter(AppThemes.white, 13)

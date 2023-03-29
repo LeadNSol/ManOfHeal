@@ -207,6 +207,6 @@ class AppConstant {
 
     print("Diff: Date: ${to.difference(from).inDays}");
     return from.difference(to).inDays > 0 ? from.difference(to).inDays : 0;
-    return (to.difference(from).inHours / 24).round();
+    // return (to.difference(from).inHours / 24).round();
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget {
-
   final String? title;
   final Color? iconColor;
   final Color? bgColor;
@@ -11,7 +10,6 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
     return AppBar(
       elevation: 0,
       backgroundColor: bgColor,
@@ -25,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
       ),
       title: Text(
         title!,
-        style: textTheme.headline6!.copyWith(color: iconColor),
+        //style: textTheme.headline6!.copyWith(color: iconColor),
       ),
     );
   }

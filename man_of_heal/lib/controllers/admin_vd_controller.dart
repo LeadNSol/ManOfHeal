@@ -14,8 +14,6 @@ class AdminVdController extends GetxController {
 
   AdminVdController({this.notificationController, this.authController});
 
-
-
   TextEditingController quizQuestionController = new TextEditingController();
   TextEditingController optionsController = new TextEditingController();
   TextEditingController quizTitleController = new TextEditingController();
@@ -215,7 +213,6 @@ class AdminVdController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
     //pageController.dispose();
     optionList.clear();

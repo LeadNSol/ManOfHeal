@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/controllers/daily_activity_controller.dart';
-import 'package:man_of_heal/models/daily_activity_model.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class AnswerBottomSheetContents extends GetView<DailyActivityController> {
-  const AnswerBottomSheetContents({Key? key, this.dailyActivityModel,}) : super(key: key);
+  const AnswerBottomSheetContents({
+    Key? key,
+    this.dailyActivityModel,
+  }) : super(key: key);
   final DailyActivityModel? dailyActivityModel;
 
   @override
@@ -65,7 +65,7 @@ class AnswerBottomSheetContents extends GetView<DailyActivityController> {
                   buttonStyle: ElevatedButton.styleFrom(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    primary: AppThemes.DEEP_ORANGE,
+                    backgroundColor: AppThemes.DEEP_ORANGE,
                     shape: StadiumBorder(),
                   ),
                   labelText: 'Submit',

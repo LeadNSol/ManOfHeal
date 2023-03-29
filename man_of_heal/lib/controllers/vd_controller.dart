@@ -151,7 +151,7 @@ class VDController extends GetxController {
           .doc(authController.userModel!.uid)
           .set(model.toJson(), SetOptions(merge: true))
           .then((value) {
-        //TODO: quiz attempt posting
+        //TDO: quiz attempt posting
 
         QuizAttemptsModel model = QuizAttemptsModel(
           attemptDate: Timestamp.now(),
@@ -286,7 +286,6 @@ class VDController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
     //animationController.dispose();
     //pageController.dispose();

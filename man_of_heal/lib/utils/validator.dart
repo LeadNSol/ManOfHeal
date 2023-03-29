@@ -40,9 +40,8 @@ class Validator {
       return null;
   }
 
-
   String? number(String? value) {
-   // String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
+    // String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
     String pattern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
 
     RegExp regex = RegExp(pattern);
@@ -63,10 +62,10 @@ class Validator {
 
   String? notEmpty(String? value) {
     //String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-    String pattern = r'/^(?!\s*$).+/';
-   // String pattern = "/(.|\s)*\S(.|\s)*/gm";
-    RegExp regex = RegExp(pattern);
-   // if (!regex.hasMatch(value!.trim())) {
+    //String pattern = r'/^(?!\s*$).+/';
+    // String pattern = "/(.|\s)*\S(.|\s)*/gm";
+    //RegExp regex = RegExp(pattern);
+    // if (!regex.hasMatch(value!.trim())) {
     if (value == null || value.isEmpty) {
       return 'This is required!';
     } else {

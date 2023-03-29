@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
+
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/qa_model.dart';
 import 'package:man_of_heal/ui/components/not_found_data_widget.dart';

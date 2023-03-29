@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:man_of_heal/ui/components/primary_button.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
@@ -10,17 +9,15 @@ class LoadingAnimatedButton extends StatelessWidget {
   final void Function()? onPressed;
 
   LoadingAnimatedButton(
-      {required this.btnState, required this.width, required this.onPressed, required this.text});
+      {required this.btnState,
+      required this.width,
+      required this.onPressed,
+      required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: btnSetup(),
-    );
-    return Obx(
-      () => Center(
-        child: btnSetup(),
-      ),
     );
   }
 
@@ -56,7 +53,7 @@ class LoadingAnimatedButton extends StatelessWidget {
           labelText: text!,
           buttonStyle: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            primary: AppThemes.DEEP_ORANGE,
+            backgroundColor: AppThemes.DEEP_ORANGE,
             shape: StadiumBorder(),
           ),
           textStyle: AppThemes.buttonFont,

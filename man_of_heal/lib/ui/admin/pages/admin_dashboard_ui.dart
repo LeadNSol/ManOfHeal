@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
-import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 

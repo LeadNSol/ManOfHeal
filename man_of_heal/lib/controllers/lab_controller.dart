@@ -8,8 +8,6 @@ import 'package:man_of_heal/ui/notifications/enum_notification.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
 class LabController extends GetxController with StateMixin {
-
-
   final AuthController? authController;
   final NotificationController? notificationController;
   LabController({this.authController, this.notificationController});
@@ -19,7 +17,6 @@ class LabController extends GetxController with StateMixin {
   final TextEditingController longDescController = TextEditingController();
 
   //var labList = <LabModel>[].obs;
-
 
   @override
   void onReady() {
@@ -41,23 +38,25 @@ class LabController extends GetxController with StateMixin {
             snaps.docs.map((query) => LabModel.fromMap(query.data())).toList());
   }
 
-  getLabDataNew()async{
-   final colRef =   firebaseFirestore
+  getLabDataNew() async {
+    final colRef = firebaseFirestore
         .collection(LAB_COLLECTION)
         .orderBy(LabModel.CREATED_DATE, descending: true);
-   try {
-     var querySnap = await colRef.get();
+    try {
+      var querySnap = await colRef.get();
 
-     if (querySnap.docs.isNotEmpty) {
-
-       change(querySnap.docs.map((query) => LabModel.fromMap(query.data())).toList(), status: RxStatus.success());
-     } else {
-       change(null, status: RxStatus.empty());
-     }
-   } catch (e) {
-     change(null, status: RxStatus.error('Error fetching Labs $e'));
-   }
-
+      if (querySnap.docs.isNotEmpty) {
+        change(
+            querySnap.docs
+                .map((query) => LabModel.fromMap(query.data()))
+                .toList(),
+            status: RxStatus.success());
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+    } catch (e) {
+      change(null, status: RxStatus.error('Error fetching Labs $e'));
+    }
   }
 
   Future<void> createLab() async {
@@ -82,7 +81,6 @@ class LabController extends GetxController with StateMixin {
             print("Lab was added"),
             getLabDataNew(),
             sendNotificationToStudent(labModel),
-
           },
         );
   }
@@ -113,7 +111,6 @@ class LabController extends GetxController with StateMixin {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     _clearControllers();
     super.onClose();
   }

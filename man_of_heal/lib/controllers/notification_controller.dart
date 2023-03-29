@@ -43,16 +43,15 @@ class NotificationController extends GetxController {
     super.onReady();
     flutterLocalNotificationsPlugin.initialize(
       InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-        iOS: DarwinInitializationSettings()
-      ),
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          iOS: DarwinInitializationSettings()),
     );
 
     setupInteractedMessage();
-   initData();
+    initData();
   }
 
-  void initData(){
+  void initData() {
     notificationList.bindStream(getNotificationList());
     ever(notificationList, (callback) {
       notificationCount.value = 0;
@@ -139,7 +138,7 @@ class NotificationController extends GetxController {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            // TODO add a proper drawable resource to android, for now using
+            // TOO add a proper drawable resource to android, for now using
             //      one that already exists in example app.
             icon: android.smallIcon,
           ),
@@ -171,11 +170,6 @@ class NotificationController extends GetxController {
       sound: true,
     );
   }
-
-
-
-
-
 
   Future<void> sendPushNotification(NotificationModel model) async {
     if (model.receiverToken == null || !model.isTopicBased!) {
@@ -252,9 +246,6 @@ class NotificationController extends GetxController {
       },
     });
   }
-
-
-
 
   Future<void> addNotificationsToDB(NotificationModel model) async {
     var docRef = firebaseFirestore

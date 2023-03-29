@@ -291,7 +291,7 @@ class AnswerUI extends GetView<QAController> {
                         buttonStyle: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5.0),
-                          primary: AppThemes.DEEP_ORANGE,
+                          backgroundColor: AppThemes.DEEP_ORANGE,
                           shape: StadiumBorder(),
                         ),
                         labelText: "Cancel",

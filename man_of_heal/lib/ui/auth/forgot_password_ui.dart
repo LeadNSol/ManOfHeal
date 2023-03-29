@@ -2,24 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
-import 'package:man_of_heal/ui/auth/sign_in_ui.dart';
-import 'package:man_of_heal/ui/components/form_input_field_with_icon.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/label_button.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:man_of_heal/utils/validator.dart';
+import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
+import 'package:man_of_heal/utils/export_utils.dart';
 
 class ForgotPassword extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
-       // appBar: appBar(context),
+        // appBar: appBar(context),
         body: Form(
           key: _formKey,
           child: Padding(
@@ -31,13 +25,17 @@ class ForgotPassword extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     // LogoGraphicHeader(),
-                    Center(child: SvgPicture.asset("assets/icons/logo.svg",width: 150,)),
+                    Center(
+                        child: SvgPicture.asset(
+                      "assets/icons/logo.svg",
+                      width: 150,
+                    )),
                     FormVerticalSpace(
                       height: 50,
                     ),
                     Text(
                       "Reset Your Account\nPassword",
-                      style:AppThemes.header1,
+                      style: AppThemes.header1,
                     ),
                     FormVerticalSpace(
                       height: 15,
@@ -65,7 +63,7 @@ class ForgotPassword extends StatelessWidget {
                             buttonStyle: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20.0, vertical: 13.0),
-                              primary: AppThemes.DEEP_ORANGE,
+                              backgroundColor: AppThemes.DEEP_ORANGE,
                               shape: StadiumBorder(),
                             ),
                             labelText: 'Reset Password',
@@ -105,7 +103,7 @@ class ForgotPassword extends StatelessWidget {
         child: LabelButton(
           labelText: 'Back to Sign In',
           textStyle: AppThemes.normalORANGEFont,
-          onPressed: () => Get.offAll(SignInUI()),
+          onPressed: () => Get.offAllNamed(AppRoutes.signInRoute),
         ),
       );
     }

@@ -10,36 +10,85 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00fa2419-adea-4f6b-b4aa-91f132fc11ae" name="Default Changelist" comment="Bugs were fixed, trial period, daily activity answer section were added">
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/auth_middle_ware.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/daily_activity_binding.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/export_bindings.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/profile_binding.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/qa_bindings.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/std_home_bindings.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feed_backs/single_feedback_list_items.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/bindings/init_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/init_binding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/1024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/114.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/120.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/144.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/152.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/167.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/180.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/256.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/29.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/40.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/50.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/57.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/58.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/60.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/64.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/72.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/76.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/80.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/87.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/Icon-App-60x60@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/Icon-App-76x76@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/Icon-App-83.5x83.5@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/bindings/auth_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/bindings/auth_binding.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/admin_vd_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/auth_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/categories_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/categories_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/controllers_base.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/controllers_base.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/custom_tabs_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/custom_tabs_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/daily_activity_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/export_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/export_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/feed_back_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/feed_back_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/lab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/lab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/landing_page_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/landing_page_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/notification_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/notification_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/qa_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/subscription_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/subscription_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/controllers/vd_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/admin_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/admin_home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feed_backs/feed_back_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/feed_backs/feed_back_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/manage_categories/categories_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/manage_categories/categories_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_qa_list_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/admin_qa_list_ui.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/welcome_back_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/admin_dashboard_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/admin_dashboard_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/in_progress/in_progress_details_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/admin/pages/question_answer/widgets/in_progress/in_progress_details_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/forgot_password_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/forgot_password_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sign_in_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/auth/sign_in_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/animated_bottom_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/animated_bottom_navigation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/custom_app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/double_back_press_on_exit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/double_back_press_on_exit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/components/loading_animated_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/components/loading_animated_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/my_answers/widgets/answer_bottom_sheet_contents.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/daily_activity/my_answers/widgets/answer_bottom_sheet_contents.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/lab_instruction_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/labs/widgets/lab_instruction_ui.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/qa_widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/question_answer/widgets/answers/qa_widgets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/ui/student/pages/std_dashboard_ui.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/AppConstant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/AppConstant.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/app_routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/svgs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/man_of_heal/lib/utils/validator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/man_of_heal/lib/utils/validator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,16 +146,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\clientsProject\FlutterProjects\ManOfHeal\man_of_heal\assets\icons" />
@@ -192,7 +241,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/man_of_heal/lib/ui/components/loading_animated_button.dart</url>
-          <line>20</line>
+          <line>21</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">

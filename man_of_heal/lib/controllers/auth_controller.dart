@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
@@ -13,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
-
   var editTextFieldController = TextEditingController();
 
   //this is edittext controllers
@@ -91,8 +89,6 @@ class AuthController extends GetxController
     //run every time auth state changes
     firebaseUser.bindStream(firebaseAuth.userChanges());
     ever(firebaseUser, handleAuthChanged);
-
-
 
     profileAvatarsList.bindStream(getProfileAvatars());
     usersList.bindStream(getAllUsers());
@@ -186,6 +182,7 @@ class AuthController extends GetxController
       }
     }
   }
+
   //Streams the firestore user from the firestore collection
   Stream<UserModel> streamFirestoreUser() {
     var uid = firebaseUser.value != null ? firebaseUser.value?.uid : null;
@@ -195,7 +192,7 @@ class AuthController extends GetxController
         .collection(USERS)
         .doc(uid)
         .snapshots()
-        .map((snapshot) => UserModel.fromMap(snapshot.data()!));
+        .map((snapshot) => UserModel.fromMap(snapshot.data()));
   }
 
   Stream<List<UserModel>> getAllUsers() {
@@ -524,7 +521,6 @@ class AuthController extends GetxController
     degreeProgramController.dispose();
     addressController.dispose();
   }
-
 
   // Sign out
   Future<void> signOut() async {

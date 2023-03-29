@@ -6,12 +6,12 @@ class DoubleBackPressToExit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime pre_backPress = DateTime.now();
+    DateTime preBackPress = DateTime.now();
     return WillPopScope(
       onWillPop: () async {
-        final timeGap = DateTime.now().difference(pre_backPress);
+        final timeGap = DateTime.now().difference(preBackPress);
         final cantExit = timeGap >= Duration(seconds: 2);
-        pre_backPress = DateTime.now();
+        preBackPress = DateTime.now();
         if (cantExit) {
           //show snack bar
           final snack = SnackBar(

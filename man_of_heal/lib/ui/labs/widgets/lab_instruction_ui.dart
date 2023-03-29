@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
-import 'package:man_of_heal/ui/components/primary_button.dart';
-import 'package:man_of_heal/ui/labs/labs_ui.dart';
+import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
 class LabInstructionUI extends StatelessWidget {

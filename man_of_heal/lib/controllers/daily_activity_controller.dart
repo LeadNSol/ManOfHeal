@@ -9,14 +9,11 @@ import 'package:man_of_heal/utils/export_utils.dart';
 class DailyActivityController extends GetxController {
   //static DailyActivityController instance = Get.find();
 
-
   final NotificationController? notificationController;
   final FeedBackController? feedbackController;
 
   DailyActivityController(
-      {
-      this.notificationController,
-      this.feedbackController});
+      {this.notificationController, this.feedbackController});
 
   static const DAILY_ACTIVITY = "daily_activity";
   static const studentAnswersCollection = "studentAnswers";
@@ -99,7 +96,7 @@ class DailyActivityController extends GetxController {
     if (list.isNotEmpty) {
       for (var value in list) {
         print("HandleAllStudents: " + value.studentId!);
-        for (UserModel model in authController!.usersList) {
+        for (UserModel model in authController.usersList) {
           if (model.uid!.contains(value.studentId!)) {
             studentsInUserList.add(model);
           }
@@ -130,7 +127,7 @@ class DailyActivityController extends GetxController {
 
   createStudentAnswer(DailyActivityModel? model) async {
     if (model != null && model.daUID != null) {
-      String userID = authController!.userModel!.uid!;
+      String userID = authController.userModel!.uid!;
       var colSubRef = firebaseFirestore
           .collection(DAILY_ACTIVITY)
           .doc(model.daUID!)
@@ -160,7 +157,7 @@ class DailyActivityController extends GetxController {
         .doc(date)
         .collection(studentAnswersCollection)
         .where(StdAnswerModel.answerBY,
-            isEqualTo: authController!.userModel!.uid)
+            isEqualTo: authController.userModel!.uid)
         .snapshots()
         .map((event) => event.docs
             .map((e) =>
@@ -171,7 +168,7 @@ class DailyActivityController extends GetxController {
   bool? checkIfStdGiveAnswer() {
     if (currentStdAnswerList.isNotEmpty) {
       for (StdAnswerModel answerModel in currentStdAnswerList) {
-        if (answerModel.answerBy!.contains(authController!.userModel!.uid!)) {
+        if (answerModel.answerBy!.contains(authController.userModel!.uid!)) {
           return true;
         }
       }
@@ -227,7 +224,7 @@ class DailyActivityController extends GetxController {
   }
 
   void sendNotificationToStudent(DailyActivityModel model) async {
-    UserModel sender = authController!.userModel!;
+    UserModel sender = authController.userModel!;
     print(
         "Notifications: Sender name: ${sender.name}, Token: ${sender.userToken}");
 
@@ -287,7 +284,6 @@ class DailyActivityController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     clearControllers();
     clearObjectsAndLists();
     super.onClose();
