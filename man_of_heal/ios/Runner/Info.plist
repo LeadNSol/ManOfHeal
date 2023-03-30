@@ -43,6 +43,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocalNotificationUsageDescription</key>
+	<string>Allow notifications to receive important updates.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires a profile photo, camera permission is necessary to enable users to take a photo or select one from their camera roll to use as their profile picture.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
