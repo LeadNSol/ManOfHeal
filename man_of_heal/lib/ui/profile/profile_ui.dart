@@ -84,13 +84,16 @@ class ProfileUI extends GetView<ProfileController> {
                         right: 1,
                         child: InkWell(
                           onTap: () {
-                            Get.defaultDialog(
+                            Get.bottomSheet(_profileIconsContent(),
+                                backgroundColor: AppThemes.white);
+
+                            /* Get.defaultDialog(
                               title: "Choose Profile Avatar",
                               titleStyle: AppThemes.dialogTitleHeader
                                   .copyWith(color: AppThemes.DEEP_ORANGE),
                               content: _profileIconsContent(),
                               //confirm: _btnSCameraAndGallery(),
-                            );
+                            );*/
                           },
                           child: Container(
                             child: Padding(
@@ -398,46 +401,45 @@ class ProfileUI extends GetView<ProfileController> {
   }
 
   Widget _profileIconsContent() {
+    print(">>>ProfileAvatars: ${authController.profileAvatarsList.length}");
     return Obx(
-      () => Container(
-        child: GridView.count(
-          crossAxisCount: 4,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          padding: EdgeInsets.all(10),
-          shrinkWrap: true,
-          children:
-              List.generate(authController.profileAvatarsList.length, (index) {
-            ProfileAvatars profileAvatar =
-                authController.profileAvatarsList[index];
-            return InkWell(
-              onTap: () {
-                authController.updateProfileAvatar(profileAvatar);
-              },
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Image.network(
-                    '${profileAvatar.url!}',
-                    width: 40.0,
-                    height: 40.0,
-                  ),
+      () => GridView.count(
+        crossAxisCount: 4,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        padding: EdgeInsets.all(10),
+        shrinkWrap: true,
+        children:
+            List.generate(authController.profileAvatarsList.length, (index) {
+          ProfileAvatars profileAvatar =
+              authController.profileAvatarsList[index];
+          return InkWell(
+            onTap: () {
+              authController.updateProfileAvatar(profileAvatar);
+            },
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Image.network(
+                  '${profileAvatar.url!}',
+                  width: 40.0,
+                  height: 40.0,
                 ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: AppThemes.DEEP_ORANGE.withOpacity(0.2),
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        50,
-                      ),
-                    ),
-                    color: Colors.white),
               ),
-            );
-          }),
-        ),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: AppThemes.DEEP_ORANGE.withOpacity(0.2),
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      50,
+                    ),
+                  ),
+                  color: Colors.white),
+            ),
+          );
+        }),
       ),
     );
   }

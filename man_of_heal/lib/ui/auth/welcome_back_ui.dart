@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -58,6 +60,22 @@ class WelcomeBackUI extends GetView {
                         ),
                       ),
                     ),
+                    FormVerticalSpace(height: 10),
+                    if (Platform.isIOS)
+                      Center(
+                        child: Container(
+                          width: 300,
+                          child: PrimaryButton(
+                            hasIcon: true,
+                            icon: "apple_icon.svg",
+                            labelText: 'Sign In with Apple',
+                            textStyle: AppThemes.buttonFont,
+                            onPressed: () async {
+                              await authController.signinWithApple();
+                            },
+                          ),
+                        ),
+                      ),
                     FormVerticalSpace(height: 10),
                     Center(
                       child: Container(

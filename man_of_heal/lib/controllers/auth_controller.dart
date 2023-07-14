@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +12,7 @@ import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -278,7 +282,7 @@ class AuthController extends GetxController
     );
 
     // Once signed in, return the UserCredential
-    await FirebaseAuth.instance
+    await firebaseAuth
         .signInWithCredential(credential)
         .then((UserCredential user) async {
       print("Gmail CAlled");
@@ -304,6 +308,68 @@ class AuthController extends GetxController
         _createUserFirestore(newGoogleUser, user.user!);
       }
     });
+  }
+
+  //Future<bool> get appleSigninAvailable => AppleSignIn.isAvailable();
+  signinWithApple() async {
+    try {
+      // To prevent replay attacks with the credential returned from Apple, we
+      // include a nonce in the credential request. When signing in in with
+      // Firebase, the nonce in the id token returned by Apple, is expected to
+      // match the sha256 hash of `rawNonce`.
+      final rawNonce = generateNonce(length: 32);
+      final nonce = sha256ofString(rawNonce);
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName
+        ],
+        nonce: nonce,
+      );
+// Create an `OAuthCredential` from the credential returned by Apple.
+      final oAuthCredential = OAuthProvider("apple.com").credential(
+        idToken: credential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      //final userCredential =
+      await firebaseAuth
+          .signInWithCredential(oAuthCredential)
+          .then((UserCredential appleUser) async {
+        if (appleUser.additionalUserInfo!.isNewUser) {
+          Timestamp trailExpiry =
+              Timestamp.fromDate(DateTime.now().add(new Duration(days: 7)));
+          UserModel newAppleUser = UserModel(
+            uid: appleUser.user!.uid,
+            name: appleUser.user!.displayName ?? "",
+            phone: appleUser.user!.phoneNumber ?? "not not found!",
+            address: "No Address found!",
+            email: appleUser.user!.email,
+            userType: UserGroup.student.name,
+            photoUrl: appleUser.user!.photoURL ?? DEFAULT_IMAGE_URL,
+            isAdmin: false,
+            isTrailFinished: false,
+            trialExpiryDate: trailExpiry,
+            createdDate: Timestamp.now(),
+            degreeProgram: null,
+          );
+          _createUserFirestore(newAppleUser, appleUser.user!);
+        }
+      });
+      // final userData = _getUserData(userCredential.additionalUserInfo);
+      // _storeUserData(userData);
+      // return userCredential;
+    } catch (e) {
+      print("Apple: error $e");
+      return null;
+    }
+  }
+
+  /// Returns the sha256 hash of [input] in hex notation.
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 
   // User registration using email and password

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
@@ -48,10 +49,12 @@ class AppConstant {
   ///stripe test
   ///
   ///publishable key
-  static const PUBLISHABLE_KEY =
-      "pk_test_51KdtNAHqJCPRIXprSlMz57nwZf7iDT7Wn59LYaU8jhflk9kDhOdm740B5peXYc2tYIYJjtBM8WWOKi6b8Cd1tLz700aPpzaLUp";
-  static const SECRET_KEY =
-      "sk_test_51KdtNAHqJCPRIXprP3T8H3eIbJyxY883o7nGiyeiFxpcU017yPMeLu0n4aRPjWjXeoajnF1HxxSmGjRhy9xQXgLr00t7bOyMJd";
+  static const PUBLISHABLE_KEY = kDebugMode
+      ? "pk_test_51KdtNAHqJCPRIXprSlMz57nwZf7iDT7Wn59LYaU8jhflk9kDhOdm740B5peXYc2tYIYJjtBM8WWOKi6b8Cd1tLz700aPpzaLUp"
+      : "pk_live_51JlzrjAf5hDfAiNPAjMlwJO7zIDuVuHFtHjzbnhZwtWfxazaiXYnWOk8KSZQEzJ8Eoq1fALWi0m9GChlHI2ouU1d00DvrMegdc";
+  static const SECRET_KEY = kDebugMode
+      ? "sk_test_51KdtNAHqJCPRIXprP3T8H3eIbJyxY883o7nGiyeiFxpcU017yPMeLu0n4aRPjWjXeoajnF1HxxSmGjRhy9xQXgLr00t7bOyMJd"
+      : "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";
 
   static int getSecondsFromNowOnwardDate(Timestamp? timestamp) {
     DateTime dateTime =

@@ -29,25 +29,25 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      style: buttonStyle ?? ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        backgroundColor: AppThemes.DEEP_ORANGE,
-        shape: StadiumBorder(),
-      ),
+      style: buttonStyle ??
+          ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            backgroundColor: AppThemes.DEEP_ORANGE,
+            shape: StadiumBorder(),
+          ),
       child: hasIcon
           ? Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 20,
-                  height: 20,
+                  width: 22,
+                  height: 22,
                   child: SvgPicture.asset(
                     "assets/icons/$icon",
-                   // height: 10,
-                    fit: BoxFit.fitWidth,
+                    // height: 10,
+                    fit: BoxFit.contain,
                   ),
-
                 ),
                 SizedBox(
                   width: 40,

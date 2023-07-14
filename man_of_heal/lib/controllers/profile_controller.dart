@@ -12,21 +12,23 @@ class ProfileController extends GetxController {
   void onReady() {
     // TDO: implement onInit
     super.onReady();
+    authController.getProfileAvatars();
   }
 
- // var subscriptionModel = Subscription().obs;
+  // var subscriptionModel = Subscription().obs;
 
-  Subscription? getSubsModel(){
+  Subscription? getSubsModel() {
     return subscriptionController?.subsFirebase;
   }
 
-  int getSubscriptionExpiry(){
+  int getSubscriptionExpiry() {
     return subscriptionController!.getSubscriptionExpiry();
   }
 
-  double getAdminRating(){
+  double getAdminRating() {
     return feedBackController!.netAdminRating.value;
   }
+
   @override
   void onClose() {
     // TDO: implement onClose
