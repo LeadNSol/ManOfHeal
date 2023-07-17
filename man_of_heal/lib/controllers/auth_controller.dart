@@ -432,7 +432,7 @@ class AuthController extends GetxController
         AppConstant.displaySuccessSnackBar(
             "Success", "User was registered successfully!");
       },
-    ).onError((error, stackTrace) => {setBtnState(0)});
+    ).onError((error, stackTrace) => setBtnState(0));
   }
 
   //check if user is an admin user
