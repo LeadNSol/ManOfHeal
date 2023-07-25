@@ -89,7 +89,9 @@ class VDQuizReview extends GetView<AdminVdController> {
                       itemBuilder: (context, index) {
                         QuizModel quizModel = controller.quizList[index];
 
-                        return SingleQuizItem(quizModel: quizModel,);
+                        return SingleQuizItem(
+                          quizModel: quizModel,
+                        );
                       },
                     ),
                   ),
@@ -107,41 +109,39 @@ class SingleQuizItem extends StatelessWidget {
   const SingleQuizItem({Key? key, this.quizModel}) : super(key: key);
   final QuizModel? quizModel;
 
-
-
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
       margin: const EdgeInsets.only(left: 17, right: 17, top: 0, bottom: 10),
       child: ListTile(
-          onTap: () {
-            Get.put(quizModel!);
-            Get.to(() => QuizQuestionsUI(quizModel: quizModel!));
-          },
-          title: Text(
-            '${quizModel!.quizTitle!}',
-            textAlign: TextAlign.start,
-            overflow: TextOverflow.ellipsis,
-            style: AppThemes.headerItemTitle
-                .copyWith(color: AppThemes.DEEP_ORANGE),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FormVerticalSpace(
-                height: 5,
-              ),
-              Text(
-                '${quizModel!.quizDescription!.isEmpty ? AppConstant.loremIpsum : quizModel!.quizDescription!}',
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: AppThemes.normalBlack45Font,
-              ),
-              FormVerticalSpace(
-                height: 10,
-              ),
-              /* Obx(
+        onTap: () {
+          Get.put(quizModel!);
+          Get.to(() => QuizQuestionsUI(quizModel: quizModel!));
+        },
+        title: Text(
+          '${quizModel!.quizTitle!}',
+          textAlign: TextAlign.start,
+          overflow: TextOverflow.ellipsis,
+          style:
+              AppThemes.headerItemTitle.copyWith(color: AppThemes.DEEP_ORANGE),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FormVerticalSpace(
+              height: 5,
+            ),
+            Text(
+              '${quizModel!.quizDescription ?? ""}',
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: AppThemes.normalBlack45Font,
+            ),
+            FormVerticalSpace(
+              height: 10,
+            ),
+            /* Obx(
                 () => Text('Total Questions: ${totalQuestions.value}',
                     textAlign: TextAlign.start,
                     style: AppThemes.normalBlack45Font),
@@ -149,22 +149,23 @@ class SingleQuizItem extends StatelessWidget {
               FormVerticalSpace(
                 height: 10,
               )*/
-            ],
-          ),
-          trailing: Column(
-            children: [
-              Text(
-                quizModel!.isActive! ? "active" : "",
-                style: AppThemes.captionFont
-                    .copyWith(color: AppThemes.rightAnswerColor),
-              ),
-              Text(
-                '${AppConstant.formattedDataTime("dd/MM/yyyy", quizModel!.createdDate!)}',
-                textAlign: TextAlign.end,
-                style: AppThemes.normalBlack45Font,
-              ),
-            ],
-          ),),
+          ],
+        ),
+        trailing: Column(
+          children: [
+            Text(
+              quizModel!.isActive! ? "active" : "",
+              style: AppThemes.captionFont
+                  .copyWith(color: AppThemes.rightAnswerColor),
+            ),
+            Text(
+              '${AppConstant.formattedDataTime("dd/MM/yyyy", quizModel!.createdDate!)}',
+              textAlign: TextAlign.end,
+              style: AppThemes.normalBlack45Font,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

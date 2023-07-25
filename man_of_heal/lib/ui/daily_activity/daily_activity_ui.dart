@@ -23,8 +23,8 @@ class DailyActivityUI extends GetView<DailyActivityController> {
 
   Widget bodyNew(context) {
     var _currentSelectedDate = DateTime.now().obs;
-    var qod = AppConstant.loremIpsum.obs;
-    var tod = "DVT".obs;
+    var qod = "QOD".obs;
+    var tod = "TOD".obs;
     var dailyActivityModel = DailyActivityModel().obs;
     controller
         .getDailyActivityByDate(Timestamp.fromDate(_currentSelectedDate.value))
