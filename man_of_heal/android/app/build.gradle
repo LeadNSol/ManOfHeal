@@ -49,6 +49,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.leadn.man_of_heal'
 }
 
 flutter {

@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.leadn.man_of_heal">
+    xmlns:tools="http://schemas.android.com/tools">
    <application
         android:label="Man of Heal"
         android:icon="@mipmap/launcher_icon">
