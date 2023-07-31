@@ -9,10 +9,10 @@ class QABindings extends Bindings {
     Get.lazyPut(() => SubscriptionController());
 
     Get.lazyPut(() => QAController(
-        categoryController: Get.find(),
-        subscriptionController: Get.find(),
-        landingController: Get.find(),
-        notificationController: Get.find(),
-        feedBackController: Get.find()));
+        categoryController: Get.find<CategoryController>(),
+        subscriptionController: Get.find<SubscriptionController>(),
+        landingController: Get.find<LandingPageController>(),
+        notificationController: Get.find<NotificationController>(),
+        feedBackController: Get.find<FeedBackController>()));
   }
 }

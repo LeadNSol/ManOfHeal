@@ -192,8 +192,9 @@ class SingleQAWidget extends GetView<QAController> {
           InkWell(
             onTap: () {
               controller.questionController.text = questionModel!.question!;
-              controller.categoryController!
-                  .setSelectedCategory(questionModel!.category!);
+              controller.categoryController!.selectedCategory(controller
+                  .categoryController!
+                  .getCategoryById(questionModel!.category!));
 
               Get.bottomSheet(
                 AskQuestionUI(

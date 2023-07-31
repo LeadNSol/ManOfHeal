@@ -46,6 +46,8 @@ class QAController extends GetxController {
     qaList.clear();
     allQAList.clear();
 
+    categoryController!.initData();
+
     allQAList.bindStream(getAllQAs());
     qaList.bindStream(getCurrentUserAllQAs());
     qaList.listen((p0) {

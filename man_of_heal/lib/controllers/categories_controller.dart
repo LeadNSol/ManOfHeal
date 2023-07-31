@@ -18,12 +18,13 @@ class CategoryController extends GetxController {
 
   void setSelectedCategory(String? category) {
     selectedCategory.value = category!;
+    print("Category: $category");
     if (!category.contains(CHOOSE_CATEGORY)) {
       selectedCategoryUID.value = categoriesList.isNotEmpty
           ? categoriesList
               .firstWhere((element) => element.category!.contains(category))
               .cUID!
-          : "";
+          : category;
     }
   }
 
