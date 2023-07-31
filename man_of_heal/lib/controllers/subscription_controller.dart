@@ -84,6 +84,7 @@ class SubscriptionController extends GetxController {
 
   initSubscription() {
     //subscriptionList.clear();
+    _planPrice(onBoardingPages[0].price!);
     _subsFirebase?.bindStream(_getCurrentUserSubscription());
     subscriptionList.bindStream(getAllSubscriptions());
     ever(subscriptionList, handleStudentData);
@@ -287,6 +288,7 @@ class SubscriptionController extends GetxController {
   }
 
   createPaymentIntent(String amount, String currency) async {
+    print("Called: $amount");
     try {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
@@ -301,8 +303,10 @@ class SubscriptionController extends GetxController {
             'Authorization': 'Bearer ${AppConstant.SECRET_KEY}',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
-      print('Create Intent response ===> ${response.body.toString()}');
+
       var json = jsonDecode(response.body);
+
+      debugPrint('Create Intent response ===> ${response.body.toString()}');
       if (json["error"] != null) {
         authController.setBtnState(0);
         AppConstant.displaySnackBar(
