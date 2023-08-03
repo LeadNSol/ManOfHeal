@@ -247,7 +247,7 @@ class SubscriptionController extends GetxController {
         .initPaymentSheet(
             paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: paymentIntentData!['client_secret'],
-          // applePay: true,
+          //applePay: true,
           //googlePay: true,
           //testEnv: true,
           style: ThemeMode.dark,
@@ -255,7 +255,6 @@ class SubscriptionController extends GetxController {
           merchantDisplayName: 'ANNIE',
         ))
         .then((value) {});
-
     displayPaymentSheet(callingFor);
   }
 
