@@ -147,10 +147,10 @@ class AdminVdController extends GetxController {
         .collection(QUIZ_COLLECTION)
         .doc(quizModel.qmID)
         .set({QuizModel.IS_ACTIVE: true}, SetOptions(merge: true))
-        .whenComplete(() => {
+        .whenComplete(() {
               AppConstant.displaySuccessSnackBar(
-                  "Submitted!", "Quiz is successfully Submitted"),
-              sendNotificationToStudent(quizModel),
+                  "Submitted!", "Quiz is successfully Submitted");
+              sendNotificationToStudent(quizModel);
             })
         .onError((error, stackTrace) =>
             AppConstant.displaySnackBar("Submission Error", error));

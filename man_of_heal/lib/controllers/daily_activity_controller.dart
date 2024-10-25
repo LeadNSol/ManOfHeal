@@ -141,11 +141,11 @@ class DailyActivityController extends GetxController {
         answer: studentAnswerController.text,
         uId: uid,
       );
-      await colSubRef.doc(uid).set(stdAnswerModel.toMap()).whenComplete(() => {
-            clearControllers(),
-            Get.back(),
+      await colSubRef.doc(uid).set(stdAnswerModel.toMap()).whenComplete(() {
+            clearControllers();
+            Get.back();
             AppConstant.displaySuccessSnackBar("Answer Alert!",
-                "You have Answered Q: ${model.qOfDay!} Successfully!"),
+                "You have Answered Q: ${model.qOfDay!} Successfully!");
             //sendNotificationToStudent(model!)
           });
     }
