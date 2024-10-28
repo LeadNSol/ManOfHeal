@@ -316,7 +316,7 @@ class SubscriptionController extends GetxController {
     } catch (err) {
       authController.setBtnState(0);
       print('err charging user: ${err.toString()}');
-      AppConstant.displaySnackBar("Payment Error", "Something went wrong!");
+      AppConstant.displaySnackBar("Payment Error", "$err");
     }
   }
 
