@@ -166,10 +166,10 @@ class SubscriptionController extends GetxController {
         .collection(SUBSCRIPTION_COLLECTION)
         .doc(model.studentId)
         .set(model.toJson(), SetOptions(merge: true))
-        .whenComplete(() => {
+        .whenComplete(() {
               AppConstant.displaySuccessSnackBar(
-                  "Success", "Your Plan is Renewed Successfully"),
-              authController.setBtnState(2)
+                  "Success", "Your Plan is Renewed Successfully");
+              authController.setBtnState(2);
             });
   }
 

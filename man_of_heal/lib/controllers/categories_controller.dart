@@ -93,7 +93,7 @@ class CategoryController extends GetxController {
         .collection(CATEGORIES)
         .doc(category.cUID!)
         .update(category.toJson())
-        .whenComplete(() => {print("Category is updated!"), Get.back()});
+        .whenComplete(() {print("Category is updated!"); Get.back();});
   }
 
   Future<void> deleteCategory(CategoryModel category) async {
@@ -128,7 +128,7 @@ class CategoryController extends GetxController {
               .collection(CATEGORIES)
               .doc(category.cUID!)
               .update(category.toJson())
-              .whenComplete(() => {print("Category is updated!"), Get.back()});
+              .whenComplete(() {print("Category is updated!"); Get.back();});
         }
       });
     });
