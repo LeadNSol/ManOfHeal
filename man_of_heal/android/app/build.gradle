@@ -1,3 +1,13 @@
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id 'kotlin-android'
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    //id "com.google.firebase.crashlytics"
+}
+
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -6,28 +16,8 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -36,10 +26,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.leadn.man_of_heal"
-        minSdkVersion 21
-        targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        minSdk 26
+        targetSdk 34
+        versionCode localProperties.getProperty('flutter.versionCode')?.toInteger() ?: 1
+        versionName localProperties.getProperty('flutter.versionName') ?: '1.0'
     }
 
     buildTypes {
@@ -49,6 +39,19 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_17
+        //targetSdktCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
     namespace 'com.leadn.man_of_heal'
 }
 
@@ -57,10 +60,7 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:29.0.0')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    //implementation 'com.google.android.material:material:1.8.0'
-
-
+    implementation platform('com.google.firebase:firebase-bom:33.5.1')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
 }

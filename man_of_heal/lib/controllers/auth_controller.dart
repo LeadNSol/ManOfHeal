@@ -575,7 +575,7 @@ class AuthController extends GetxController
     degreeProgramController.clear();
     addressController.clear();
 
-    firebaseUser.value = null;
+    //firebaseUser.value = null;
   }
 
   _disposeControllers() {
