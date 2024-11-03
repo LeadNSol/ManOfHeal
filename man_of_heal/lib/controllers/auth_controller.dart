@@ -64,8 +64,7 @@ class AuthController extends GetxController
 
   final GoogleSignIn? _googleSignIn = GoogleSignIn();
 
-  ///Profile Avatars.
-  var profileAvatarsList = <ProfileAvatars>[].obs;
+
   var usersList = <UserModel>[].obs;
 
   late AnimationController animationController;
@@ -94,7 +93,7 @@ class AuthController extends GetxController
     firebaseUser.bindStream(firebaseAuth.userChanges());
     ever(firebaseUser, handleAuthChanged);
 
-    profileAvatarsList.bindStream(getProfileAvatars());
+
     usersList.bindStream(getAllUsers());
 
     ever(usersList, pickAdmins);
@@ -231,7 +230,11 @@ class AuthController extends GetxController
         .collection(USERS)
         .doc(id)
         .get()
-        .then((DocumentSnapshot snap) => UserModel.fromDoc(snap.data()));
+        .then((DocumentSnapshot snap){
+          if(snap.exists)
+            return UserModel.fromDoc(snap.data());
+          return UserModel(name: "Deleted User", photoUrl: "", userToken: "");
+    });
   }
 
   //Method to handle user sign in using email and password
@@ -508,13 +511,7 @@ class AuthController extends GetxController
     });
   }
 
-  Future<void> updateCurrentUser(String title) async {
-    String value = editTextFieldController.text.trim();
-    await firebaseFirestore.collection(USERS).doc(userModel!.uid!).set(
-        {title.toLowerCase(): value}, SetOptions(merge: true)).whenComplete(() {
-      editTextFieldController.clear();
-    });
-  }
+
 
   Future<void> updateUser(UserModel userModel) async {
     await firebaseFirestore
@@ -526,46 +523,9 @@ class AuthController extends GetxController
     });
   }
 
-  List getProfileData() {
-    var profileData = [
-      {
-        "title": "Phone",
-        "subtitle":
-            userModel!.phone != null ? userModel!.phone : 'no phone number',
-        "icon": "assets/icons/phone_icon.svg"
-      },
-      {
-        "title": "Email",
-        "subtitle":
-            userModel!.email != null ? userModel!.email : "example@gmail.com",
-        "icon": "assets/icons/email_icon.svg"
-      },
-      {
-        "title": "Address",
-        "subtitle": userModel!.address != null
-            ? userModel!.address
-            : 'e.g. street, e.g. city, e.g. Country',
-        "icon": "assets/icons/address_icon.svg"
-      },
-    ];
-    return profileData;
-  }
 
-  Stream<List<ProfileAvatars>> getProfileAvatars() {
-    return firebaseFirestore.collection(PROFILE_AVATARS).snapshots().map(
-        (event) =>
-            event.docs.map((e) => ProfileAvatars.fromMap(e.data())).toList());
-  }
 
-  updateProfileAvatar(ProfileAvatars profileAvatar) async {
-    await firebaseFirestore.collection(USERS).doc(userModel!.uid!).set(
-        {UserModel.PHOTO_URL: profileAvatar.url!},
-        SetOptions(merge: true)).whenComplete(() {
-      Get.back();
-      AppConstant.displaySuccessSnackBar(
-          "Success!", "Profile Avatar Successfully Updated!");
-    });
-  }
+
 
   _clearControllers() {
     nameController.clear();

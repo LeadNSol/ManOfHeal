@@ -3,10 +3,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/controllers/custom_tabs_controller.dart';
+import 'package:man_of_heal/utils/app_commons.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
+import '../../controllers/auth_controller.dart';
+
 class CustomTabs extends StatelessWidget {
-  final CustomTabsController _tabsController = Get.find();
+  //final AuthController authController = Get.put(AuthController());
+  final CustomTabsController _tabsController = Get.put(CustomTabsController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class CustomTabs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Tabs(
-                      text: authController.admin.isFalse
+                      text: AppCommons.isAdmin
                           ? "Questions"
                           : "In Progress",
                       selectedPage: _tabsController.selectedPage.value,
@@ -36,7 +40,7 @@ class CustomTabs extends StatelessWidget {
                       },
                     ),
                     Tabs(
-                      text: authController.admin.isFalse
+                      text: AppCommons.isAdmin
                           ? "Answered"
                           : "Completed",
                       selectedPage: _tabsController.selectedPage.value,

@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
+import '../../../controllers/lab_controller.dart';
+
 class LabInstructionUI extends StatelessWidget {
   // const LabInstructionUI({Key? key}) : super(key: key);
-
+ final  controller =  Get.put(LabController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: BaseWidget(
+        extendBody: false,
+        //backgroundColor: ,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: AppThemes.whiteLilac,
         appBar: AppBar(
           leading: InkWell(
             onTap: () => Get.back(),
@@ -23,7 +30,7 @@ class LabInstructionUI extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Center(
+        child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

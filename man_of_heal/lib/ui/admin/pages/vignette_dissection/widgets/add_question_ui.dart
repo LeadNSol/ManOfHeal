@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
@@ -14,24 +15,24 @@ class AddQuestionUI extends GetView<AdminVdController> {
   AddQuestionUI(this.quizModel);
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppThemes.BG_COLOR,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: Text('Add Questions', style: AppThemes.headerTitleBlackFont),
-          leading: InkWell(
-            onTap: () => Get.back(),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: AppThemes.blackPearl,
-            ),
+    return BaseWidget(
+      backgroundColor: AppThemes.BG_COLOR,
+      statusBarColor: AppThemes.BG_COLOR,
+      statusBarIconBrightness: Brightness.dark,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text('Add Questions', style: AppThemes.headerTitleBlackFont),
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: AppThemes.blackPearl,
           ),
         ),
-        body: bodyContent(context),
       ),
+      child: bodyContent(context),
     );
   }
 

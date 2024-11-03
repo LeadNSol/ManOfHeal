@@ -6,8 +6,8 @@ import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class SingleAnswerListItems extends GetView<DailyActivityController> {
-  const SingleAnswerListItems({
+class SingleAnswerListItems extends StatelessWidget {
+  SingleAnswerListItems({
     Key? key,
     this.stdModel,
     this.isCalledFromAdmin = false,
@@ -15,6 +15,8 @@ class SingleAnswerListItems extends GetView<DailyActivityController> {
 
   final StdAnswerModel? stdModel;
   final bool? isCalledFromAdmin;
+
+  final DailyActivityController controller = Get.put(DailyActivityController());
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +165,7 @@ class SingleAnswerListItems extends GetView<DailyActivityController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "Asked By: ${authController.getUserFromListById(stdModel!.answerBy!)!.name!}",
+          "Asked By: ${controller.authController.getUserFromListById(stdModel!.answerBy!)!.name!}",
           style: AppThemes.captionFont,
         ),
         model.checkBy != null

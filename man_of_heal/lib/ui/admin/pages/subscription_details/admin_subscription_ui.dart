@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminStdSubscriptionUI extends GetView<SubscriptionController> {
-  const AdminStdSubscriptionUI({Key? key}) : super(key: key);
-
+class AdminStdSubscriptionUI extends StatelessWidget {
+   AdminStdSubscriptionUI({Key? key}) : super(key: key);
+final SubscriptionController controller = Get.put(SubscriptionController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BaseWidget(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppThemes.BG_COLOR,
       appBar: AppBar(
@@ -31,7 +32,7 @@ class AdminStdSubscriptionUI extends GetView<SubscriptionController> {
           style: AppThemes.headerTitleBlackFont,
         ),
       ),
-      body: body(context),
+      child: body(context),
     );
   }
 

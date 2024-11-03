@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
 class CustomHeaderRow extends StatelessWidget {
-  //const CustomHeaderRow({Key? key}) : super(key: key);
-
   final String? title;
-  final bool? hasProfileIcon;
-  final bool? isAdmin;
+  final bool? hasProfileIcon, isAdmin;
+
 
   CustomHeaderRow({this.title, this.hasProfileIcon, this.isAdmin = false});
 
@@ -45,8 +42,8 @@ class CustomHeaderRow extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      height: 50,
-                      width: 50,
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.0),
                         color: Colors.white,
@@ -54,14 +51,14 @@ class CustomHeaderRow extends StatelessWidget {
                       child: Obx(
                         () => CircularAvatar(
                           padding: 1,
-                          imageUrl: authController.userModel!.photoUrl!,
+                          imageUrl: AppCommons.userModel!.photoUrl!,
                         ),
                       ),
                     ),
                   ),
                 ),
               )
-            : isAdmin!
+            : isAdmin ?? AppCommons.isAdmin
                 ? Padding(
                     padding: const EdgeInsets.only(right: 3.0),
                     child: Row(

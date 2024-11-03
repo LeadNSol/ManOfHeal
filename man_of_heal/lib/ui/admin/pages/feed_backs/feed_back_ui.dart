@@ -3,15 +3,18 @@ import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/admin/pages/feed_backs/single_feedback_list_items.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class FeedBackUI extends GetView<FeedBackController> {
-  const FeedBackUI({Key? key}) : super(key: key);
+class FeedBackUI extends StatelessWidget {
+   FeedBackUI({Key? key}) : super(key: key);
+  final FeedBackController controller = Get.put(FeedBackController());
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BaseWidget(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppThemes.BG_COLOR,
       appBar: AppBar(
@@ -31,7 +34,7 @@ class FeedBackUI extends GetView<FeedBackController> {
           style: AppThemes.headerTitleBlackFont,
         ),
       ),
-      body: body(context),
+      child: body(context),
     );
   }
 
@@ -53,7 +56,7 @@ class FeedBackUI extends GetView<FeedBackController> {
 
   Widget singleFeedBackItem(FeedbackModel model) {
     final UserModel? userModel =
-        authController.getUserFromListById(model.studentId!);
+        controller.authController?.getUserFromListById(model.studentId!);
     final isSeeMoreClicked = false.obs;
 
     return CustomContainer(

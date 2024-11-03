@@ -7,17 +7,19 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class DailyActivityUI extends GetView<DailyActivityController> {
+class DailyActivityUI extends StatelessWidget {
+
+ final DailyActivityController controller = Get.put(DailyActivityController());
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppThemes.BG_COLOR,
-        body: bodyNew(context),
-      ),
+    return BaseWidget(
+      //backgroundColor: AppThemes.BG_COLOR,
+      statusBarIconBrightness: Brightness.light,
+      child: bodyNew(context),
     );
   }
 
@@ -26,6 +28,8 @@ class DailyActivityUI extends GetView<DailyActivityController> {
     var qod = "QOD".obs;
     var tod = "TOD".obs;
     var dailyActivityModel = DailyActivityModel().obs;
+
+
     controller
         .getDailyActivityByDate(Timestamp.fromDate(_currentSelectedDate.value))
         .then((DailyActivityModel model) => {
@@ -61,19 +65,18 @@ class DailyActivityUI extends GetView<DailyActivityController> {
             padding: EdgeInsets.zero,
             physics: AlwaysScrollableScrollPhysics(),
             children: [
-              FormVerticalSpace(),
+              FormVerticalSpace(height: 40,),
 
               /// Header
               CustomHeaderRow(
                 title: "Daily Activity",
                 hasProfileIcon: false,
-                isAdmin: false,
               ),
 
               /// Calendar container
               CustomContainer(
                 height: AppConstant.getScreenHeight(context) *
-                    (kIsWeb ? 0.6 : 0.45),
+                    (kIsWeb ? 0.6 : 0.4),
                 margin: EdgeInsets.only(
                   left: 17.0,
                   right: 17.0,

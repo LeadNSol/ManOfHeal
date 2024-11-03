@@ -10,7 +10,7 @@ class NotificationBadgeUI extends GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context) {
-    double iconSize = 36.0;
+    double iconSize = 30.0;
     double badgeSize = iconSize / 2;
     return Stack(
       children: [

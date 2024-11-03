@@ -5,14 +5,14 @@ import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class QodAndTodUI extends GetView<DailyActivityController> {
-  const QodAndTodUI({Key? key}) : super(key: key);
-
+class QodAndTodUI extends StatelessWidget {
+   QodAndTodUI({Key? key}) : super(key: key);
+final DailyActivityController controller = Get.put(DailyActivityController());
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => CustomContainer(
-        margin: const EdgeInsets.only(top: 120, left: 17, right: 17),
+        margin: const EdgeInsets.only(top: 130, left: 17, right: 17),
         height: kIsWeb ? 120 : 150,
         child: InkWell(
           onTap: () => Get.to(() => DailyActivityScreen()),

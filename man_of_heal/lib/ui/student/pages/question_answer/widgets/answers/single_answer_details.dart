@@ -4,25 +4,28 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class AnswerDetails extends GetView<QAController> {
+class AnswerDetails extends StatelessWidget {
   final QuestionModel? questionModel;
 
   AnswerDetails(this.questionModel);
+
+  final QAController controller = Get.put(QAController());
 
   @override
   Widget build(BuildContext context) {
     //Get.put(FeedBackController());
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: AppThemes.BG_COLOR,
-        body: answerBody(context),
-        //_answerBody(context),
-      ),
+    return BaseWidget(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppThemes.BG_COLOR,
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+      child: answerBody(context),
+      //_answerBody(context),
     );
   }
 
@@ -43,13 +46,13 @@ class AnswerDetails extends GetView<QAController> {
             padding: EdgeInsets.zero,
             physics: AlwaysScrollableScrollPhysics(),
             children: [
-              FormVerticalSpace(),
+              FormVerticalSpace(height: 35,),
               CustomHeaderRow(
                 title: "Answer",
                 hasProfileIcon: true,
               ),
               FormVerticalSpace(
-                height: AppConstant.getScreenHeight(context) * 0.12,
+                height: AppConstant.getScreenHeight(context) * 0.09,
               ),
               CustomContainer(
                 hasOuterShadow: true,
@@ -160,7 +163,7 @@ class AnswerDetails extends GetView<QAController> {
 
   Widget answerBy(QuestionModel model) {
     UserModel? userModel =
-        authController.getAdminFromListById(model.answerMap!.adminID!.trim());
+        AppCommons.authController.getAdminFromListById(model.answerMap!.adminID!.trim());
 
     controller.feedBackController!
         .fetchCurrentAdminFeedBack(userModel: userModel);
@@ -172,7 +175,7 @@ class AnswerDetails extends GetView<QAController> {
           child: CircularAvatar(
             padding: 3,
             radius: 13,
-            imageUrl: userModel!.photoUrl!,
+            imageUrl: userModel?.photoUrl ?? "",
           ),
         ),
         Expanded(
@@ -181,7 +184,7 @@ class AnswerDetails extends GetView<QAController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${userModel.name}",
+                "${userModel?.name ?? ""}",
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppThemes.normalBlackFont,
@@ -208,7 +211,7 @@ class AnswerDetails extends GetView<QAController> {
             ],
           ),
         ),
-        if (authController.admin.isFalse)
+        if (!AppCommons.isAdmin)
           Obx(
             () => Visibility(
               visible:
@@ -229,7 +232,7 @@ class AnswerDetails extends GetView<QAController> {
                     onPressed: () {
                       //authController.deleteUserById(userModel);
                       controller.feedBackController!.rating(0);
-                      showRatingBottomSheet(userModel);
+                      showRatingBottomSheet(userModel!);
                       //Get.back();
                     },
                   ),

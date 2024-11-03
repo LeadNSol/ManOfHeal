@@ -5,7 +5,9 @@ import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class AddLabUI extends GetView<LabController> {
+class AddLabUI extends StatelessWidget {
+
+  final LabController controller = Get.put(LabController());
   @override
   Widget build(BuildContext context) {
     return body(context);

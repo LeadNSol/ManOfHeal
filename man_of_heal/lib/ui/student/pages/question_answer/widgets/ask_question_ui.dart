@@ -9,11 +9,12 @@ import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class AskQuestionUI extends GetView<QAController> {
+class AskQuestionUI extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final String? callingFor;
   final QuestionModel? questionModel;
+  final QAController controller = Get.put(QAController());
 
   AskQuestionUI({this.callingFor, this.questionModel});
 

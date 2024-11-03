@@ -22,6 +22,15 @@ class VDController extends GetxController {
 
   var attemptedQuizModel = QuizAttemptsModel().obs;
 
+  late final AuthController authController;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    authController = AppCommons.authController;
+  }
+
   @override
   void onReady() {
     super.onReady();
@@ -74,13 +83,13 @@ class VDController extends GetxController {
         .doc(quizID.value)
         .collection(QUIZ_ATTEMPTS_COLLECTION)
         .where(QuizAttemptsModel.STUDENT_ID,
-            isEqualTo: authController.userModel?.uid!)
+            isEqualTo: AppCommons.userModel?.uid!)
         .limit(1)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         if (doc[QuizAttemptsModel.STUDENT_ID] ==
-            authController.userModel?.uid!) {
+            AppCommons.userModel?.uid!) {
           hasAlreadyAttemptTheQuiz.value = true;
           return;
         } else
@@ -105,7 +114,7 @@ class VDController extends GetxController {
   Future<ScoreModel> getUserScore() {
     return firebaseFirestore
         .collection(SCORE_BOARD_COLLECTION)
-        .doc(authController.userModel!.uid)
+        .doc(AppCommons.userModel!.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
@@ -143,19 +152,19 @@ class VDController extends GetxController {
 
       model = ScoreModel(
           score: score,
-          userId: authController.userModel!.uid!,
+          userId: AppCommons.userModel!.uid!,
           attemptedDate: Timestamp.now());
 
       firebaseFirestore
           .collection(SCORE_BOARD_COLLECTION)
-          .doc(authController.userModel!.uid)
+          .doc(AppCommons.userModel!.uid)
           .set(model.toJson(), SetOptions(merge: true))
           .then((value) {
         //TDO: quiz attempt posting
 
         QuizAttemptsModel model = QuizAttemptsModel(
           attemptDate: Timestamp.now(),
-          studentId: authController.userModel!.uid,
+          studentId: AppCommons.userModel!.uid,
           quizId: quizID.value,
         );
 

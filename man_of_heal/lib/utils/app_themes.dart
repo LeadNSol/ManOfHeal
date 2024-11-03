@@ -59,13 +59,13 @@ class AppThemes {
 
   /// Fonts
   static var headerTitleFont = GoogleFonts.poppins(
-    fontSize: 23.85,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );
 
   static var headerTitleBlackFont = GoogleFonts.poppins(
-    fontSize: 23.85,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: blackPearl,
   );
@@ -82,8 +82,8 @@ class AppThemes {
       fontWeight: FontWeight.w700, fontSize: 28, color: AppThemes.DEEP_ORANGE);
 
   static var buttonFont = GoogleFonts.poppins(
-    fontSize: 17,
-    fontWeight: FontWeight.w700,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
     color: Colors.white,
   );
 
@@ -189,7 +189,7 @@ class AppThemes {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     fontFamily: font1,
-    scaffoldBackgroundColor: _lightBackgroundColor,
+   // scaffoldBackgroundColor: _lightBackgroundColor,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: _lightPrimaryColor,
     ),
@@ -277,7 +277,7 @@ class AppThemes {
     brightness: Brightness.dark,
     //prefix icon color form input on focus
     fontFamily: font1,
-    scaffoldBackgroundColor: _darkBackgroundColor,
+//    scaffoldBackgroundColor: _darkBackgroundColor,
 
     chipTheme: ChipThemeData(
       backgroundColor: Colors.white,
@@ -290,7 +290,7 @@ class AppThemes {
       secondarySelectedColor: Colors.black,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: _darkPrimaryColor,
+     // backgroundColor: _darkPrimaryColor,
     ),
     appBarTheme: AppBarTheme(
       //color: _darkBackgroundAppBarColor,

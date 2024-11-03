@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
-import 'package:man_of_heal/models/export_models.dart';
 
-class SubscriptionBody extends GetView<SubscriptionController> {
+class SubscriptionBody extends StatelessWidget {
+  final SubscriptionController controller = Get.put(SubscriptionController());
   @override
   Widget build(BuildContext context) {
-    /// btn state default
-    authController.setBtnState(0);
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -49,11 +48,11 @@ class SubscriptionBody extends GetView<SubscriptionController> {
                     ),
                   ),
                   FormVerticalSpace(
-                    height: 50,
+                    height: 50
                   ),
                   SvgPicture.asset(
                       "assets/icons/subscription_${index + 1}_icon.svg"),
-                  SizedBox(height: 80),
+                  FormVerticalSpace(height: 80),
                   RichText(
                     text: TextSpan(
                       text: '\$${controller.onBoardingPages[index].price!} ',
@@ -66,7 +65,7 @@ class SubscriptionBody extends GetView<SubscriptionController> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 32),
+                  FormVerticalSpace(height: 32),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
@@ -109,7 +108,7 @@ class SubscriptionBody extends GetView<SubscriptionController> {
             Positioned(
               right: 30,
               bottom: 40,
-              child: Obx(() => _setupButton()),
+              child: _setupButton(),
             ),
           ],
         ),
@@ -118,33 +117,34 @@ class SubscriptionBody extends GetView<SubscriptionController> {
   }
 
   Widget _setupButton() {
-    if (authController.btnState! == 1)
-      return Container(
-        width: 45,
-        height: 45,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppThemes.DEEP_ORANGE,
-        ),
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          strokeWidth: 2.5,
-        ),
-      );
-    else if (authController.btnState! == 2)
-      return Container(
-          width: 45,
-          height: 45,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppThemes.rightAnswerColor,
-          ),
-          child: Center(
-              child: Icon(Icons.check, size: 30, color: AppThemes.white)));
-    return Container(
-      width: 130,
+    return Obx(() => controller.btnState.value == 1
+        ? Container(
+            width: 45,
+            height: 45,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppThemes.DEEP_ORANGE,
+            ),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              strokeWidth: 2.5,
+            ),
+          )
+        : controller.btnState.value == 2
+            ? Container(
+                width: 45,
+                height: 45,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppThemes.rightAnswerColor,
+                ),
+                child: Center(
+                    child: Icon(Icons.check, size: 30, color: AppThemes.white)),
+              )
+            : Container(
+                width: 130,
       child: PrimaryButton(
           buttonStyle: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -154,22 +154,33 @@ class SubscriptionBody extends GetView<SubscriptionController> {
           labelText: 'Get Started',
           textStyle: AppThemes.buttonFont,
           onPressed: () {
-            // calling for 0 --- new, 1--- Renew
+                      controller.btnState.value = 1; // Set loading state
+                      // calling for 0 --- new, 1--- Renew
             if (!kIsWeb) {
               Subscription subscription = controller.subsFirebase!;
-              if (subscription.paymentId != null) {
-                if (Timestamp.now().compareTo(subscription.expiresAt!) <= 0) {
-                  AppConstant.displaySuccessSnackBar(
-                      "Subscription Alert!", "You have already Purchased");
-                } else {
-                  // calling for 0 --- new, 1--- Renew
-                  controller.makePayment(controller.planPrice, 0);
-                }
-              } else {
-                controller.makePayment(controller.planPrice, 0);
-              }
+
+                        final isSubscribed = subscription.paymentId != null;
+                        final isExpired =
+                            Timestamp.now().compareTo(subscription.expiresAt!) >
+                                0;
+                        final paymentType = isSubscribed ? 1 : 0;
+
+                        if (isSubscribed && !isExpired) {
+                          AppConstant.displaySuccessSnackBar(
+                              "Subscription Alert!",
+                              "You have already Purchased");
+                          controller.btnState.value = 0; // Reset button state
+                        } else {
+                          controller
+                              .makePayment(controller.planPrice, paymentType)
+                              .then((value) {
+                            controller.btnState.value = 2; // Set success state
+                          }).catchError((error) {
+                            controller.btnState.value = 0; // Reset button state
+                          });
+                        }
             }
           }),
-    );
+              ));
   }
 }

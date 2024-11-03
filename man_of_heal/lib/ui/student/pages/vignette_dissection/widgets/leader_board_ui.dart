@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
@@ -13,12 +14,12 @@ class LeaderBoardUI extends GetView<VDController> {
   Widget build(BuildContext context) {
     //otherList.sort((a, b) => a['score'],);
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: AppThemes.blackPearl,
-        body: Obx(() => newLbBody(context)),
-      ),
+    return BaseWidget(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppThemes.blackPearl,
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+      child: Obx(() => newLbBody(context)),
     );
   }
 

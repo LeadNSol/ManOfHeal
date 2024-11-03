@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/lab_model.dart';
 import 'package:man_of_heal/models/user_model.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/ui/labs/widgets/lab_details_widget.dart';
 import 'package:man_of_heal/utils/AppConstant.dart';
+import 'package:man_of_heal/utils/app_commons.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
 class SingleLabWidget extends StatelessWidget {
@@ -139,6 +139,6 @@ class SingleLabWidget extends StatelessWidget {
   }
 
   Future<UserModel> getUserById() {
-    return authController.getUserById(labModel.adminId!);
+    return AppCommons.authController.getUserById(labModel.adminId!);
   }
 }

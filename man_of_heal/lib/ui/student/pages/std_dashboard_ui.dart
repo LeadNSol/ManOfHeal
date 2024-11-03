@@ -7,10 +7,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class StudentDashboardUI extends GetView<LandingPageController> {
+class StudentDashboardUI extends StatelessWidget {
+  final AuthController authController = AppCommons.authController;
+
   @override
   Widget build(BuildContext context) {
     if (authController.userModel!.isTrailFinished != null &&
@@ -23,12 +26,12 @@ class StudentDashboardUI extends GetView<LandingPageController> {
       }
     }
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppThemes.blackPearl,
-        resizeToAvoidBottomInset: false,
-        body: newDashboard(context),
-      ),
+    return BaseWidget(
+      backgroundColor: AppThemes.blackPearl,
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+      resizeToAvoidBottomInset: false,
+      child: newDashboard(context),
     );
   }
 
@@ -37,7 +40,7 @@ class StudentDashboardUI extends GetView<LandingPageController> {
       children: [
         /// pink background
         Positioned(
-          top: AppConstant.getScreenHeight(context) * 0.23,
+          top: AppConstant.getScreenHeight(context) * 0.25,
           left: 0,
           child: Container(
             width: AppConstant.getScreenWidth(context),
@@ -54,10 +57,11 @@ class StudentDashboardUI extends GetView<LandingPageController> {
 
         /// headers
         Padding(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              //FormVerticalSpace(height: 10,),
               //Header profile icon and Dashboard Text...
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,21 +80,21 @@ class StudentDashboardUI extends GetView<LandingPageController> {
                         Obx(() => ((!authController.userModel!.isTrailFinished!) &&
                                 authController.userModel?.trialExpiryDate !=
                                     null)
-                            ? trailPeriodCounter(AppThemes.white, 13)
-                            : Container()),
+                                ? trailPeriodCounter(AppThemes.white, 11)
+                                : Container()),
                       ],
                     ),
                   ),
                   NotificationBadgeUI(),
-                  SizedBox(width: 5),
+                  SizedBox(width: 10),
                   //profile icon
                   InkWell(
                     onTap: () {
                       Get.toNamed(AppRoutes.profileRoute);
                     },
                     child: Container(
-                      height: 50,
-                      width: 50,
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.0),
                         color: Colors.white,
@@ -178,7 +182,7 @@ class StudentDashboardUI extends GetView<LandingPageController> {
                 children: [
                   customDashboardItems(
                       context,
-                      () => controller.setStudentPage(1),
+                      () => Get.find<LandingPageController>().setStudentPage(1),
                       "assets/icons/questions_icon.svg",
                       "Questions"),
                   SizedBox(
@@ -267,7 +271,7 @@ class StudentDashboardUI extends GetView<LandingPageController> {
                 ),
               ]),
             ),
-            trailPeriodCounter(AppThemes.DEEP_ORANGE, 20),
+            trailPeriodCounter(AppThemes.DEEP_ORANGE, 17),
           ],
         ),
       );

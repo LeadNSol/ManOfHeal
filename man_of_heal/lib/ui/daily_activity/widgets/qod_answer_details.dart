@@ -4,21 +4,22 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class QODAnswerDetails extends GetView<DailyActivityController> {
-  const QODAnswerDetails({Key? key}) : super(key: key);
+class QODAnswerDetails extends StatelessWidget {
+  QODAnswerDetails({Key? key}) : super(key: key);
+  final DailyActivityController controller =
+      Get.find<DailyActivityController>();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: AppThemes.BG_COLOR,
-        body: answerBody(context),
-        //_answerBody(context),
-      ),
+    return BaseWidget(
+      resizeToAvoidBottomInset: false,
+      //backgroundColor: AppThemes.BG_COLOR,
+      child: answerBody(context),
+      //_answerBody(context),
     );
   }
 
@@ -61,7 +62,7 @@ class QODAnswerDetails extends GetView<DailyActivityController> {
                       AppConstant.textWidget("Question",
                           stdAnswerModel.questionId, AppThemes.normalBlackFont),
                       Obx(
-                        () => authController.admin.isTrue &&
+                        () => AppCommons.isAdmin &&
                                 stdAnswerModel.checkBy == null
                             ? approveAnswer()
                             :  stdAnswerModel.checkBy !=null?Column(
@@ -85,7 +86,7 @@ class QODAnswerDetails extends GetView<DailyActivityController> {
 
                       //FormVerticalSpace(height: 10,),
                       ///bottom footer
-                      authController.admin.isTrue
+                      AppCommons.isAdmin
                           ? _footerAdmin()
                           : _footerStudent()
                     ],
@@ -176,7 +177,7 @@ class QODAnswerDetails extends GetView<DailyActivityController> {
                  StdAnswerModel? stdAnswerModel = controller.stdAnswerModel.value;
                   stdAnswerModel.answerRating =
                       controller.feedbackController!.rating.value.toString();
-                  stdAnswerModel.checkBy = authController.userModel!.uid;
+                  stdAnswerModel.checkBy = controller.authController.userModel!.uid;
                   stdAnswerModel.checkingDate = Timestamp.now();
                   controller.updateStudentAnswer(stdAnswerModel);
                   //Get.back();
@@ -194,7 +195,7 @@ class QODAnswerDetails extends GetView<DailyActivityController> {
 
   Widget answerBy(StdAnswerModel model) {
     UserModel? userModel =
-        authController.getAdminFromListById(model.checkBy!.trim());
+        controller.authController.getAdminFromListById(model.checkBy!.trim());
 
     controller.feedbackController!.fetchCurrentAdminFeedBack(userModel: userModel);
 

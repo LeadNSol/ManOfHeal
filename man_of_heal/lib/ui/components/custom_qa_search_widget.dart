@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class QASearchWidget extends GetView<QAController> {
-  const QASearchWidget(
+class QASearchWidget extends StatelessWidget {
+   QASearchWidget(
       {Key? key, this.searchIconVisibility = false, this.isVisible})
       : super(key: key);
   final bool? searchIconVisibility;
   final bool? isVisible;
-
+  //final AuthController authController = Get.put(AuthController());
+  final QAController controller = Get.put(QAController());
   @override
   Widget build(BuildContext context) {
-    if (authController.admin.isTrue) return adminSearchWidget();
+
+    if (AppCommons.isAdmin) return adminSearchWidget();
 
     return studentSearchWidget();
   }
@@ -95,6 +97,10 @@ class QASearchWidget extends GetView<QAController> {
   }
 
   Widget adminSearchWidget() {
+    //controller.initDropDown();
+
+   // debugPrint("Length: ${controller.searchFilterList.length}  Selected Value: ${controller.selectedCategory.value}"  );
+
     return Visibility(
       visible: searchIconVisibility! && isVisible!,
       child: Stack(

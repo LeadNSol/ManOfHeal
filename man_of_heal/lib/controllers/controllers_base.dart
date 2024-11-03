@@ -1,36 +1,36 @@
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 
-AuthController authController = findOrInitAuth;
+// AuthController authController = findOrInitAuth;
+//
+// AuthController get findOrInitAuth {
+//   try {
+//     return Get.find();
+//   } catch (e) {
+//     Get.put<AuthController>(AuthController());
+//     return Get.find();
+//   }
+// }
 
-AuthController get findOrInitAuth {
-  try {
-    return Get.find();
-  } catch (e) {
-    Get.put<AuthController>(AuthController());
-    return Get.find();
-  }
-}
+// NotificationController get findOrInitNotification {
+//   try {
+//     return Get.find();
+//   } catch (e) {
+//     Get.put<NotificationController>(NotificationController());
+//     return Get.find();
+//   }
+// }
 
-NotificationController get findOrInitNotification {
-  try {
-    return Get.find();
-  } catch (e) {
-    Get.put<NotificationController>(NotificationController());
-    return Get.find();
-  }
-}
-
-FeedBackController get findOrInitFeedBack {
-  try {
-    return Get.find();
-  } catch (e) {
-    Get.put<FeedBackController>(FeedBackController(
-        authController: findOrInitAuth,
-        notificationController: findOrInitNotification));
-    return Get.find();
-  }
-}
+// FeedBackController get findOrInitFeedBack {
+//   try {
+//     return Get.find();
+//   } catch (e) {
+//     Get.put<FeedBackController>(FeedBackController(
+//         authController: findOrInitAuth,
+//         notificationController: findOrInitNotification));
+//     return Get.find();
+//   }
+// }
 /*
 AuthController authController = AuthController.instance;
 

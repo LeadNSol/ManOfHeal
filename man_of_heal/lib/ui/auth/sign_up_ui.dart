@@ -4,20 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
 class SignUpUI extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final AuthController authController = Get.put(AuthController());
+  
   @override
   Widget build(BuildContext context) {
+
     authController.setBtnState(0);
-    return SafeArea(
-      top: true,
-      child: Scaffold(
-        body: Form(
-          key: _formKey,
+    return BaseWidget(
+      backgroundColor: AppThemes.BG_COLOR,
+      statusBarColor: AppThemes.BG_COLOR,
+      statusBarIconBrightness: Brightness.dark,
+      child: Form(
+        key: _formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Center(
@@ -27,7 +31,7 @@ class SignUpUI extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     FormVerticalSpace(
-                      height: 30,
+                      height: 50
                     ),
                     Center(
                       child: SvgPicture.asset(
@@ -166,7 +170,6 @@ class SignUpUI extends StatelessWidget {
               ),
             ),
           ),
-        ),
       ),
     );
   }

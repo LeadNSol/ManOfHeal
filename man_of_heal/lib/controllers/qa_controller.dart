@@ -10,18 +10,15 @@ import 'package:man_of_heal/utils/export_utils.dart';
 class QAController extends GetxController {
   //static QAController instance = Get.find();
 
-  final CategoryController? categoryController;
-  final SubscriptionController? subscriptionController;
-  final LandingPageController? landingController;
-  final NotificationController? notificationController;
-  final FeedBackController? feedBackController;
+  late final CategoryController? categoryController;
+  late final SubscriptionController? subscriptionController;
 
-  QAController(
-      {this.categoryController,
-      this.subscriptionController,
-      this.landingController,
-      this.notificationController,
-      this.feedBackController});
+  ///Used in [SingleAnswerDetailsUI]
+  late final FeedBackController? feedBackController;
+
+  //final SubscriptionController? subscriptionController;
+  //final LandingPageController? landingController;
+  //final NotificationController? notificationController;
 
   final TextEditingController? dialogAnswerController = TextEditingController();
   final TextEditingController? answerController = TextEditingController();
@@ -36,10 +33,22 @@ class QAController extends GetxController {
   var qaList = <QuestionModel>[].obs;
 
   @override
+  void onInit() {
+    initControllers();
+    super.onInit();
+  }
+
+  @override
   void onReady() {
     super.onReady();
 
     initQA();
+  }
+
+  initControllers() {
+    categoryController = Get.put(CategoryController());
+    subscriptionController = Get.put(SubscriptionController());
+    feedBackController = Get.put(FeedBackController());
   }
 
   void initQA() {
@@ -86,6 +95,7 @@ class QAController extends GetxController {
   var searchFilterList = [].obs;
   var selectedCategory = CHOOSE_CATEGORY.obs;
 
+
   void setSelectedCategory(String newValue) {
     selectedCategory.value = newValue;
     handleSearch();
@@ -105,89 +115,80 @@ class QAController extends GetxController {
 
   void setAdminSearchQuery(String newValue) {
     searchQuery.value = newValue;
+
     handleAdminSearch();
   }
 
   void populateSearchFilterDropDown(categoriesList) {
-    searchFilterList.insert(0, CHOOSE_CATEGORY);
+    debugPrint("this is called : ${categoriesList.length}");
+      searchFilterList.clear();
     if (categoriesList.isNotEmpty) {
       categoriesList.forEach((element) {
         searchFilterList.add(element.category!);
       });
     }
+    searchFilterList.insert(0, CHOOSE_CATEGORY);
   }
-
   void handleSearch() async {
     searchList.clear();
-    String dropDownValue = selectedCategory.value.toLowerCase();
-    String search = searchQuery.value.toLowerCase();
-    print("Search $search");
-    for (QuestionModel model in answerList) {
-      if (model.answerMap != null) {
-        if (dropDownValue != CHOOSE_CATEGORY.toLowerCase()) {
-          String category = categoryController!.getCategoryById(model.category);
-          if (dropDownValue.contains(category.toLowerCase())) {
-            if (search.isEmpty) {
-              searchList.add(model);
-            } else if (model.answerMap!.answer!
-                .toLowerCase()
-                .contains(search)) {
-              searchList.add(model);
-            }
-          }
-        } else if (model.answerMap!.answer!.toLowerCase().contains(search)) {
-          searchList.add(model);
-        }
-      }
-    }
+
+    final dropdownValue = selectedCategory.value.toLowerCase();
+    final search = searchQuery.value.toLowerCase();
+
+    print("Search: $search");
+
+    searchList.addAll(answerList.where((question) =>
+        question.answerMap != null &&
+        (dropdownValue == CHOOSE_CATEGORY.toLowerCase() ||
+            dropdownValue.contains(categoryController!
+                .getCategoryById(question.category)
+                .toLowerCase())) &&
+        (search.isEmpty ||
+            question.answerMap!.answer!.toLowerCase().contains(search))));
+
     searchList.refresh();
   }
-
   var inProgressQList = <QuestionModel>[].obs;
   var completedQAList = <QuestionModel>[].obs;
   var adminSearchList = <QuestionModel>[].obs;
 
-  handleAdminAllQAList(List<QuestionModel> list) {
+  void handleAdminAllQAList(List<QuestionModel> list) {
     inProgressQList.clear();
     completedQAList.clear();
-    if (list.length > 0) {
-      for (QuestionModel q in list) {
-        if (q.answerMap != null)
-          completedQAList.add(q);
-        else
-          inProgressQList.add(q);
-      }
+
+    if (list.isEmpty) {
+      notFoundListItems("No Data Found!");
+      return;
+    }
+
+    list.forEach((question) {
+      question.answerMap != null
+          ? completedQAList.add(question)
+          : inProgressQList.add(question);
+    });
+    if (completedQAList.isNotEmpty)
       completedQAList.sort((a, b) =>
           b.answerMap!.createdDate!.compareTo(a.answerMap!.createdDate!));
-    } else
-      notFoundListItems("No Data Found!");
   }
 
-  handleAdminSearch() async {
+  void handleAdminSearch() async {
     adminSearchList.clear();
-    String dropDownValue = selectedCategory.value.toLowerCase();
-    String search = searchQuery.value.toLowerCase();
 
-    for (QuestionModel model in completedQAList) {
-      if (model.answerMap != null) {
-        if (dropDownValue != CHOOSE_CATEGORY.toLowerCase()) {
-          String category = categoryController!.getCategoryById(model.category);
-          if (dropDownValue.contains(category.toLowerCase())) {
-            if (search.isEmpty) {
-              adminSearchList.add(model);
-            } else if (model.answerMap!.answer!
-                .toLowerCase()
-                .contains(search)) {
-              adminSearchList.add(model);
-            }
-          }
-        } else if (model.answerMap!.answer!.toLowerCase().contains(search)) {
-          adminSearchList.add(model);
-        }
-      }
-    }
+    final dropdownValue = selectedCategory.value.toLowerCase();
+    final search = searchQuery.value.toLowerCase();
+
+    adminSearchList.addAll(completedQAList.where((question) =>
+        question.answerMap != null &&
+        (dropdownValue == CHOOSE_CATEGORY.toLowerCase() ||
+            dropdownValue.contains(categoryController!
+                .getCategoryById(question.category)
+                .toLowerCase())) &&
+        (search.isEmpty ||
+            question.answerMap!.answer!.toLowerCase().contains(search))));
+
     adminSearchList.refresh();
-    /*if(adminSearchList.isEmpty){
+
+    /* if (adminSearchList.isEmpty) {
       AppConstant.displayNormalSnackBar("Search Alert!", "No data found associated with Search!.");
     }*/
   }
@@ -211,48 +212,73 @@ class QAController extends GetxController {
         toBeAnsweredIn: _after24HoursTimeDate,
         qCreatedDate: _currentTimeStamp,
         qModifiedDate: _currentTimeStamp);
-
-    await firebaseFirestore
-        .collection(QA_COLLECTION)
-        .doc(_uuid)
+    try {
+      await firebaseFirestore
+          .collection(QA_COLLECTION)
+          .doc(_uuid)
         .set(_newQuestion.toJson())
         .then((value) => {
               questionController.clear(),
               // spinner would be set to default here,
               print('question was posted'),
-              if (authController.userModel!.isTrailFinished!)
-                _updateSubscription(_currentTimeStamp),
-              landingController!.setStudentPage(1),
-              sendNotificationToAdmin(_newQuestion),
-              //update(),
-            });
+                if (AppCommons.userModel!.isTrailFinished!)
+                  _updateSubscription(_currentTimeStamp),
+                _navigateToQuestionAnswer(),
+                sendNotificationToAdmin(_newQuestion),
+                //update(),
+              });
+    } catch (e) {
+      print('Error creating question: $e');
+      // Handle error
+    }
+  }
+
+  void _navigateToQuestionAnswer() {
+    Get.put(LandingPageController()).setStudentPage(1);
   }
 
   void _updateSubscription(Timestamp questionCreatedTime) async {
-    if (!subscriptionController!.subsFirebase.isBlank!) {
-      DateTime? _currentTimeDate = DateTime.now();
-      Timestamp? _nextQuestionCycle =
-          Timestamp.fromDate(_currentTimeDate.add(new Duration(minutes: 5)));
-      //Timestamp.fromDate(_currentTimeDate.add(new Duration(hours: 72)));
+    // Retrieve or initialize the SubscriptionController instance
+    if (subscriptionController == null)
+      subscriptionController = Get.put(SubscriptionController());
 
-      Subscription subscription = subscriptionController!.subsFirebase!;
-      subscription.noOfAskedQuestion = subscription.noOfAskedQuestion! - 1;
-      subscription.nextQuestionAt = _nextQuestionCycle;
+    // Safely get the subscription object
+    final subscription = subscriptionController?.subsFirebase;
+    if (subscription == null) return;
+
+    // Check if necessary fields are present before updating
+    if (subscription.noOfAskedQuestion != null &&
+        subscription.nextQuestionAt != null &&
+        subscription.questionCreatedAt != null) {
+      // Calculate the next question cycle timestamp
+      final DateTime currentTime = DateTime.now();
+      final Timestamp nextQuestionCycle =
+          Timestamp.fromDate(currentTime.add(Duration(minutes: 5)));
+
+      // Update subscription properties
+      subscription.noOfAskedQuestion =
+          (subscription.noOfAskedQuestion ?? 1) - 1;
+      subscription.nextQuestionAt = nextQuestionCycle;
       subscription.questionCreatedAt = questionCreatedTime;
 
-      await firebaseFirestore
-          .collection(SUBSCRIPTION_COLLECTION)
-          .doc(firebaseAuth.currentUser!.uid)
-          .update(subscription.toJson())
-          .then((value) => {
-                _clearControllers(),
-                //handleQALists(),
-                Get.back(),
-                AppConstant.displaySuccessSnackBar(
-                    "Creation Alert!", "Question was posted Successfully"),
-              });
-    } else {
-      print('No subscription for current user was found!');
+      // Update the Firestore document
+      try {
+        await firebaseFirestore
+            .collection(SUBSCRIPTION_COLLECTION)
+            .doc(firebaseAuth.currentUser?.uid)
+            .update(subscription.toJson());
+
+        // Handle UI updates and success message
+        _clearControllers();
+
+        AppConstant.displaySuccessSnackBar(
+            "Creation Alert!", "Question was posted Successfully");
+
+        Get.back();
+      } catch (e) {
+        AppConstant.displaySnackBar(
+            "Update Failed", "Could not update subscription");
+      }
     }
   }
 
@@ -277,11 +303,13 @@ class QAController extends GetxController {
   }
 
   void sendNotificationToStudent(QuestionModel questionModel) async {
-    UserModel sender = authController.userModel!;
+    UserModel sender = AppCommons.userModel!;
     print(
         "Notifications: Sender name: ${sender.name}, Token: ${sender.userToken}");
     // getReceiver
-    authController.getUserById(questionModel.studentId!.trim()).then((value) {
+    AppCommons.authController
+        .getUserById(questionModel.studentId!.trim())
+        .then((value) {
       print(
           "Notifications: Receiver name: ${value.name}, Token: ${value.userToken}");
 
@@ -295,13 +323,13 @@ class QAController extends GetxController {
         isRead: false,
         receiverId: questionModel.studentId,
       );
-      notificationController?.sendPushNotification(model);
-      notificationController?.addNotificationsToDB(model);
+      Get.put(NotificationController()).sendPushNotification(model);
+      Get.put(NotificationController()).addNotificationsToDB(model);
     });
   }
 
   void sendNotificationToAdmin(QuestionModel questionModel) async {
-    UserModel sender = authController.userModel!;
+    UserModel sender = AppCommons.userModel!;
     NotificationModel model = NotificationModel(
         senderName: sender.name,
         title: "Question And Answer",
@@ -309,7 +337,7 @@ class QAController extends GetxController {
         type: NotificationEnum.qa_admin.name,
         isTopicBased: true,
         receiverToken: "Topics");
-    notificationController?.sendPushNotification(model);
+    Get.put(NotificationController()).sendPushNotification(model);
   }
 
   void updateAnswerOfTheQuestionById(questionModel) {
@@ -342,11 +370,8 @@ class QAController extends GetxController {
   }
 
   Stream<List<QuestionModel>> getCurrentUserAllQAs() {
-    String? uid = authController.userModel != null
-        ? authController.userModel!.uid
-        : firebaseAuth.currentUser != null
-            ? firebaseAuth.currentUser!.uid
-            : "";
+    String? uid =
+        AppCommons.userModel?.uid ?? firebaseAuth.currentUser?.uid ?? "";
 
     return firebaseFirestore
         .collection(QA_COLLECTION)

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
+import 'package:man_of_heal/ui/components/custom_floating_action_button.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
@@ -13,31 +15,18 @@ class QuizQuestionsUI extends GetView<AdminVdController> {
   @override
   Widget build(BuildContext context) {
     controller.bindQuizQuestionList(quizModel);
-    return Scaffold(
+    return BaseWidget(
       backgroundColor: AppThemes.blackPearl,
-      body: bodyContent(context),
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+
+      child: bodyContent(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
+      floatingButton: CustomFloatingActionButton(
         onPressed: () {
           Get.to(() => AddQuestionUI(quizModel!));
         },
-        child: Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [AppThemes.gradientColor_1, AppThemes.gradientColor_2],
-            ),
-          ),
-          child: Icon(
-            Icons.add_rounded,
-            size: 30,
-          ),
-          // child: SvgPicture.asset("assets/icons/fab_icon.svg"),
-        ),
+
       ),
     );
   }

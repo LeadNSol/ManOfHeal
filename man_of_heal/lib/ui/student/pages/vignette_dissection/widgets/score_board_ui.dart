@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
@@ -12,7 +13,7 @@ class ScoreBoardUI extends GetView<VDController> {
   Widget build(BuildContext context) {
     //TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
+    return BaseWidget(
       backgroundColor: AppThemes.BG_COLOR,
       appBar: AppBar(
         elevation: 0,
@@ -39,7 +40,7 @@ class ScoreBoardUI extends GetView<VDController> {
           )
         ],
       ),
-      body: SafeArea(child: body(context)),
+      child: body(context),
     );
   }
 

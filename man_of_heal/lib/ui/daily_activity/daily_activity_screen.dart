@@ -4,19 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class DailyActivityScreen extends GetView<DailyActivityController> {
+import '../components/custom_floating_action_button.dart';
+
+class DailyActivityScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final DailyActivityController controller = Get.put(DailyActivityController());
 
   @override
   Widget build(BuildContext context) {
     //dailyActivityController.getDailyActivity();
 
-    return Scaffold(
-      backgroundColor: AppThemes.BG_COLOR,
-      body: Stack(
+    return BaseWidget(
+      //backgroundColor: AppThemes.BG_COLOR,
+      statusBarIconBrightness: Brightness.light,
+      child: Stack(
         fit: StackFit.expand,
         children: [
           /// black background
@@ -29,7 +34,7 @@ class DailyActivityScreen extends GetView<DailyActivityController> {
           ),
 
           Positioned(
-            top: 50,
+            top: 40,
             left: 10,
             right: 10,
             child: ListView(
@@ -47,7 +52,7 @@ class DailyActivityScreen extends GetView<DailyActivityController> {
                         //   color: Colors.white,
                         // ),
                         child: IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () => Get.back(),
                           icon: Icon(Icons.arrow_back_ios),
                           color: Colors.white,
                         ),
@@ -59,11 +64,7 @@ class DailyActivityScreen extends GetView<DailyActivityController> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             'Daily Activity',
-                            style: GoogleFonts.poppins(
-                              fontSize: 23.85,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                            style: AppThemes.headerTitleFont
                           )),
                     ),
                     Expanded(
@@ -73,6 +74,8 @@ class DailyActivityScreen extends GetView<DailyActivityController> {
                           alignment: Alignment.center,
                           child: SvgPicture.asset(
                             "assets/icons/calendar_icon.svg",
+                            width: 24,
+                            height: 24,
                             colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
                           ),
                         ),
@@ -162,17 +165,13 @@ class DailyActivityScreen extends GetView<DailyActivityController> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton:
-          authController.admin.isTrue ? _buildFab(context) : null,
+      floatingButton: AppCommons.isAdmin ? _buildFab(context) : null,
     );
   }
 
   Widget _buildFab(context) {
-    return FloatingActionButton(
+    return CustomFloatingActionButton(
       onPressed: () {
-        print('Pressed fab');
-        // Get.to(()=>AddLabUI());
-
         Get.bottomSheet(
           getContent(context),
           shape: RoundedRectangleBorder(
@@ -182,23 +181,6 @@ class DailyActivityScreen extends GetView<DailyActivityController> {
           backgroundColor: Colors.white,
         );
       },
-      child: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [AppThemes.gradientColor_1, AppThemes.gradientColor_2],
-          ),
-        ),
-        child: Icon(
-          Icons.add_rounded,
-          size: 30,
-        ),
-        // child: SvgPicture.asset("assets/icons/fab_icon.svg"),
-      ),
     );
   }
 

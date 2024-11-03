@@ -6,11 +6,11 @@ import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
 class FeedBackController extends GetxController {
-  final AuthController? authController;
-  final NotificationController? notificationController;
+  late final AuthController? authController;
+  late final NotificationController? notificationController;
 
-  FeedBackController(
-      {required this.authController, required this.notificationController});
+  // FeedBackController(
+  //     {required this.authController, required this.notificationController});
 
   var remarksController = TextEditingController();
   var rating = 0.0.obs;
@@ -30,6 +30,17 @@ class FeedBackController extends GetxController {
   var haveCurrentUserInList = false.obs;
 
   @override
+  void onInit() {
+    initControllers();
+    super.onInit();
+  }
+
+  initControllers() {
+    authController = AppCommons.authController;
+    notificationController = Get.put(NotificationController());
+  }
+
+  @override
   void onReady() {
     super.onReady();
 
@@ -42,18 +53,15 @@ class FeedBackController extends GetxController {
   }
 
   void handleAdminData(List<FeedbackModel> list) {
-    String? uid = firebaseAuth.currentUser != null
-        ? firebaseAuth.currentUser!.uid
-        : authController!.userModel != null
-            ? authController!.userModel!.uid!
-            : "";
-    debugPrint("geUserFeedback(): List ${list.length}");
+    String? uid =
+        firebaseAuth.currentUser?.uid ?? authController?.userModel?.uid ?? "";
+    //debugPrint("geUserFeedback(): List ${list.length}");
     double totalRating = 0.0;
 
     var isStudentRatedAdmin = false;
     list.forEach((element) {
       if (element.ratings != null) totalRating += element.ratings!;
-      if (element.studentId! == uid) {
+      if (element.studentId!.contains(uid)) {
         isStudentRatedAdmin = true;
       }
     });

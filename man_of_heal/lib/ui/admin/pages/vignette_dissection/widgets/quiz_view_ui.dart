@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/quiz_model.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
@@ -17,9 +18,11 @@ class QuizViewUI extends GetView<AdminVdController> {
   Widget build(BuildContext context) {
     controller.pageController = PageController(initialPage: pageIndex!);
 
-    return Scaffold(
+    return BaseWidget(
       backgroundColor: AppThemes.BG_COLOR,
-      body: Stack(
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+      child: Stack(
         fit: StackFit.expand,
         children: [
           /// Black rounded container

@@ -42,7 +42,9 @@ class Validator {
 
   String? number(String? value) {
     // String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
-    String pattern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
+    //String pattern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
+    //international number pattern
+    String pattern = r'^\+?([1-9]\d{0,2})?[-. (]?(\d{1,4})?[-. )]?(\d{1,4})[-. ]?(\d{1,4})[-. ]?(\d{1,9})$';
 
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!.trim()))

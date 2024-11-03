@@ -1,6 +1,5 @@
 export 'admin_home.dart';
 export 'pages/feed_backs/feed_back_ui.dart';
-export 'pages/labs/admin_lab_value_explanation.dart';
 export 'pages/manage_categories/categories_ui.dart';
 export 'pages/manage_users/users_management_ui.dart';
 export 'pages/subscription_details/admin_subscription_ui.dart';

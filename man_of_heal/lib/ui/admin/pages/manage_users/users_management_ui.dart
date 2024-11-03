@@ -1,58 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
+import 'package:man_of_heal/ui/components/custom_floating_action_button.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class UserManagementUI extends GetView<AuthController> {
-  const UserManagementUI({Key? key}) : super(key: key);
+class UserManagementUI extends StatelessWidget {
+  UserManagementUI({Key? key}) : super(key: key);
+
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppThemes.BG_COLOR,
-        body: body(context),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        floatingActionButton: Visibility(
-          visible: authController.userModel != null &&
-              authController.userModel!.userType!.contains("superAdmin"),
-          child: Container(
-            alignment: Alignment.centerRight,
-            margin: EdgeInsets.only(
-                right: 20, bottom: AppConstant.getScreenHeight(context) * 0.25),
-            child: FloatingActionButton(
-              onPressed: () => addInstructors(),
-              highlightElevation: 40,
-              elevation: 10,
-              hoverElevation: 12,
-              child: Container(
-                alignment: Alignment.center,
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      AppThemes.gradientColor_1,
-                      AppThemes.gradientColor_2
-                    ],
-                  ),
-                ),
-                child: Icon(
-                  Icons.add_rounded,
-                  size: 30,
-                ),
-                // child: SvgPicture.asset("assets/icons/fab_icon.svg"),
-              ),
-            ),
-          ),
+    return BaseWidget(
+      backgroundColor: AppThemes.BG_COLOR,
+      statusBarIconBrightness: Brightness.light,
+      statusBarColor: AppThemes.blackPearl,
+      child: body(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingButton: AppCommons.userModel != null &&
+              AppCommons.userModel!.userType!.contains("superAdmin")
+          ? Container(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.only(
+                  right: 20,
+                  bottom: AppConstant.getScreenHeight(context) * 0.25),
+              child: CustomFloatingActionButton(
+                onPressed: () => addInstructors(),
+                // highlightElevation: 40,
+                // elevation: 10,
+                // hoverElevation: 12,
+                //
         ),
-      ),
+            )
+          : null,
     );
   }
 
@@ -70,14 +55,15 @@ class UserManagementUI extends GetView<AuthController> {
         Positioned(
           child: Column(
             children: [
-              FormVerticalSpace(),
+              FormVerticalSpace(height: 40,),
+
               CustomHeaderRow(
                 title: "Admin",
                 hasProfileIcon: true,
               ),
               FormVerticalSpace(
                 height: AppConstant.getScreenWidth(context) *
-                    (kIsWeb ? 0.07 : 0.28),
+                    (kIsWeb ? 0.07 : 0.25),
               ),
               CustomContainer(
                 height: 90,
@@ -165,7 +151,7 @@ class UserManagementUI extends GetView<AuthController> {
 }
 
 class SingleUserListItems extends StatelessWidget {
-  const SingleUserListItems({Key? key, this.userModel, this.calledFor = 0})
+  SingleUserListItems({Key? key, this.userModel, this.calledFor = 0})
       : super(key: key);
 
   final UserModel? userModel;
@@ -176,6 +162,8 @@ class SingleUserListItems extends StatelessWidget {
    * 2. called for Student answer section i.e. display students
    * */
   final int? calledFor;
+
+  final AuthController authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +212,7 @@ class SingleUserListItems extends StatelessWidget {
                     style: AppThemes.normalBlackFont.copyWith(fontSize: 11),
                   ),
                   Text(
-                    userModel!.address??"",
+                    userModel!.address ?? "",
                     softWrap: true,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -235,7 +223,7 @@ class SingleUserListItems extends StatelessWidget {
                       : _textWidget(
                           "created at",
                           AppConstant.formattedDataTime(
-                              "yyyy-MMM-dd", userModel!.createdDate!)),
+                              "yyyy-MMM-dd", userModel!.createdDate ?? Timestamp.now())),
                 ],
               ),
             ),

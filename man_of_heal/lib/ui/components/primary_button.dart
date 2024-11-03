@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
-/*
-PrimaryButton(
-                labelText: 'UPDATE',
-                onPressed: () => print('Submit'),
-              ),
-*/
-
 class PrimaryButton extends StatelessWidget {
   PrimaryButton(
       {required this.labelText,
@@ -55,14 +48,14 @@ class PrimaryButton extends StatelessWidget {
                 Text(
                   labelText,
                   textAlign: TextAlign.center,
-                  style: textStyle ?? TextStyle(fontWeight: FontWeight.bold),
+                  style: textStyle ?? AppThemes.buttonFont,
                 ),
               ],
             )
           : Text(
               labelText,
               textAlign: TextAlign.center,
-              style: textStyle ?? TextStyle(fontWeight: FontWeight.bold),
+              style: textStyle ?? AppThemes.buttonFont,
             ),
     );
   }

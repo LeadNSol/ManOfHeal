@@ -54,9 +54,9 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic>? data) {
     return UserModel(
       uid: data![ID],
-      userToken: data[USER_TOKEN] ?? "",
+      userToken: data[USER_TOKEN] ?? "Deleted User",
       email: data[EMAIL],
-      name: data[NAME] ?? '',
+      name: data[NAME] ?? 'Deleted User',
       userType: data[TYPE],
       phone: data[PHONE],
       photoUrl: data[PHOTO_URL] ??

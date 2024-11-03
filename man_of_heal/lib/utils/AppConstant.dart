@@ -162,12 +162,16 @@ class AppConstant {
             "Copy alert!", "Copied to Clipboard!"));
   }
 
-  static Future<PackageInfo> getBuildNumber() async {
+
+
+/*
+
+ static Future<PackageInfo> getPackageInfo() async {
     PackageInfo? packageInfo = await PackageInfo.fromPlatform();
     return packageInfo;
   }
 
-/* String _convertAgoDate(Timestamp? timestamp) {
+String _convertAgoDate(Timestamp? timestamp) {
     */ /*final timeAgoFromNow =
         new DateTime.now().subtract(new Duration());*/ /*
 

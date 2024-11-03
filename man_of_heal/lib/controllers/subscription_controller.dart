@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as Http;
-import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
@@ -17,6 +16,8 @@ class SubscriptionController extends GetxController {
   Subscription? get subsFirebase => _subsFirebase?.value;
 
   var searchController = TextEditingController();
+
+  RxInt btnState = 0.obs;
 
   //Subscription get subsFirebase => Get.find();
 
@@ -73,6 +74,7 @@ class SubscriptionController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    btnState(0);
   }
 
   @override
@@ -94,8 +96,8 @@ class SubscriptionController extends GetxController {
     stdSubscriptionList.clear();
     if (list.isNotEmpty) {
       for (Subscription subscription in list) {
-        UserModel? userStudent =
-            authController.getUserFromListById(subscription.studentId!);
+        UserModel? userStudent = AppCommons.authController
+            .getUserFromListById(subscription.studentId!);
         StudentSubscription studentSubscription =
             StudentSubscription(subscription, userStudent);
         stdSubscriptionList.add(studentSubscription);
@@ -109,13 +111,22 @@ class SubscriptionController extends GetxController {
 
   handleSearch(String? search) {
     searchList.clear();
-    if (stdSubscriptionList.length > 0) {
-      stdSubscriptionList.forEach((element) {
-        if (element.userModel!.name!.toLowerCase().contains(search!.trim()))
-          searchList.add(element);
-      });
-    } else
+
+    if (search?.trim().isEmpty ?? true) return;
+
+    if (stdSubscriptionList.isEmpty) {
       noDataFound("No Data Found for Searching...");
+      return;
+    }
+
+    searchList.addAll(stdSubscriptionList.where((element) => element
+        .userModel!.name!
+        .toLowerCase()
+        .contains(search!.trim().toLowerCase())));
+
+    if (searchList.isEmpty) {
+      noDataFound("No Data Found for Searching...");
+    }
   }
 
   Timestamp _getExpiryDateTime() {
@@ -147,7 +158,7 @@ class SubscriptionController extends GetxController {
         .doc(firebaseAuth.currentUser!.uid)
         .set(subscription.toJson(), SetOptions(merge: true))
         .then((value) {
-      authController.setBtnState(2);
+      btnState(2);
       print('Subscription $planName was subscribed!.');
       _subsFirebase?.bindStream(_getCurrentUserSubscription());
       AppConstant.displaySuccessSnackBar("Success", "Paid Successfully");
@@ -169,8 +180,8 @@ class SubscriptionController extends GetxController {
         .whenComplete(() {
               AppConstant.displaySuccessSnackBar(
                   "Success", "Your Plan is Renewed Successfully");
-              authController.setBtnState(2);
-            });
+      btnState(2);
+    });
   }
 
   Future<void> upgradeSubscription(String paymentId) async {
@@ -178,11 +189,8 @@ class SubscriptionController extends GetxController {
   }
 
   Stream<Subscription> _getCurrentUserSubscription() {
-    String? uid = firebaseAuth.currentUser?.uid != null
-        ? firebaseAuth.currentUser!.uid
-        : authController.userModel != null
-            ? authController.userModel!.uid!
-            : "";
+    String? uid =
+        AppCommons.userModel?.uid ?? firebaseAuth.currentUser?.uid ?? "";
 
     debugPrint("Subscription: $uid");
 
@@ -241,7 +249,7 @@ class SubscriptionController extends GetxController {
   }
 
   Future<void> makePayment(amount, callingFor) async {
-    authController.setBtnState(1);
+    btnState(1);
     paymentIntentData = await createPaymentIntent(amount, "USD");
     await Stripe.instance
         .initPaymentSheet(
@@ -274,11 +282,11 @@ class SubscriptionController extends GetxController {
         }
         paymentIntentData = null;
       }).onError((error, stackTrace) {
-        authController.setBtnState(0);
+        btnState(0);
         print('Exception/DISPLAY PAYMENT SHEET==> $error $stackTrace');
       });
     } on StripeException catch (e) {
-      authController.setBtnState(0);
+      btnState(0);
       print('Exception/DISPLAY PAYMENT SHEET==> $e');
       Get.defaultDialog(middleText: "Cancelled!");
     } catch (e) {
@@ -307,14 +315,14 @@ class SubscriptionController extends GetxController {
 
       debugPrint('Create Intent response ===> ${response.body.toString()}');
       if (json["error"] != null) {
-        authController.setBtnState(0);
+        btnState(0);
         AppConstant.displaySnackBar(
             "Payment Error", "${json["error"]["message"]}");
       }
 
       return json;
     } catch (err) {
-      authController.setBtnState(0);
+      btnState(0);
       print('err charging user: ${err.toString()}');
       AppConstant.displaySnackBar("Payment Error", "$err");
     }

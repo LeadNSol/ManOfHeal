@@ -3,19 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class ProfileUI extends GetView<ProfileController> {
+import 'profile_controller.dart';
+
+class ProfileUI extends StatelessWidget {
+
+  final ProfileController controller = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: bodyNew(context),
-      ),
+    return BaseWidget(
+      resizeToAvoidBottomInset: true,
+      statusBarIconBrightness: Brightness.light,
+      child: bodyNew(context),
     );
   }
 
@@ -25,7 +29,7 @@ class ProfileUI extends GetView<ProfileController> {
         subscriptionController.subsFirebase!.expiresAt!.toDate(),
         DateTime.now());*/
     return Stack(
-      fit: StackFit.expand,
+      fit: StackFit.passthrough,
       children: [
         /// black background
         Positioned(
@@ -41,13 +45,14 @@ class ProfileUI extends GetView<ProfileController> {
             padding: EdgeInsets.zero,
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
+              FormVerticalSpace(height: 40),
               /// Header
               CustomHeaderRow(
                 title: "Profile",
                 hasProfileIcon: false,
-                isAdmin: authController.admin.value,
+                isAdmin: AppCommons.isAdmin,
               ),
-              FormVerticalSpace(height: 120),
+              FormVerticalSpace(height: 80),
 
               ///profile pic & name & subscription for students
               Column(
@@ -75,7 +80,7 @@ class ProfileUI extends GetView<ProfileController> {
                           () => CircularAvatar(
                             padding: 2,
                             radius: 50,
-                            imageUrl: authController.userModel!.photoUrl!,
+                            imageUrl: AppCommons.userModel!.photoUrl!,
                           ),
                         ),
                       ),
@@ -131,40 +136,38 @@ class ProfileUI extends GetView<ProfileController> {
                   FormVerticalSpace(
                     height: 15,
                   ),
-                  Visibility(
-                    visible: authController.admin.isFalse,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/icons/premium_member.png",
-                        ),
-                        FormVerticalSpace(
-                          height: 10,
-                        ),
-                        controller.getSubsModel()?.studentId == null
-                            ? InkWell(
-                                onTap: () => Get.to(() => SubscriptionUI()),
-                                child: Text(
-                                  "You haven't Subscribe any Plan \n Wants to become a Member?",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(
-                                      color: AppThemes.PREMIUM_OPTION_COLOR,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            : Text(
-                                "${controller.getSubsModel()!.planName!} Member \n "
-                                "Days left: ${controller.getSubscriptionExpiry() > 0 ? controller.getSubscriptionExpiry() : "Expired"}",
+                  if(!AppCommons.isAdmin)
+                  Column(
+                    children: [
+                      Image.asset(
+                        "assets/icons/premium_member.png",
+                      ),
+                      FormVerticalSpace(
+                        height: 10,
+                      ),
+                      controller.getSubsModel()?.studentId == null
+                          ? InkWell(
+                              onTap: () => Get.to(() => SubscriptionUI()),
+                              child: Text(
+                                "You haven't Subscribe any Plan \n Wants to become a Member?",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                     color: AppThemes.PREMIUM_OPTION_COLOR,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
                               ),
-                        FormVerticalSpace(height: 15),
-                      ],
-                    ),
+                            )
+                          : Text(
+                              "${controller.getSubsModel()?.planName ?? ""} Member \n "
+                              "Days left: ${controller.getSubscriptionExpiry() > 0 ? controller.getSubscriptionExpiry() : "Expired"}",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  color: AppThemes.PREMIUM_OPTION_COLOR,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                      FormVerticalSpace(height: 15),
+                    ],
                   ),
                 ],
               ),
@@ -175,7 +178,7 @@ class ProfileUI extends GetView<ProfileController> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.all(5),
-                  children: authController
+                  children: controller
                       .getProfileData()
                       .map(
                         (profile) => profileCards(profile["title"],
@@ -195,7 +198,7 @@ class ProfileUI extends GetView<ProfileController> {
                   child: PrimaryButton(
                     onPressed: () {
                       // authController.disposeGetXControllers();
-                      authController.signOut();
+                      AppCommons.authController.signOut();
                       // authController.dispose();
                       //Phoenix.rebirth(context);
                       Get.offAndToNamed("/welcome");
@@ -211,8 +214,7 @@ class ProfileUI extends GetView<ProfileController> {
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Obx(() {
-                    getBuildNumber();
-                    return Text("version: ${appVersion.value}");
+                    return Text("version: ${controller.appVersion.value}");
                   }),
                 ),
               ),
@@ -224,15 +226,6 @@ class ProfileUI extends GetView<ProfileController> {
     );
   }
 
-  final appVersion = "".obs;
-
-  void getBuildNumber() {
-    AppConstant.getBuildNumber().then((value) {
-      debugPrint("Version: ${value.version + "-" + value.buildNumber}");
-
-      appVersion.value = "${value.version + "-" + value.buildNumber}";
-    });
-  }
 
   Widget _nameAndRatingWidget(context) {
     return Column(
@@ -246,7 +239,7 @@ class ProfileUI extends GetView<ProfileController> {
             ),
             Obx(
               () => Text(
-                '${authController.userModel!.name ?? 'ABC NAME'}',
+                '${AppCommons.userModel!.name ?? 'ABC NAME'}',
                 style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -258,7 +251,7 @@ class ProfileUI extends GetView<ProfileController> {
             ),
             InkWell(
               onTap: () =>
-                  showEditDialog("name", authController.userModel!.name),
+                  showEditDialog("name", AppCommons.userModel!.name),
               child: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -290,30 +283,28 @@ class ProfileUI extends GetView<ProfileController> {
             )
           ],
         ),
-        authController.admin.isFalse
+        !AppCommons.isAdmin
             ? Container()
-            : Obx(
-                () => RichText(
-                  text: TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.favorite,
-                          size: 13,
-                          color: AppThemes.DEEP_ORANGE,
-                        ),
-                      ),
-                      TextSpan(
-                          text:
-                              " ${controller.getAdminRating().toStringAsFixed(1)}",
-                          style: AppThemes.normalBlack45Font)
-                    ],
-                  ),
+            : RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(
+                  Icons.favorite,
+                  size: 13,
+                  color: AppThemes.DEEP_ORANGE,
                 ),
               ),
+              TextSpan(
+                  text:
+                  " ${controller.getAdminRating().toStringAsFixed(1)}",
+                  style: AppThemes.normalBlack45Font)
+            ],
+          ),
+        ),
         Obx(
           () => Text(
-            '${authController.userModel!.address ?? "London, Uk"}',
+            '${AppCommons.userModel!.address ?? "London, Uk"}',
             style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w600, fontSize: 12, color: Colors.black),
           ),
@@ -363,7 +354,7 @@ class ProfileUI extends GetView<ProfileController> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void showEditDialog(title, subtitle) {
-    authController.editTextFieldController.text = subtitle;
+    controller.editTextFieldController.text = subtitle;
 
     Get.defaultDialog(
         title: "Update $title",
@@ -372,7 +363,7 @@ class ProfileUI extends GetView<ProfileController> {
         content: Form(
           key: _formKey,
           child: FormInputFieldWithIcon(
-            controller: authController.editTextFieldController,
+            controller: controller.editTextFieldController,
             iconPrefix: Icons.title,
             labelText: title,
             autofocus: false,
@@ -394,14 +385,14 @@ class ProfileUI extends GetView<ProfileController> {
               if (_formKey.currentState!.validate()) {
                 SystemChannels.textInput.invokeMethod(
                     'TextInput.hide'); //to hide the keyboard - if any
-                await authController.updateCurrentUser(title);
+                await controller.updateCurrentUser(title);
                 Get.back();
               }
             }));
   }
 
   Widget _profileIconsContent() {
-    print(">>>ProfileAvatars: ${authController.profileAvatarsList.length}");
+    print(">>>ProfileAvatars: ${controller.profileAvatarsList.length}");
     return Obx(
       () => GridView.count(
         crossAxisCount: 4,
@@ -410,12 +401,12 @@ class ProfileUI extends GetView<ProfileController> {
         padding: EdgeInsets.all(10),
         shrinkWrap: true,
         children:
-            List.generate(authController.profileAvatarsList.length, (index) {
+            List.generate(controller.profileAvatarsList.length, (index) {
           ProfileAvatars profileAvatar =
-              authController.profileAvatarsList[index];
+              controller.profileAvatarsList[index];
           return InkWell(
             onTap: () {
-              authController.updateProfileAvatar(profileAvatar);
+              controller.updateProfileAvatar(profileAvatar);
             },
             child: Container(
               child: Padding(

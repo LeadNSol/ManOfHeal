@@ -4,18 +4,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class AdminDashboardUI extends GetView<LandingPageController> {
+class AdminDashboardUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppThemes.blackPearl,
-        resizeToAvoidBottomInset: false,
-        body: newDashboard(context),
-      ),
+    return BaseWidget(
+      backgroundColor: AppThemes.blackPearl,
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+      resizeToAvoidBottomInset: false,
+      child: newDashboard(context),
     );
   }
 
@@ -45,6 +46,7 @@ class AdminDashboardUI extends GetView<LandingPageController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              FormVerticalSpace(),
               //Header profile icon and Dashboard Text...
               Row(
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +60,7 @@ class AdminDashboardUI extends GetView<LandingPageController> {
                         children: <TextSpan>[
                           TextSpan(
                               text:
-                                  'Welcome ${authController.userModel!.name}!',
+                                  'Welcome ${AppCommons.userModel!.name}!',
                               style: GoogleFonts.montserrat(fontSize: 10)),
                         ],
                       ),
@@ -75,8 +77,8 @@ class AdminDashboardUI extends GetView<LandingPageController> {
                       Get.toNamed(AppRoutes.profileRoute);
                     },
                     child: Container(
-                      height: 50,
-                      width: 50,
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.0),
                         color: Colors.white,
@@ -84,7 +86,7 @@ class AdminDashboardUI extends GetView<LandingPageController> {
                       child: Obx(
                         () => CircularAvatar(
                           padding: 3,
-                          imageUrl: authController.userModel!.photoUrl!,
+                          imageUrl: AppCommons.userModel?.photoUrl ?? "",
                         ),
                       ),
                     ),
@@ -115,7 +117,7 @@ class AdminDashboardUI extends GetView<LandingPageController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   customDashboardItems(context, () {
-                    controller.setAdminPage(1);
+                    Get.find<LandingPageController>().setAdminPage(1);
                   }, "assets/icons/questions_icon.svg", "Questions"),
                   SizedBox(
                     width: 10,

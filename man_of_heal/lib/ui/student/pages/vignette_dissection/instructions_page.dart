@@ -4,10 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class QuizInstructionsScreen extends GetView<VDController> {
+class QuizInstructionsScreen extends StatelessWidget {
+  final VDController controller = Get.put(VDController());
   final instructionList = [
     "1 mark award for correct answer and no mark for incorrect answer.",
     "Tap on option to select the correct answer.",
@@ -17,9 +19,11 @@ class QuizInstructionsScreen extends GetView<VDController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BaseWidget(
       backgroundColor: AppThemes.BG_COLOR,
-      body: Stack(
+      statusBarColor: AppThemes.blackPearl,
+      statusBarIconBrightness: Brightness.light,
+      child: Stack(
         fit: StackFit.expand,
         children: [
           /// black background
@@ -37,7 +41,7 @@ class QuizInstructionsScreen extends GetView<VDController> {
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
                 FormVerticalSpace(
-                  height: 50,
+                  height: 40,
                 ),
                 CustomHeaderRow(
                   title: "Quiz Instructions",

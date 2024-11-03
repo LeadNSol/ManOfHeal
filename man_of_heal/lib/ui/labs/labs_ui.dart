@@ -3,39 +3,28 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
+import 'package:man_of_heal/ui/components/custom_floating_action_button.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
 class LabsUI extends GetView<LabController> {
   //var isVisible = false.obs;
+//final LabController controller = Get.put(LabController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: BaseWidget(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppThemes.BG_COLOR,
-        appBar: AppBar(
-          //leadingWidth: 25,
-          leading: InkWell(
-            onTap: () => Get.back(),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: AppThemes.blackPearl,
-            ),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: Text(
-            "Labs",
-            style: AppThemes.headerTitleBlackFont,
-          ),
-        ),
-        body: _body(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: authController.admin.isTrue
-            ? FloatingActionButton(
+        //backgroundColor: AppThemes.BG_COLOR,
+        //statusBarIconBrightness: Brightness.dark,
+        //statusBarColor: AppThemes.blackPearl,
+        appBar: appBar(),
+        child: _body(),
+        floatingButton: !AppCommons.isAdmin
+            ? null
+            : CustomFloatingActionButton(
                 onPressed: () {
                   Get.bottomSheet(
                     AddLabUI(),
@@ -47,28 +36,27 @@ class LabsUI extends GetView<LabController> {
                     backgroundColor: Colors.white,
                   );
                 },
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        AppThemes.gradientColor_1,
-                        AppThemes.gradientColor_2
-                      ],
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.add_rounded,
-                    size: 30,
-                  ),
-                  // child: SvgPicture.asset("assets/icons/fab_icon.svg"),
-                ),
-              )
-            : null,
+              ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget appBar(){
+    return AppBar(
+      //leadingWidth: 25,
+      leading: InkWell(
+        onTap: () => Get.back(),
+        child: Icon(
+          Icons.arrow_back_ios,
+          size: 20,
+          color: AppThemes.blackPearl,
+        ),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      title: Text(
+        "Labs",
+        style: AppThemes.headerTitleBlackFont,
       ),
     );
   }

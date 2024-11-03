@@ -9,11 +9,13 @@ import 'package:man_of_heal/utils/export_utils.dart';
 class DailyActivityController extends GetxController {
   //static DailyActivityController instance = Get.find();
 
-  final NotificationController? notificationController;
-  final FeedBackController? feedbackController;
+  late final NotificationController? notificationController;
+ late final FeedBackController? feedbackController;
 
-  DailyActivityController(
-      {this.notificationController, this.feedbackController});
+  final AuthController authController = Get.put(AuthController());
+
+  // DailyActivityController(
+  //     {this.notificationController, this.feedbackController});
 
   static const DAILY_ACTIVITY = "daily_activity";
   static const studentAnswersCollection = "studentAnswers";
@@ -48,6 +50,18 @@ class DailyActivityController extends GetxController {
 
   /// for re-active approach and visibility of approve button
   var stdAnswerModel = StdAnswerModel().obs;
+
+  @override
+  void onInit() {
+    initControllers();
+    super.onInit();
+  }
+
+  void initControllers(){
+    notificationController = Get.put(NotificationController());
+    feedbackController = Get.put(FeedBackController());
+  }
+
 
   @override
   void onReady() {

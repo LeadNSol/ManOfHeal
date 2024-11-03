@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/main.dart';
 import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
@@ -56,8 +55,7 @@ class NotificationController extends GetxController {
     ever(notificationList, (callback) {
       notificationCount.value = 0;
       notificationList.forEach((element) {
-        if (authController.admin.isFalse &&
-            element.isRead != null &&
+        if (!AppCommons.isAdmin && element.isRead != null &&
             !element.isRead!) {
           notificationCount.value += 1;
         }
@@ -274,21 +272,21 @@ class NotificationController extends GetxController {
   }
 
   Stream<List<NotificationModel>> getNotificationList() {
-    var uid = authController.userModel?.uid != null
-        ? authController.userModel!.uid!
-        : firebaseAuth.currentUser?.uid;
-    print("GetNotificationList()");
-    return firebaseFirestore
-        .collection(USERS)
-        .doc(uid)
-        .collection(USER_NOTIFICATION)
-        .orderBy(NotificationModel.nSentTime, descending: true)
-        .snapshots()
-        .map((event) => event.docs
-            .map((e) => e.exists
-                ? NotificationModel.fromMap(e.data())
-                : NotificationModel())
-            .toList());
+    var uid = AppCommons.userModel?.uid ?? firebaseAuth.currentUser?.uid ?? "";
+
+      print("GetNotificationList()");
+      return firebaseFirestore
+          .collection(USERS)
+          .doc(uid)
+          .collection(USER_NOTIFICATION)
+          .orderBy(NotificationModel.nSentTime, descending: true)
+          .snapshots()
+          .map((event) => event.docs
+              .map((e) => e.exists
+                  ? NotificationModel.fromMap(e.data())
+                  : NotificationModel())
+              .toList());
+
   }
 
   Future<void> deleteNotification(NotificationModel model) async {

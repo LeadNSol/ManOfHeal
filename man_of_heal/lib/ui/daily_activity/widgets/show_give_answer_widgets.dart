@@ -6,18 +6,21 @@ import 'package:man_of_heal/models/export_models.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class ShowGiveAnswerButtons extends GetView<DailyActivityController> {
-  const ShowGiveAnswerButtons({
+class ShowGiveAnswerButtons extends StatelessWidget{
+   ShowGiveAnswerButtons({
     Key? key,
     this.showAnswerForCurrentDate = true,
     this.activityModel,
   }) : super(key: key);
   final bool? showAnswerForCurrentDate; //for admin
   final DailyActivityModel? activityModel; //for student
+
+  final DailyActivityController controller = Get.put(DailyActivityController());
+
   @override
   Widget build(BuildContext context) {
 
-      if (authController.admin.isTrue) return _buildShowAnswersToAdminButton();
+      if (AppCommons.isAdmin) return _buildShowAnswersToAdminButton();
       if (activityModel != null && activityModel!.qOfDay!.isNotEmpty) {
         if (showAnswerForCurrentDate!)
           controller.setCurrentDate(Timestamp.now());

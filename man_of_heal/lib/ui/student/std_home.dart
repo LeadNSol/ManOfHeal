@@ -5,63 +5,44 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/models/export_models.dart';
+import 'package:man_of_heal/ui/components/base_widget.dart';
+import 'package:man_of_heal/ui/components/custom_floating_action_button.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 import 'package:man_of_heal/utils/export_utils.dart';
 
-class StudentHome extends GetView<LandingPageController> {
+class StudentHome extends StatelessWidget {
+  final SubscriptionController subscriptionController =
+      Get.put(SubscriptionController());
+  final LandingPageController controller = Get.put(LandingPageController());
   @override
   Widget build(BuildContext context) {
     //_initControllers();
-    final subscriptionController = Get.find<SubscriptionController>();
+
     return Obx(
-      () => SafeArea(
-        child: DoubleBackPressToExit(
-          child: Scaffold(
-            extendBody: true,
-            resizeToAvoidBottomInset: false,
-            body: controller.currentStudentPage,
-            bottomNavigationBar: _bottomCircularNotchedBar(),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                if (authController.userModel!.isTrailFinished!) {
-                  Subscription? subscription =
-                      subscriptionController.subsFirebase!;
-                  if (subscription.paymentId != null) {
-                    if (Timestamp.now().compareTo(subscription.expiresAt!) >
-                        0) {
-                      displayBottomSheet(subscription);
-                    } else {
-                      showQuestionBottomSheet();
-                    }
-                  } else
-                    Get.to(() => SubscriptionUI());
-                } else
+      () => BaseWidget(
+        extendBody: true,
+        resizeToAvoidBottomInset: false,
+        child: controller.currentStudentPage,
+        bottomNaviBar: _bottomCircularNotchedBar(),
+        floatingButton: CustomFloatingActionButton(
+          onPressed: () {
+            if (AppCommons.userModel!.isTrailFinished!) {
+              final subscription = subscriptionController.subsFirebase;
+              if (subscription?.paymentId != null) {
+                final isExpired =
+                    Timestamp.now().compareTo(subscription!.expiresAt!) > 0;
+                if (isExpired) {
+                  showSubscriptionBottomSheet(subscription);
+                } else {
                   showQuestionBottomSheet();
-              },
-              child: Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      AppThemes.gradientColor_1,
-                      AppThemes.gradientColor_2
-                    ],
-                  ),
-                ),
-                child: Icon(
-                  Icons.add_rounded,
-                  size: 30,
-                ),
-                // child: SvgPicture.asset("assets/icons/fab_icon.svg"),
-              ),
-            ),
-          ),
+                }
+              } else {
+                Get.to(() => SubscriptionUI());
+              }
+            } else {
+              showQuestionBottomSheet();
+            }
+          },
         ),
       ),
     );
@@ -79,45 +60,76 @@ class StudentHome extends GetView<LandingPageController> {
     );
   }
 
-  /// controller that required user ID's
-  /// and common for both users,
-  ///
-  /*_initControllers() {
-    Get.put(SubscriptionController());
-    Get.put(QAController());
-    Get.put(VDController());
-  }*/
-
   _bottomCircularNotchedBar() {
     final _inactiveColor = Colors.grey;
-    return BottomAppBar(
-      //color: Colors.deepPurple,
-      notchMargin: 8,
-      color: Colors.white,
-      clipBehavior: Clip.antiAlias,
-      elevation: 20,
-      shape: CircularNotchedRectangle(),
-      child: Obx(
-        () => BottomNavigationBar(
-          currentIndex: controller.studentTabIndex.value,
-          selectedItemColor: AppThemes.DEEP_ORANGE,
-          selectedLabelStyle: GoogleFonts.poppins(
-            fontWeight: FontWeight.w500,
-          ),
-          unselectedLabelStyle: GoogleFonts.poppins(
-            fontWeight: FontWeight.w500,
-          ),
-          unselectedItemColor: _inactiveColor,
-          onTap: onTapped,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_outline), label: "Favorite"),
-          ],
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        BottomAppBar(
+          notchMargin: 8,
+          color: Colors.white,
+          shape: CircularNotchedRectangle(),
+          child: SizedBox(
+            width: double.infinity,
+              height:
+                  50), // Sets height for BottomAppBar to match BottomNavigationBar
         ),
-      ),
+        Positioned(
+          left: 0,
+          bottom: 0,
+          right: 0,
+          child: Obx(
+            () => BottomNavigationBar(
+              currentIndex: controller.studentTabIndex.value,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              selectedItemColor: AppThemes.DEEP_ORANGE,
+              selectedLabelStyle: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500, fontSize: 10),
+              unselectedLabelStyle: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500, fontSize: 10),
+              unselectedItemColor: _inactiveColor,
+              onTap: onTapped,
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_outline), label: "Favorite"),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
+
+    // return BottomAppBar(
+    //   color: AppThemes.rightAnswerColor,
+    //   notchMargin: 8,
+    //   //color: Colors.transparent,
+    //   //clipBehavior: Clip.antiAliasWithSaveLayer,
+    //   elevation: 5,
+    //   shape: CircularNotchedRectangle(),
+    //   child: Obx(
+    //     () => BottomNavigationBar(
+    //       currentIndex: controller.studentTabIndex.value,
+    //       backgroundColor: Colors.transparent,
+    //       elevation: 0,
+    //       selectedItemColor: AppThemes.DEEP_ORANGE,
+    //       selectedLabelStyle: GoogleFonts.poppins(
+    //         fontWeight: FontWeight.w500, fontSize: 10),
+    //       unselectedLabelStyle: GoogleFonts.poppins(
+    //         fontWeight: FontWeight.w500, fontSize: 10),
+    //       unselectedItemColor: _inactiveColor,
+    //       onTap: onTapped,
+    //       items: [
+    //         BottomNavigationBarItem(
+    //             icon: Icon(Icons.home_outlined), label: "Home"),
+    //         BottomNavigationBarItem(
+    //             icon: Icon(Icons.favorite_outline), label: "Favorite"),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   onTapped(int index) {
@@ -125,8 +137,8 @@ class StudentHome extends GetView<LandingPageController> {
     //if (index == 1) landingPageController.setCalledFor("Answered");
   }
 
-  void displayBottomSheet(Subscription subscription) {
-    final subscriptionController = Get.find();
+  void showSubscriptionBottomSheet(Subscription subscription) {
+    // final subscriptionController = Get.find();
     Get.bottomSheet(
       Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 20),

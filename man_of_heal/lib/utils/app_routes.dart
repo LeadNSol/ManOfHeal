@@ -27,33 +27,33 @@ class AppRoutes {
 
     GetPage(
         name: welcomeRoute,
-        page: () => WelcomeBackUI(), binding: AuthBinding()),
+        page: () => WelcomeBackUI(), /*binding: AuthBinding()*/),
 
-    GetPage(name: signInRoute, page: () => SignInUI(), binding: AuthBinding()),
-    GetPage(name: signUpRoute, page: () => SignUpUI(), binding: AuthBinding()),
+    GetPage(name: signInRoute, page: () => SignInUI(),/* binding: AuthBinding()*/),
+    GetPage(name: signUpRoute, page: () => SignUpUI(), /*binding: AuthBinding()*/),
     GetPage(name: forgotPasswordRoute, page: () => ForgotPassword()),
     GetPage(
-        name: profileRoute, page: () => ProfileUI(), binding: ProfileBinding()),
+        name: profileRoute, page: () => ProfileUI(), /*binding: ProfileBinding()*/),
     GetPage(
         name: adminDashboard,
         page: () => AdminHome(),
-        bindings: [
+       /* bindings: [
          // AuthBinding(),
           DashboardBinding(),
-        ]),
+        ]*/),
     GetPage(
         name: stdDashboard,
         page: () => StudentHome(),
-        binding: DashboardBinding()),
+        /*binding: DashboardBinding()*/),
     GetPage(
       name: adminVignetteD,
       page: () => AdminVignetteDissectionUI(),
-      binding: DashboardBinding()
+      /*binding: DashboardBinding()*/
 
     ),
-    GetPage(name: adminQAList, page: () => AdminQuestionAnswerList(), binding: DashboardBinding()),
+    GetPage(name: adminQAList, page: () => AdminQuestionAnswerList(), /*binding: DashboardBinding()*/),
     GetPage(name: stdQAList, page: () => QuestionAnswerList()),
-    GetPage(name: labsRoute, page: () => LabsUI(), binding: DashboardBinding()),
+    GetPage(name: labsRoute, page: () => LabsUI(), /*binding: DashboardBinding()*/),
   ];
 
 /*//Admin routes
