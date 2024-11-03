@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:man_of_heal/bindings/export_bindings.dart';
-import 'package:man_of_heal/bindings/profile_binding.dart';
 import 'package:man_of_heal/ui/export_ui.dart';
 
 class AppRoutes {

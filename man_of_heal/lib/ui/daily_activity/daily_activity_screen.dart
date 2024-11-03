@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:man_of_heal/controllers/export_controller.dart';
 import 'package:man_of_heal/ui/components/base_widget.dart';
 import 'package:man_of_heal/ui/export_ui.dart';

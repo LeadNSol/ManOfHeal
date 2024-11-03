@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:man_of_heal/ui/components/form_vertical_spacing.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 const USERS = "users";

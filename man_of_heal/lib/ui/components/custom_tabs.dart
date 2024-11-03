@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/controllers/custom_tabs_controller.dart';
 import 'package:man_of_heal/utils/app_commons.dart';
 import 'package:man_of_heal/utils/app_themes.dart';
 
-import '../../controllers/auth_controller.dart';
 
 class CustomTabs extends StatelessWidget {
   //final AuthController authController = Get.put(AuthController());

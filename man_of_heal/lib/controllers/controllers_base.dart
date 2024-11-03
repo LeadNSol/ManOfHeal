@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/export_controller.dart';
 
 // AuthController authController = findOrInitAuth;
 //

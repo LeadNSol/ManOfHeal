@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:man_of_heal/controllers/auth_controller.dart';
 import 'package:man_of_heal/utils/app_commons.dart';

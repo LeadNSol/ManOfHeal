@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:man_of_heal/controllers/controllers_base.dart';
 import 'package:man_of_heal/models/qa_model.dart';
 import 'package:man_of_heal/models/user_model.dart';
 import 'package:man_of_heal/ui/components/circular_avatar.dart';
